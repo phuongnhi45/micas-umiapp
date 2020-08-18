@@ -1,7 +1,7 @@
 import React from 'react';
-import { App } from './components/Siderbar';
+import { App } from '../menubar';
 import { Layout, Row, Button, Breadcrumb } from 'antd';
-import styles from './index.less';
+import styles from '../index.less';
 import 'antd/dist/antd.css';
 import {
   MenuUnfoldOutlined,
@@ -54,9 +54,9 @@ class UserStaff extends React.Component {
 
           <Row className={styles.row}>
             <Breadcrumb className={styles.breadcrumb}>
-              <ShopOutlined style={{ color: '#1890ff' }} /> CÔNG TY GARA, CỨU HỘ 
+              <ShopOutlined style={{ color: '#1890ff' }} /> CÔNG TY GARA, CỨU HỘ
             </Breadcrumb>
-            <div style={{height: '100%'}}>
+            <div style={{ height: '100%' }}>
               <Button
                 type="primary"
                 style={{ color: 'white' }}
@@ -74,9 +74,7 @@ class UserStaff extends React.Component {
               padding: 24,
               minHeight: 1000,
             }}
-          >
-            
-          </Content>
+          ></Content>
         </Layout>
       </Layout>
     );

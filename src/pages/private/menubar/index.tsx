@@ -34,7 +34,11 @@ export class App extends React.Component {
           <SubMenu key="sub2" icon={<UserOutlined />} title="Member">
             <Menu.Item key="5">Account</Menu.Item>
           </SubMenu>
-          <SubMenu key="sub1" icon={<CustomerServiceOutlined />} title="Customer">
+          <SubMenu
+            key="sub1"
+            icon={<CustomerServiceOutlined />}
+            title="Customer"
+          >
             <Menu.Item key="1">Công ty gara, cứu hộ</Menu.Item>
             <Menu.Item key="2">Tài khoản chủ xe</Menu.Item>
             <Menu.Item key="3">Checklist</Menu.Item>

@@ -1,11 +1,15 @@
 import React from 'react';
 import './style.less';
+import { connect } from 'umi';
+import { Redirect } from 'react-router';
+import { Link } from 'umi';
 import { Input, Button } from 'antd';
 import { PhoneOutlined, LockOutlined } from '@ant-design/icons';
 
 interface SignInProps {
   name?: any;
   value?: any;
+  // login: LoginState;
 }
 
 interface SignInState {
@@ -35,6 +39,10 @@ export class SignIn extends React.Component<SignInProps, SignInState> {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  requestLogin = () => {
+    // <Redirect to='/home'/>
+  };
+
   handleChange = (event: any) => {
     event.preventDefault();
     const { name, value } = event.target;
@@ -62,6 +70,7 @@ export class SignIn extends React.Component<SignInProps, SignInState> {
     );
     if (validity == true) {
       console.log('Registering can be done');
+      return <Redirect to="/home" />;
     } else {
       console.log('You cannot be registered!!!');
     }
@@ -74,7 +83,13 @@ export class SignIn extends React.Component<SignInProps, SignInState> {
         <div className="form-wrapper">
           <form onSubmit={this.handleSubmit} noValidate>
             <div className="phone">
-              <Input size="large" prefix={<PhoneOutlined />} type="phone" name="phone" onChange={this.handleChange} />
+              <Input
+                size="large"
+                prefix={<PhoneOutlined />}
+                type="phone"
+                name="phone"
+                onChange={this.handleChange}
+              />
               {errors.phone.length > 0 && (
                 <span style={{ color: 'red' }}>{errors.phone}</span>
               )}
@@ -94,11 +109,17 @@ export class SignIn extends React.Component<SignInProps, SignInState> {
             </div>
 
             <div className="submit">
-              <Button type="primary" block>Sign In</Button>
+              <Button onClick={this.requestLogin} type="primary" block>
+                Sign In
+              </Button>
             </div>
+            <Link to="/register">Create new account</Link>
           </form>
         </div>
       </div>
     );
   }
 }
+export default connect(({ login }: any) => ({
+  login,
+}))(SignIn);

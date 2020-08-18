@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.less';
+import { Link } from 'umi';
 
 interface SignUpProps {
   name?: any;
@@ -95,6 +96,7 @@ export class SignUp extends React.Component<SignUpProps, SignUpState> {
             <div className="submit">
               <button>Register Me</button>
             </div>
+            <Link to="/login">Sign in with your account</Link>
           </form>
         </div>
       </div>

@@ -1,12 +1,13 @@
-import jwtDecode from ‘jwt-decode’
-import axios from ‘axios’
+// import jwtDecode from ‘jwt-decode’
+// import axios from ‘axios’;
+import { AppConst } from '@/config';
 
 export interface IApp {
-  user: any
-  isLoggedIn: boolean
-  appFilters: any
-  locationPathname: string
-  location: any
+  user: any;
+  isLoggedIn: boolean;
+  appFilters: any;
+  locationPathname: string;
+  location: any;
 }
 
 const initState: IApp = {
@@ -15,21 +16,21 @@ const initState: IApp = {
   locationPathname: '',
   appFilters: {},
   location: {},
-}
+};
 
 export default {
   namespace: 'app',
   state: initState,
-  reducers: {
-    updateState(state: any, { payload }) {
-      return {
-        ...state,
-        ...payload,
-      }
-    },
-  },
+  // reducers: {
+  //   updateState(state: any, { payload }) {
+  //     return {
+  //       ...state,
+  //       ...payload,
+  //     }
+  //   },
+  // },
   subscriptions: {
-    checkLoggedIn() {
+    /*checkLoggedIn({dispatch, history}) {
       const authToken = localStorage.token;
       if (authToken) {
         const decodedToken:any = jwtDecode(authToken);
@@ -41,6 +42,19 @@ export default {
         store.dispatch(getUserData());
         }
       }
-    }
+    }/ */
   },
-}
+  effect: {
+    *init({}, { put, select }) {
+      // Get token saved in storage
+      const token = localStorage.getItem(
+        AppConst.getIn(['localStorage', 'authKey']),
+      );
+
+      // if have no token, redirect to login page
+      if (!token) {
+        return yield put(router.push('/login'));
+      }
+    },
+  },
+};
