@@ -1,15 +1,17 @@
 import React from 'react';
 import './style.less';
-import { connect } from 'umi';
+import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { Redirect } from 'react-router';
-import { Link } from 'umi';
 import { Input, Button } from 'antd';
 import { PhoneOutlined, LockOutlined } from '@ant-design/icons';
+import { LoginState } from '../../../models/app';
 
-interface SignInProps {
+export interface SignInProps extends ConnectProps {
   name?: any;
   value?: any;
-  // login: LoginState;
+  login: LoginState;
+  dispatch: Dispatch;
+  loading: boolean;
 }
 
 interface SignInState {
@@ -40,7 +42,14 @@ export class SignIn extends React.Component<SignInProps, SignInState> {
   }
 
   requestLogin = () => {
-    // <Redirect to='/home'/>
+    this.props.dispatch({
+      type: 'login/submitlogin',
+      payload: {
+        email: '',
+        password: '',
+      },
+    });
+    console.log('request');
   };
 
   handleChange = (event: any) => {
@@ -69,10 +78,10 @@ export class SignIn extends React.Component<SignInProps, SignInState> {
       val => val.length > 0 && (validity = false),
     );
     if (validity == true) {
-      console.log('Registering can be done');
+      console.log('Logging can be done');
       return <Redirect to="/home" />;
     } else {
-      console.log('You cannot be registered!!!');
+      console.log('You cannot be logging!!!');
     }
   };
 
@@ -120,6 +129,9 @@ export class SignIn extends React.Component<SignInProps, SignInState> {
     );
   }
 }
-export default connect(({ login }: any) => ({
-  login,
-}))(SignIn);
+// export default connect(
+//   ({ login, loading , dispatch}: { login: LoginState; loading: Loading, dispatch: Dispatch }) => ({
+//     login,
+//     loading: loading.models.login,
+//   }),
+// )(SignIn);
