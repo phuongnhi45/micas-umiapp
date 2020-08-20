@@ -1,3 +1,3 @@
-import AppConst from './api';
+import APIConst from './api';
 
-export { AppConst };
+export { APIConst };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { App } from '../menubar';
+import { App } from '../sider';
 import { Layout, Row, Button, Breadcrumb } from 'antd';
 import styles from '../index.less';
 import 'antd/dist/antd.css';
@@ -8,6 +8,7 @@ import {
   MenuFoldOutlined,
   UserOutlined,
   ShopOutlined,
+  LogoutOutlined,
 } from '@ant-design/icons';
 
 const { Header, Sider, Content } = Layout;
@@ -50,6 +51,7 @@ class UserStaff extends React.Component {
             <Button icon={<UserOutlined />} className={styles.intern}>
               Intern
             </Button>
+            <Button icon={<LogoutOutlined />} />
           </Header>
 
           <Row className={styles.row}>
