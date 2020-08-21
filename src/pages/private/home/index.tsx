@@ -1,8 +1,9 @@
 import React from 'react';
 import { App } from '../sider';
 import { Layout, Row, Button, Breadcrumb } from 'antd';
-import { ConnectProps, Dispatch } from 'umi';
+import { connect } from 'umi';
 import styles from '../index.less';
+import { LoginState } from '../../../models/app';
 import 'antd/dist/antd.css';
 import {
   MenuUnfoldOutlined,
@@ -12,16 +13,15 @@ import {
   LogoutOutlined,
 } from '@ant-design/icons';
 
-export interface PageProps extends ConnectProps {
-  dispatch: Dispatch;
-}
-
 const { Header, Sider, Content } = Layout;
 
-class UserStaff extends React.Component<PageProps, any> {
-  state = {
-    collapsed: false,
-  };
+class UserStaff extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      collapsed: false,
+    };
+  }
 
   componentDidMount() {
     this.props.dispatch({
@@ -107,4 +107,6 @@ class UserStaff extends React.Component<PageProps, any> {
   }
 }
 
-export default UserStaff;
+export default connect(({ login }: { login: LoginState }) => ({ login }))(
+  UserStaff,
+);

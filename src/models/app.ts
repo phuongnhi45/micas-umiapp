@@ -2,8 +2,6 @@ import service from '@/services';
 import { Effect, Reducer, history } from 'umi';
 
 export interface LoginState {
-  phone: string;
-  password: string;
   isLogIn: boolean;
   user: AppUser | null;
 }
@@ -31,42 +29,34 @@ const LoginModel: LoginModelType = {
   state: {
     isLogIn: false,
     user: null,
-    phone: '',
-    password: '',
   },
   effects: {
     *submitlogin({ payload }, { call, put }) {
-      const { data, err } = yield call(service.postLogIn, payload);
-      console.log('token?', data);
-      if (err) {
-        alert('error');
-        return;
-      }
-      if (data) {
-        localStorage.setItem('token', data);
-      } else {
-        console.log('Loggin error');
+      const response = yield call(service.postLogIn, payload);
+      console.log(response);
+      const token = localStorage.getItem('accessToken');
+      console.log(token);
+      if (token) {
+        return yield put(history.push('/home'));
       }
       yield put({
         type: 'save',
         payload,
       });
-      return history.push('/home');
     },
-    *init({ payload }, { call }) {
-      // Get token saved in storage
-      const { data } = yield call(service.getLogIn, payload);
 
+    *init(_, { put }) {
+      // Get token saved in storage
+      console.log('app init');
+      const token = localStorage.getItem('accessToken');
+      console.log(token);
       // if have no token, redirect to login page
-      if (!data) {
-        return history.push('/login');
+      if (token != 'underfined') {
+        return yield put(history.push('/login'));
       }
-      //if logged
-      console.log('về home');
-      return history.push('/home');
     },
     *logout() {
-      localStorage.removeItem('token');
+      localStorage.removeItem('accessToken');
       return history.push('/login');
     },
   },

@@ -4,6 +4,7 @@ import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { Input, Button } from 'antd';
 import { PhoneOutlined, LockOutlined } from '@ant-design/icons';
 import { LoginState } from '../../../models/app';
+import { Redirect } from 'umi';
 
 export interface SignInProps extends ConnectProps {
   name?: any;
@@ -32,19 +33,10 @@ class SignIn extends React.Component<SignInProps, any> {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidMount() {
-    this.props.dispatch({
-      type: 'login/init',
-    });
-  }
-
-  requestLogin = () => {
+  requestLogin = async (value: any) => {
     this.props.dispatch({
       type: 'login/submitlogin',
-      payload: {
-        email: '',
-        password: '',
-      },
+      payload: value,
     });
     console.log('requestLogin');
   };
@@ -59,7 +51,7 @@ class SignIn extends React.Component<SignInProps, any> {
         break;
       case 'password':
         errors.password =
-          value.length < 8 ? 'Password must be eight characters long!' : '';
+          value.length < 6 ? 'Password must be eight characters long!' : '';
         break;
       default:
         break;
@@ -86,7 +78,10 @@ class SignIn extends React.Component<SignInProps, any> {
 
   render() {
     const { errors } = this.state;
-    return (
+    const isLogin = localStorage.getItem('accessToken');
+    return !isLogin ? (
+      <Redirect to="/home" />
+    ) : (
       <div className="wrapper">
         <div className="form-wrapper">
           <form onSubmit={this.handleSubmit} noValidate>
