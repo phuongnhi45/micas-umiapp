@@ -1,9 +1,8 @@
-import { APIConst } from '@/config';
+import service from '@/services';
 import { Effect, Reducer, history } from 'umi';
-import { call, cancelled } from 'redux-saga/effects';
 
 export interface LoginState {
-  email: string;
+  phone: string;
   password: string;
   isLogIn: boolean;
   user: AppUser | null;
@@ -19,6 +18,8 @@ export interface LoginModelType {
   state: LoginState;
   effects: {
     init: Effect;
+    submitlogin: Effect;
+    logout: Effect;
   };
   reducers: {
     save: Reducer<LoginState>;
@@ -30,51 +31,47 @@ const LoginModel: LoginModelType = {
   state: {
     isLogIn: false,
     user: null,
+    phone: '',
+    password: '',
   },
   effects: {
     *submitlogin({ payload }, { call, put }) {
-      const { phone, password } = payload;
-      let token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTk4MDQ2MTE1LCJuYW1lIjoiSm9uIFNub3cifQ.aBD2JKY15AeZG8UD4XSqvys-SWwk-lhow3LYvf7fXtU';
-      try {
-        token = yield call(loginApi, phone, password);
-        localStorage.setItem('token', JSON.stringify(token));
-        localStorage.setItem('token', `Bearer ${token}`);
-        return yield put(history.push('/home'));
-      } catch (error) {
+      const { data, err } = yield call(service.postLogIn, payload);
+      console.log('token?', data);
+      if (err) {
         alert('error');
-      } finally {
-        if (yield cancelled()) {
-          history.push('/login');
-        }
+        return;
+      }
+      if (data) {
+        localStorage.setItem('token', data);
+      } else {
+        console.log('Loggin error');
       }
       yield put({
         type: 'save',
         payload,
       });
-      return token;
+      return history.push('/home');
     },
-    *init({}, { put, call }) {
+    *init({ payload }, { call }) {
       // Get token saved in storage
-      const token = localStorage.getItem(
-        APIConst.getIn(['localStorage', 'authKey']),
-      );
-      console.log('init');
+      const { data } = yield call(service.getLogIn, payload);
+
       // if have no token, redirect to login page
-      if (!token) {
-        return yield put(history.push('/login'));
+      if (!data) {
+        return history.push('/login');
       }
+      //if logged
+      console.log('về home');
+      return history.push('/home');
     },
     *logout() {
-      // remove our token
       localStorage.removeItem('token');
-
-      // redirect to the /login screen
-      history.push('/login');
+      return history.push('/login');
     },
   },
   reducers: {
-    save(state: any, { payload }) {
+    save(state, { payload }) {
       return {
         ...state,
         ...payload,
@@ -83,18 +80,3 @@ const LoginModel: LoginModelType = {
   },
 };
 export default LoginModel;
-
-function loginApi(phone: string, password: string) {
-  return fetch('http://micasvn.ddns.net:9999/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ phone, password }),
-  })
-    .then(response => response.json())
-    .then(json => json)
-    .catch(error => {
-      throw error;
-    });
-}

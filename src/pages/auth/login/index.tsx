@@ -1,7 +1,6 @@
 import React from 'react';
 import './style.less';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
-import { Redirect } from 'react-router';
 import { Input, Button } from 'antd';
 import { PhoneOutlined, LockOutlined } from '@ant-design/icons';
 import { LoginState } from '../../../models/app';
@@ -14,19 +13,11 @@ export interface SignInProps extends ConnectProps {
   loading: boolean;
 }
 
-interface SignInState {
-  phone: string;
-  password: string;
-  errors: {
-    phone: string;
-    password: string;
-  };
-}
 const Regex = RegExp(
   /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/,
 );
 
-export default class SignIn extends React.Component<SignInProps, SignInState> {
+class SignIn extends React.Component<SignInProps, any> {
   constructor(props: SignInProps) {
     super(props);
     const initialState = {
@@ -41,6 +32,12 @@ export default class SignIn extends React.Component<SignInProps, SignInState> {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'login/init',
+    });
+  }
+
   requestLogin = () => {
     this.props.dispatch({
       type: 'login/submitlogin',
@@ -49,7 +46,7 @@ export default class SignIn extends React.Component<SignInProps, SignInState> {
         password: '',
       },
     });
-    console.log('request');
+    console.log('requestLogin');
   };
 
   handleChange = (event: any) => {
@@ -75,11 +72,13 @@ export default class SignIn extends React.Component<SignInProps, SignInState> {
     event.preventDefault();
     let validity = true;
     Object.values(this.state.errors).forEach(
-      val => val.length > 0 && (validity = false),
+      (val: any) => val.length > 0 && (validity = false),
     );
     if (validity == true) {
-      console.log('Logging can be done');
-      return <Redirect to="/home" />;
+      this.props.dispatch({
+        type: 'login/submitlogin',
+        payload: event,
+      });
     } else {
       console.log('You cannot be logging!!!');
     }
@@ -129,9 +128,17 @@ export default class SignIn extends React.Component<SignInProps, SignInState> {
     );
   }
 }
-// export default connect(
-//   ({ login, loading , dispatch}: { login: LoginState; loading: Loading, dispatch: Dispatch }) => ({
-//     login,
-//     loading: loading.models.login,
-//   }),
-// )(SignIn);
+export default connect(
+  ({
+    login,
+    loading,
+    dispatch,
+  }: {
+    login: LoginState;
+    loading: Loading;
+    dispatch: Dispatch;
+  }) => ({
+    login,
+    loading: loading.models.login,
+  }),
+)(SignIn);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { App } from '../sider';
 import { Layout, Row, Button, Breadcrumb } from 'antd';
+import { ConnectProps, Dispatch } from 'umi';
 import styles from '../index.less';
 import 'antd/dist/antd.css';
 import {
@@ -11,18 +12,35 @@ import {
   LogoutOutlined,
 } from '@ant-design/icons';
 
+export interface PageProps extends ConnectProps {
+  dispatch: Dispatch;
+}
+
 const { Header, Sider, Content } = Layout;
 
-class UserStaff extends React.Component {
+class UserStaff extends React.Component<PageProps, any> {
   state = {
     collapsed: false,
   };
+
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'login/init',
+    });
+  }
 
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed,
     });
   };
+
+  logout = () => {
+    this.props.dispatch({
+      type: 'login/logout',
+    });
+  };
+
   render() {
     return (
       <Layout>
@@ -48,10 +66,16 @@ class UserStaff extends React.Component {
                 },
               )}{' '}
             </div>
-            <Button icon={<UserOutlined />} className={styles.intern}>
-              Intern
-            </Button>
-            <Button icon={<LogoutOutlined />} />
+            <div className={styles.header_right}>
+              <Button icon={<UserOutlined />} className={styles.intern}>
+                Intern
+              </Button>
+              <Button
+                className={styles.logout}
+                icon={<LogoutOutlined />}
+                onClick={this.logout}
+              />
+            </div>
           </Header>
 
           <Row className={styles.row}>

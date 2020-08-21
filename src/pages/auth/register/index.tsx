@@ -34,6 +34,12 @@ export default class SignUp extends React.Component<SignUpProps, SignUpState> {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  // componentDidMount() {
+  //   this.props.dispatch({
+  //     type: 'login/init',
+  //   })
+  // }
+
   handleChange = (event: any) => {
     event.preventDefault();
     const { name, value } = event.target;
