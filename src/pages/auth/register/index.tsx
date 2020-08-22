@@ -34,12 +34,6 @@ export default class SignUp extends React.Component<SignUpProps, SignUpState> {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.props.dispatch({
-  //     type: 'login/init',
-  //   })
-  // }
-
   handleChange = (event: any) => {
     event.preventDefault();
     const { name, value } = event.target;
@@ -50,7 +44,7 @@ export default class SignUp extends React.Component<SignUpProps, SignUpState> {
         break;
       case 'password':
         errors.password =
-          value.length < 8 ? 'Password must be eight characters long!' : '';
+          value.length < 6 ? 'Password must be six characters long!' : '';
         break;
       default:
         break;

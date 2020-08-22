@@ -32,26 +32,23 @@ const LoginModel: LoginModelType = {
   },
   effects: {
     *submitlogin({ payload }, { call, put }) {
-      const response = yield call(service.postLogIn, payload);
-      console.log(response);
+      yield call(service.postLogIn, payload);
       const token = localStorage.getItem('accessToken');
-      console.log(token);
       if (token) {
         return yield put(history.push('/home'));
+      } else {
+        alert('Please Sign in again');
       }
       yield put({
         type: 'save',
         payload,
       });
     },
-
     *init(_, { put }) {
       // Get token saved in storage
-      console.log('app init');
       const token = localStorage.getItem('accessToken');
-      console.log(token);
       // if have no token, redirect to login page
-      if (token != 'underfined') {
+      if (token == null) {
         return yield put(history.push('/login'));
       }
     },
