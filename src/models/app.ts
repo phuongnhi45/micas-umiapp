@@ -1,8 +1,6 @@
-import service from '@/services';
 import { Effect, Reducer, history } from 'umi';
 
-export interface LoginState {
-  isLogIn: boolean;
+export interface AppState {
   user: AppUser | null;
 }
 
@@ -11,39 +9,24 @@ export interface AppUser {
   name: string;
 }
 
-export interface LoginModelType {
+export interface AppModelType {
   namespace: string;
-  state: LoginState;
+  state: AppState;
   effects: {
     init: Effect;
-    submitlogin: Effect;
     logout: Effect;
   };
   reducers: {
-    save: Reducer<LoginState>;
+    save: Reducer<AppState>;
   };
 }
 
-const LoginModel: LoginModelType = {
-  namespace: 'login',
+const AppModel: AppModelType = {
+  namespace: 'app',
   state: {
-    isLogIn: false,
     user: null,
   },
   effects: {
-    *submitlogin({ payload }, { call, put }) {
-      yield call(service.postLogIn, payload);
-      const token = localStorage.getItem('accessToken');
-      if (token) {
-        return yield put(history.push('/home'));
-      } else {
-        alert('Please Sign in again');
-      }
-      yield put({
-        type: 'save',
-        payload,
-      });
-    },
     *init(_, { put }) {
       // Get token saved in storage
       const token = localStorage.getItem('accessToken');
@@ -66,4 +49,4 @@ const LoginModel: LoginModelType = {
     },
   },
 };
-export default LoginModel;
+export default AppModel;

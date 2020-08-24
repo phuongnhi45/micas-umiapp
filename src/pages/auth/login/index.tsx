@@ -3,7 +3,7 @@ import styles from './style.less';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { Input, Button, Form } from 'antd';
 import { PhoneOutlined, LockOutlined } from '@ant-design/icons';
-import { LoginState } from '../../../models/app';
+import { LoginState } from './model';
 import { Redirect } from 'umi';
 
 export interface SignInProps extends ConnectProps {
@@ -23,7 +23,7 @@ class SignIn extends React.Component<SignInProps, any> {
   render() {
     const isLogin = localStorage.getItem('accessToken');
     return isLogin ? (
-      <Redirect to="/home" />
+      <Redirect to="/service-places" />
     ) : (
       <div className={styles.wrapper}>
         <Form

@@ -10,11 +10,7 @@ export default {
   // submitlogin
   submitlogin: {
     postLogin: () => ({
-      url: '/login',
-      method: methods.post,
-    }),
-    getLogin: () => ({
-      url: '/login',
+      url: '/employee-login',
       method: methods.post,
     }),
   },
