@@ -9,7 +9,7 @@ export default defineConfig({
     { path: '/register', component: '@/pages/auth/register/index' },
     {
       path: '/',
-      component: 'private',
+      component: 'private/index',
       routes: [
         { path: '/service-places', component: 'private/service-places/index' },
         { path: '/booking', component: 'private/booking/index' },

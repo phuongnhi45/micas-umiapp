@@ -1,17 +1,15 @@
 import React from 'react';
-import { Sidebar } from './sidebar/index';
 import { Layout, Row, Button, Breadcrumb } from 'antd';
 import { connect } from 'umi';
 import styles from './index.less';
 import { AppState } from '../../models/app';
-import 'antd/dist/antd.css';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  UserOutlined,
   ShopOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
+import { Sidebar } from './sidebar/index';
 
 const { Header, Sider, Content } = Layout;
 
@@ -55,9 +53,6 @@ class UserStaff extends React.Component<any, any> {
               {''}
             </div>
             <div className={styles.header_right}>
-              <Button icon={<UserOutlined />} className={styles.intern}>
-                Intern
-              </Button>
               <Button
                 className={styles.logout}
                 icon={<LogoutOutlined />}
@@ -80,7 +75,6 @@ class UserStaff extends React.Component<any, any> {
               </Button>
             </div>
           </Row>
-
           <Content
             style={{
               margin: '0 24px 24px',
@@ -95,6 +89,4 @@ class UserStaff extends React.Component<any, any> {
   }
 }
 
-export default connect(({ login }: { login: AppState }) => ({ login }))(
-  UserStaff,
-);
+export default connect(({ app }: { app: AppState }) => ({ app }))(UserStaff);

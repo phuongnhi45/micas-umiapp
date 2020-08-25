@@ -37,7 +37,7 @@ interface Item {
   address: string;
 }
 
-export class ServicePlace extends React.Component {
+export default class ServicePlace extends React.Component {
   handleChange(value: any) {
     console.log(`Selected: ${value}`);
   }

@@ -3,7 +3,7 @@ import { Card } from 'antd';
 
 const { Meta } = Card;
 
-export class Booking extends React.Component {
+export default class Booking extends React.Component {
   render() {
     return (
       <Card style={{ width: 300, marginTop: 16 }}>

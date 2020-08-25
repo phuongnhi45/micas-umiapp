@@ -1,5 +1,4 @@
 import React from 'react';
-import 'antd/dist/antd.css';
 import { Menu } from 'antd';
 import styles from '../index.less';
 import {
@@ -54,8 +53,6 @@ export class Sidebar extends React.Component {
             <Menu.Item key="2">
               <Link to="/booking">Booking</Link>
             </Menu.Item>
-            {/* <Menu.Item key="3">Checklist</Menu.Item> */}
-            {/* <Menu.Item key="4">Tài khoản trải nghiệm</Menu.Item> */}
           </SubMenu>
           <SubMenu key="sub3" icon={<CarOutlined />} title="Hãng xe và mã lỗi">
             <Menu.Item key="6">Quản lý hãng xe</Menu.Item>
