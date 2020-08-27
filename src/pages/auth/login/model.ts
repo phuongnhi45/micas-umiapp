@@ -1,4 +1,4 @@
-import service from '@/services';
+import service from './service';
 import { Effect, Reducer, history } from 'umi';
 
 export interface LoginState {
@@ -50,4 +50,5 @@ const LoginModel: LoginModelType = {
     },
   },
 };
+
 export default LoginModel;

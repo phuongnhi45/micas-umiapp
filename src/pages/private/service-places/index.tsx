@@ -41,7 +41,6 @@ export default class ServicePlace extends React.Component {
   handleChange(value: any) {
     console.log(`Selected: ${value}`);
   }
-
   render() {
     return (
       <Row>

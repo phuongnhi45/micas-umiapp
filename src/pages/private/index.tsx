@@ -1,15 +1,12 @@
 import React from 'react';
 import { Layout, Row, Button, Breadcrumb } from 'antd';
 import { connect } from 'umi';
-import styles from './index.less';
+
 import { AppState } from '../../models/app';
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  ShopOutlined,
-  LogoutOutlined,
-} from '@ant-design/icons';
 import { Sidebar } from './sidebar/index';
+
+import appIcon from '@/config/icons';
+import styles from './index.less';
 
 const { Header, Sider, Content } = Layout;
 
@@ -44,7 +41,9 @@ class UserStaff extends React.Component<any, any> {
           <Header className={styles.header}>
             <div className={styles.trigger}>
               {React.createElement(
-                this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                this.state.collapsed
+                  ? appIcon.MenuUnfoldOutlined
+                  : appIcon.MenuFoldOutlined,
                 {
                   className: 'trigger',
                   onClick: this.toggle,
@@ -55,7 +54,7 @@ class UserStaff extends React.Component<any, any> {
             <div className={styles.header_right}>
               <Button
                 className={styles.logout}
-                icon={<LogoutOutlined />}
+                icon={<appIcon.LogoutOutlined />}
                 onClick={this.logout}
               />
             </div>
@@ -63,7 +62,8 @@ class UserStaff extends React.Component<any, any> {
 
           <Row className={styles.row}>
             <Breadcrumb className={styles.breadcrumb}>
-              <ShopOutlined style={{ color: '#1890ff' }} /> CÔNG TY GARA, CỨU HỘ
+              <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CÔNG TY
+              GARA, CỨU HỘ
             </Breadcrumb>
             <div style={{ height: '100%' }}>
               <Button

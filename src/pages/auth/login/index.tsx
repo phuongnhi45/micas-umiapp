@@ -1,10 +1,12 @@
 import React from 'react';
-import styles from './style.less';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { Input, Button, Form } from 'antd';
-import { PhoneOutlined, LockOutlined } from '@ant-design/icons';
-import { LoginState } from './model';
 import { Redirect } from 'umi';
+
+import appIcon from '@/config/icons';
+import { LoginState } from './model';
+
+import styles from './style.less';
 
 export interface SignInProps extends ConnectProps {
   login: LoginState;
@@ -19,7 +21,6 @@ class SignIn extends React.Component<SignInProps, any> {
       payload: value,
     });
   };
-
   render() {
     const isLogin = localStorage.getItem('accessToken');
     return isLogin ? (
@@ -33,10 +34,18 @@ class SignIn extends React.Component<SignInProps, any> {
           onFinish={this.handleSubmit}
         >
           <Form.Item name="phone">
-            <Input size="large" type="phone" prefix={<PhoneOutlined />} />
+            <Input
+              size="large"
+              type="phone"
+              prefix={<appIcon.PhoneOutlined />}
+            />
           </Form.Item>
           <Form.Item name="password">
-            <Input size="large" type="password" prefix={<LockOutlined />} />
+            <Input
+              size="large"
+              type="password"
+              prefix={<appIcon.LockOutlined />}
+            />
           </Form.Item>
           <Form.Item className="submit">
             <Button type="primary" htmlType="submit">
@@ -49,16 +58,9 @@ class SignIn extends React.Component<SignInProps, any> {
     );
   }
 }
+
 export default connect(
-  ({
-    login,
-    loading,
-    dispatch,
-  }: {
-    login: LoginState;
-    loading: Loading;
-    dispatch: Dispatch;
-  }) => ({
+  ({ login, loading }: { login: LoginState; loading: Loading }) => ({
     login,
     loading: loading.models.login,
   }),

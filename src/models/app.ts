@@ -49,4 +49,5 @@ const AppModel: AppModelType = {
     },
   },
 };
+
 export default AppModel;
