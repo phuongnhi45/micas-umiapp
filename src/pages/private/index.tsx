@@ -69,7 +69,7 @@ class UserStaff extends React.Component<any, any> {
               <Button
                 type="primary"
                 style={{ color: 'white' }}
-                // onClick={() => openModal()}
+                // onClick={() => openModal()}// chưa hiểu chộ này lắm
               >
                 New Company
               </Button>
