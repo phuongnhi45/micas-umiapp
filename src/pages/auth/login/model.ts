@@ -30,6 +30,7 @@ const LoginModel: LoginModelType = {
     *submitlogin({ payload }, { call, put }) {
       yield call(service.postLogIn, payload);
       const token = localStorage.getItem('accessToken');
+      console.log('token:', token);
       if (token) {
         return yield put(history.push('/service-places'));
       } else {

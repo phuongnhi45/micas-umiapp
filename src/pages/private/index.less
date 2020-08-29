@@ -1,3 +1,5 @@
+@import '../../assets/style/app.less';
+
 .trigger {
   font-size: 18px;
   line-height: 64px;
@@ -7,7 +9,7 @@
 }
 
 .trigger:hover {
-  color: #1890ff;
+  color: @primary;
 }
 
 .logo {
@@ -20,7 +22,7 @@
 }
 
 .header {
-  background-color: white;
+  background-color: @white;
   display: flex;
   padding: 0;
   justify-content: space-between;
@@ -34,12 +36,12 @@
 }
 
 .intern:hover {
-  background-color: #f0f2f5;
+  background-color: @white;
   color: #595959;
 }
 
 .breadcrumb {
-  color: #1890ff;
+  color: @primary;
   font-size: 13px;
   padding-top: 1.5%;
 }
@@ -63,7 +65,7 @@
 }
 
 .filter_box {
-  background: #fff;
+  background: @white;
   margin-bottom: 15px;
   padding: 10px 6px 25px 18px;
 }

@@ -1,6 +1,8 @@
+@import '../../../assets/style/app.less';
+
 p,
 div {
-  font-family: Lato;
+  font-family: @font;
 }
 
 .wrapper {
@@ -20,7 +22,7 @@ div {
   justify-content: center;
   border-radius: 6px;
   box-shadow: 0px 8px 36px #222;
-  background-color: #fefefe;
+  background-color: @white;
 }
 
 label {
@@ -38,12 +40,12 @@ button {
   padding: 0.938em;
   border: none;
   border-radius: 4px;
-  background-color: #1088ce;
-  color: #fefefe;
+  background-color: @primary;
+  color: @white;
 }
 button:hover {
   background-color: #00649ee8;
-  color: #fefefe;
+  color: @white;
 }
 
 .submit {
