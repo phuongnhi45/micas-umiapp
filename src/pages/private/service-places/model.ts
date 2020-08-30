@@ -1,6 +1,5 @@
 import service from './service';
 import { Effect, Reducer, history } from 'umi';
-import notification from '@/utils/notification';
 
 export interface LoginState {
   user: AppUser | null;
@@ -23,20 +22,15 @@ export interface LoginModelType {
 }
 
 const LoginModel: LoginModelType = {
-  namespace: 'login',
+  namespace: 'company',
   state: {
     user: null,
   },
   effects: {
-    *submitlogin({ payload }, { call, put }) {
-      yield call(service.postLogIn, payload);
+    *getCompanies({ payload }, { call, put }) {
+      yield call(service.fetchCompanies, payload);
       const token = localStorage.getItem('accessToken');
-      console.log('token:', token);
-      if (token) {
-        return yield put(history.push('/service-places'));
-      } else {
-        notification.error('Login failed');
-      }
+
       yield put({
         type: 'save',
         payload,

@@ -61,7 +61,11 @@ class SignIn extends React.Component<SignInProps, any> {
               />
             </Form.Item>
             <Form.Item className="submit">
-              <Button type="primary" htmlType="submit">
+              <Button
+                className={styles.button}
+                type="primary"
+                htmlType="submit"
+              >
                 Sign In
               </Button>
             </Form.Item>

@@ -13,6 +13,10 @@ export default defineConfig({
       routes: [
         { path: '/service-places', component: 'private/service-places/index' },
         { path: '/booking', component: 'private/booking/index' },
+        {
+          path: '/create-company',
+          component: 'private/service-places/company',
+        },
       ],
     },
   ],
