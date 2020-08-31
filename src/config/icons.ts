@@ -9,6 +9,7 @@ import {
   CustomerServiceOutlined,
   MessageOutlined,
   CarOutlined,
+  EditOutlined,
 } from '@ant-design/icons';
 
 export default {
@@ -22,4 +23,5 @@ export default {
   CustomerServiceOutlined,
   MessageOutlined,
   CarOutlined,
+  EditOutlined,
 };
