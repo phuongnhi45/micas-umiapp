@@ -30,7 +30,7 @@ class SignIn extends React.Component<SignInProps, any> {
         <Form
           name="normal_login"
           style={{ padding: '20px 40px' }}
-          className={styles.form}
+          className={styles.form1}
           onFinish={this.handleSubmit}
         >
           <Form.Item name="phone">
