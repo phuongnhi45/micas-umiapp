@@ -33,6 +33,7 @@ const LoginModel: LoginModelType = {
       const token = localStorage.getItem('accessToken');
       console.log('token:', token);
       if (token) {
+        notification.success('Login success');
         return yield put(history.push('/service-places'));
       } else {
         notification.error('Login failed');

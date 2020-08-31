@@ -116,7 +116,8 @@ export default class ServicePlace extends React.Component {
             />
             <Select
               labelInValue
-              style={{ width: 120 }}
+              placeholder="Select an option"
+              style={{ width: '100%' }}
               onChange={this.handleChange}
             >
               <Option value="all">All</Option>

@@ -2,15 +2,15 @@ import service from './service';
 import { Effect, Reducer, history } from 'umi';
 
 export interface LoginState {
-  user: AppUser | null;
+  company: Company | null;
 }
 
-export interface AppUser {
+export interface Company {
   _id: string;
   name: string;
 }
 
-export interface LoginModelType {
+export interface CompanyType {
   namespace: string;
   state: LoginState;
   effects: {
@@ -21,15 +21,14 @@ export interface LoginModelType {
   };
 }
 
-const LoginModel: LoginModelType = {
+const Company: CompanyType = {
   namespace: 'company',
   state: {
-    user: null,
+    company: null,
   },
   effects: {
     *getCompanies({ payload }, { call, put }) {
       yield call(service.fetchCompanies, payload);
-      const token = localStorage.getItem('accessToken');
 
       yield put({
         type: 'save',
@@ -47,4 +46,4 @@ const LoginModel: LoginModelType = {
   },
 };
 
-export default LoginModel;
+export default Company;

@@ -9,9 +9,6 @@ const fetchCompanies = async (payload: any) => {
       data: payload,
     })
     .then(function(res) {
-      const data = res.data;
-      console.log('data:', data);
-
       return;
     })
     .catch(function(error) {
