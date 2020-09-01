@@ -112,7 +112,7 @@ class ServicePlace extends React.Component<PageProps, any> {
   }
 
   render() {
-    const { Company } = this.props;
+    const { Item } = this.props;
     return (
       <>
         <Row className={styles.row}>
