@@ -1,29 +1,10 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import './index.css';
-import { Table, Tag, Checkbox } from 'antd';
+import { Table, Input, Button, Space } from 'antd';
+import Highlighter from 'react-highlight-words';
+import { SearchOutlined } from '@ant-design/icons';
 import { connect, Loading, ConnectProps, Dispatch } from 'umi';
 import { EmployeeState } from '../model';
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-  },
-  {
-    title: 'Phone number',
-    dataIndex: 'phone',
-  },
-  {
-    title: 'Active',
-    dataIndex: 'active',
-    render: (value: any, row: EmployeeState) => {
-      if (row.active) {
-        return <p>Hoạt động</p>;
-      }
-      return <p>Không hoạt động</p>;
-    },
-  },
-];
 export interface PageProps extends ConnectProps {
   Employee: EmployeeState;
   dispatch: Dispatch;
@@ -31,24 +12,122 @@ export interface PageProps extends ConnectProps {
 }
 class TableList extends React.Component<PageProps, any> {
   state = {
-    selectedRowKeys: [], // Check here to configure the default column
+    searchText: '',
+    searchedColumn: '',
+    selectedRowKeys: [],
   };
   componentDidMount() {
     this.props.dispatch({
       type: 'Employee/getEmployees',
     });
   }
-
   onSelectChange = selectedRowKeys => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys); //cần lấy cái này ra cái nào đang hoạt động,
-    // lấy ra các id đó thì mình cho setstate hoạt động
-    console.log(typeof selectedRowKeys);
+    console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
+  };
+  getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+            this.searchInput = node;
+          }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() =>
+            this.handleSearch(selectedKeys, confirm, dataIndex)
+          }
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => this.handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: filtered => (
+      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        ? record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        : '',
+    onFilterDropdownVisibleChange: visible => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select(), 100);
+      }
+    },
+    render: text =>
+      this.state.searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[this.state.searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      ),
+  });
+
+  handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    this.setState({
+      searchText: selectedKeys[0],
+      searchedColumn: dataIndex,
+    });
+  };
+
+  handleReset = clearFilters => {
+    clearFilters();
+    this.setState({ searchText: '' });
   };
 
   render() {
     const { Employee } = this.props;
     const { selectedRowKeys } = this.state;
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+        width: '50%',
+        ...this.getColumnSearchProps('name'),
+      },
+      {
+        title: 'Phone',
+        dataIndex: 'phone',
+        key: 'phone',
+        width: '40%',
+        ...this.getColumnSearchProps('phone'),
+      },
+    ];
+
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,

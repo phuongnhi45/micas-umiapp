@@ -9,16 +9,7 @@ const postEmployee = async (payload: any) => {
       data: payload,
     })
     .then(function(res) {
-      const data = res.data;
-      const token = data.Data;
-      console.log('data => ', data.Data);
-      if (!data.Data) {
-        return;
-      }
-      if (data.Data) {
-        console.log('thành công rồi nè');
-        return data;
-      }
+      return res.data;
     })
     .catch(function(error) {
       return error;

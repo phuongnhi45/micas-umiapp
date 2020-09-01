@@ -1,5 +1,6 @@
 import service from './services';
 import { Effect, Reducer, history } from 'umi';
+import notification from '@/utils/notification';
 export interface EmployeeState {
   name: string;
   phone: string;
@@ -19,7 +20,7 @@ export interface EmployeeModelType {
   };
 }
 const EmployeeModel: EmployeeModelType = {
-  namespace: 'Employee', // có name space đây rồi
+  namespace: 'Employee',
   // state: {
   //   name: '',
   //   phone: '',
@@ -30,13 +31,22 @@ const EmployeeModel: EmployeeModelType = {
   effects: {
     *submitEmployee({ payload }: any, { call, put, select }: any) {
       yield call(service.postEmployee, payload);
-      yield put({
-        type: 'save',
-        payload,
-      });
+      const token = payload.Data;
+      console.log('data ở file model => ', payload.Data);
+      if (!payload.Data) {
+        notification.error('Create employee failed');
+      }
+      if (payload.Data) {
+        notification.success('Create employee success');
+        yield put({
+          type: 'save',
+          payload,
+        });
+      }
     },
     *getEmployees({ payload }: any, { call, put, select }: any) {
       const data = yield call(service.getEmployees);
+
       yield put({
         type: 'save',
         payload: data,
