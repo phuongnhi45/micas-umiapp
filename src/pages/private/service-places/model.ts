@@ -1,23 +1,26 @@
 import service from './service';
 import { Effect, Reducer, history } from 'umi';
+import notification from '@/utils/notification';
 
-export interface LoginState {
-  company: Company | null;
+export interface NewCompany {
+  company: CompanyState | null;
 }
 
-export interface Company {
-  _id: string;
+export interface CompanyState {
+  address: string;
   name: string;
+  active: boolean;
 }
 
 export interface CompanyType {
   namespace: string;
-  state: LoginState;
+  state: NewCompany;
   effects: {
-    submitlogin: Effect;
+    getCompanies: Effect;
+    createCompany: Effect;
   };
   reducers: {
-    save: Reducer<LoginState>;
+    save: Reducer<NewCompany>;
   };
 }
 
@@ -28,8 +31,20 @@ const Company: CompanyType = {
   },
   effects: {
     *getCompanies({ payload }, { call, put }) {
-      yield call(service.fetchCompanies, payload);
-
+      const response = yield call(service.fetchCompanies, payload);
+      const { success, message, data } = response.data;
+      if (!success) {
+        return notification.error(message);
+      }
+      console.log(data);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+    },
+    *createCompany({ payload }, { call, put }) {
+      yield call(service.postCompany, payload);
+      console.log('model', payload);
       yield put({
         type: 'save',
         payload,

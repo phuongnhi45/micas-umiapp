@@ -1,5 +1,8 @@
 import React from 'react';
 import styles from '../index.less';
+import { connect, Loading, ConnectProps, Dispatch } from 'umi';
+import { NewCompany } from './model';
+
 import {
   Row,
   Col,
@@ -9,12 +12,13 @@ import {
   Breadcrumb,
   Tag,
   Checkbox,
-  DatePicker,
+  // DatePicker,
   Tooltip,
 } from 'antd';
 
 import appIcon from '@/config/icons';
 import { Link } from 'umi';
+import Item from 'antd/lib/list/Item';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -38,8 +42,8 @@ const columns = [
     dataIndex: 'phone',
   },
   {
-    title: 'City',
-    dataIndex: 'city',
+    title: 'Address',
+    dataIndex: 'address',
     render: () => <Tag color="blue">da-nang</Tag>,
   },
   {
@@ -50,7 +54,13 @@ const columns = [
   {
     title: 'Active',
     dataIndex: 'active',
-    render: () => <Checkbox />,
+    render: (value: any, row: NewCompany) => {
+      // if (row.active) {
+      //   return <p>Hoạt động</p>;
+      // }
+      // return <Checkbox/>;
+      console.log('row', row);
+    },
   },
   {
     render: () => (
@@ -60,8 +70,8 @@ const columns = [
     ),
   },
 ];
-const data: Item[] = [];
 
+const data: Item[] = [];
 for (let i = 1; i < 21; i++) {
   data.push({
     key: i.toString(),
@@ -69,8 +79,7 @@ for (let i = 1; i < 21; i++) {
     phone: `0989 123 2${i}`,
     index: `${i}`,
     email: `${i}@gmail.com`,
-    address: `London, Park Lane no. ${i}`,
-    city: '',
+    address: '',
     date: '16/06/2020, 17:28',
   });
 }
@@ -82,15 +91,28 @@ interface Item {
   phone: string;
   index: string;
   address: string;
-  city: string;
   date: string;
 }
 
-export default class ServicePlace extends React.Component {
+export interface PageProps extends ConnectProps {
+  Company: NewCompany;
+  dispatch: Dispatch;
+  loading: boolean;
+}
+
+class ServicePlace extends React.Component<PageProps, any> {
   handleChange(value: any) {
     console.log(`Selected: ${value}`);
   }
+
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'company/getCompanies',
+    });
+  }
+
   render() {
+    const { Company } = this.props;
     return (
       <>
         <Row className={styles.row}>
@@ -127,10 +149,17 @@ export default class ServicePlace extends React.Component {
           </Col>
 
           <Col className={styles.filter_box} span={19}>
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={Item} />
           </Col>
         </Row>
       </>
     );
   }
 }
+
+export default connect(
+  ({ Company, loading }: { Company: NewCompany; loading: Loading }) => ({
+    Company,
+    loading: loading.models.company,
+  }),
+)(ServicePlace);

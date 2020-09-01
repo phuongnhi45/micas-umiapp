@@ -3,20 +3,25 @@ import { APIConst } from '@/config';
 
 const fetchCompanies = async (payload: any) => {
   const api = APIConst.getCompanies.fetchCompanies();
-  const data = await request
-    .call(api.url, {
-      method: api.method,
-      data: payload,
-    })
-    .then(function(res) {
-      return;
-    })
-    .catch(function(error) {
-      return error;
-    });
+  const res = await request.call(api.url, {
+    method: api.method,
+    data: payload,
+  });
+  const data = res.data;
+  const result = data.Data;
+  return result;
+};
+
+const postCompany = async (payload: any) => {
+  const api = APIConst.createCompany.postCompany();
+  const data = await request.call(api.url, {
+    method: api.method,
+    data: payload,
+  });
   return data;
 };
 
 export default {
   fetchCompanies,
+  postCompany,
 };

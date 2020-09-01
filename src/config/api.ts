@@ -22,8 +22,8 @@ export default {
     }),
   },
   createCompany: {
-    createCompany: () => ({
-      url: '/companies',
+    postCompany: () => ({
+      url: '/companies/',
       method: methods.post,
     }),
   },
