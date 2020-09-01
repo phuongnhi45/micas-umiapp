@@ -30,13 +30,14 @@
     "prettier": "^1.19.1",
     "react": "^16.13.1",
     "react-dom": "^16.12.0",
+    "react-highlight-words": "^0.16.0",
     "umi": "^3.2.16",
     "yorkie": "^2.0.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^3.10.0",
-    "@typescript-eslint/parser": "^3.10.0",
-    "eslint": "^7.7.0",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "eslint": "^7.8.0",
     "eslint-plugin-react": "^7.20.6"
   }
 }

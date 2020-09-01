@@ -14,6 +14,18 @@ export default {
       method: methods.post,
     }),
   },
+  submitEmployee: {
+    postEmployee: () => ({
+      url: '/employee-register',
+      method: methods.post,
+    }),
+  },
+  getEmployees: {
+    list: () => ({
+      url: '/employees/',
+      method: methods.get,
+    }),
+  },
   //company
   getCompanies: {
     fetchCompanies: () => ({
