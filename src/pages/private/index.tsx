@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Row, Button, Breadcrumb } from 'antd';
+import { Layout, Button } from 'antd';
 import { connect } from 'umi';
 
 import { AppState } from '../../models/app';
@@ -59,26 +59,10 @@ class UserStaff extends React.Component<any, any> {
               />
             </div>
           </Header>
-
-          <Row className={styles.row}>
-            <Breadcrumb className={styles.breadcrumb}>
-              <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CÔNG TY
-              GARA, CỨU HỘ
-            </Breadcrumb>
-            <div style={{ height: '100%' }}>
-              <Button
-                type="primary"
-                style={{ color: 'white' }}
-                // onClick={() => openModal()}// chưa hiểu chộ này lắm
-              >
-                New Company
-              </Button>
-            </div>
-          </Row>
           <Content
             style={{
-              margin: '0 24px 24px',
-              minHeight: 1000,
+              margin: '0 10px 24px 24px',
+              minHeight: 740,
             }}
           >
             {this.props.children}

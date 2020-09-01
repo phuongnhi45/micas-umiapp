@@ -26,4 +26,17 @@ export default {
       method: methods.get,
     }),
   },
+  //company
+  getCompanies: {
+    fetchCompanies: () => ({
+      url: '/companies',
+      method: methods.get,
+    }),
+  },
+  createCompany: {
+    postCompany: () => ({
+      url: '/companies/',
+      method: methods.post,
+    }),
+  },
 };

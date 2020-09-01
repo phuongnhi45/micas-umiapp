@@ -23,39 +23,57 @@ class SignIn extends React.Component<SignInProps, any> {
   };
   render() {
     const isLogin = localStorage.getItem('accessToken');
-    return isLogin ? (
-      <Redirect to="/service-places" />
-    ) : (
-      <div className={styles.wrapper}>
-        <Form
-          name="normal_login"
-          style={{ padding: '20px 40px' }}
-          className={styles.form1}
-          onFinish={this.handleSubmit}
-        >
-          <Form.Item name="phone">
-            <Input
-              size="large"
-              type="phone"
-              prefix={<appIcon.PhoneOutlined />}
-            />
-          </Form.Item>
-          <Form.Item name="password">
-            <Input
-              size="large"
-              type="password"
-              prefix={<appIcon.LockOutlined />}
-            />
-          </Form.Item>
-          <Form.Item className="submit">
-            <Button type="primary" htmlType="submit">
-              Sign In
-            </Button>
-          </Form.Item>
-          <Link to="/register">Create new account</Link>
-        </Form>
-      </div>
-    );
+    if (isLogin) {
+      return <Redirect to="/service-places" />;
+    } else {
+      return (
+        <div className={styles.wrapper}>
+          <Form
+            name="normal_login"
+            style={{ padding: '20px 40px' }}
+            className={styles.form}
+            onFinish={this.handleSubmit}
+          >
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Phone!',
+                },
+              ]}
+              name="phone"
+            >
+              <Input size="large" prefix={<appIcon.PhoneOutlined />} />
+            </Form.Item>
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Password!',
+                },
+              ]}
+              name="password"
+            >
+              <Input
+                size="large"
+                type="password"
+                prefix={<appIcon.LockOutlined />}
+              />
+            </Form.Item>
+            <Form.Item className="submit">
+              <Button
+                className={styles.button}
+                type="primary"
+                htmlType="submit"
+              >
+                Sign In
+              </Button>
+            </Form.Item>
+            <Link to="/register">Create new account</Link>
+          </Form>
+        </div>
+      );
+    }
   }
 }
 

@@ -1,6 +1,8 @@
+@import '../../../assets/style/app.less';
+
 p,
 div {
-  font-family: Lato;
+  font-family: @font;
 }
 
 .wrapper {
@@ -20,7 +22,7 @@ div {
   justify-content: center;
   border-radius: 6px;
   box-shadow: 0px 8px 36px #222;
-  background-color: #fefefe;
+  background-color: @white;
 }
 
 .label1 {
@@ -29,21 +31,22 @@ div {
   font-weight: lighter;
 }
 
-.button1 {
+.button {
   min-width: 100%;
   cursor: pointer;
   margin-right: 0.25em;
   margin-top: 0.5em;
   margin-bottom: 0.8em;
-  padding: 0.938em;
+  padding: 0;
   border: none;
   border-radius: 4px;
-  background-color: #1088ce;
-  color: #fefefe;
+  background-color: @primary;
+  color: @white;
 }
-.button1:hover {
-  background-color: #00649ee8;
-  color: #fefefe;
+
+.button:hover {
+  background-color: #0275b8;
+  color: @white;
 }
 
 .submit {

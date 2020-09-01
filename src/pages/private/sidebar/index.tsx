@@ -33,8 +33,8 @@ export class Sidebar extends React.Component {
           inlineCollapsed={this.state.collapsed}
         >
           <SubMenu key="sub2" icon={<appIcon.UserOutlined />} title="Member">
-            <Menu.Item key="1">
-              <Link to="/staff">Account</Link>
+            <Menu.Item key="5">
+              <Link to="/account">Account</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu
