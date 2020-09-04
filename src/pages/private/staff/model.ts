@@ -31,12 +31,11 @@ const EmployeeModel: EmployeeModelType = {
   effects: {
     *submitEmployee({ payload }: any, { call, put, select }: any) {
       yield call(service.postEmployee, payload);
-      const token = payload.Data;
-      console.log('data ở file model => ', payload.Data);
-      if (!payload.Data) {
+      console.log('data ở file model => ', payload);
+      if (!payload) {
         notification.error('Create employee failed');
       }
-      if (payload.Data) {
+      if (payload) {
         notification.success('Create employee success');
         yield put({
           type: 'save',
