@@ -14,14 +14,28 @@ const fetchCompanies = async (payload: any) => {
 
 const postCompany = async (payload: any) => {
   const api = APIConst.createCompany.postCompany();
-  const data = await request.call(api.url, {
-    method: api.method,
-    data: payload,
-  });
+  const response = await request
+    .call(api.url, {
+      method: api.method,
+      data: payload,
+    })
+    .then(function(res) {
+      return res.data;
+    })
+    .catch(function(error) {
+      return error;
+    });
+  return response;
+};
+
+const statusCompany = async ({ _id }: { _id: string }) => {
+  const api = APIConst.changeStatusCompany.statusCompany(_id);
+  const data = await request.call(api.url, { method: api.method });
   return data;
 };
 
 export default {
   fetchCompanies,
   postCompany,
+  statusCompany,
 };

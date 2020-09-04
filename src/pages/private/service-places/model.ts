@@ -1,5 +1,5 @@
 import service from './service';
-import { Effect, Reducer } from 'umi';
+import { Effect, Reducer, history } from 'umi';
 import notification from '@/utils/notification';
 
 export interface CompanyState {
@@ -18,6 +18,7 @@ export interface CompanyModelType {
   effects: {
     getCompanies: Effect;
     createCompany: Effect;
+    changeStatusCompany: Effect;
   };
   reducers: {
     save: Reducer<CompanyState>;
@@ -47,16 +48,38 @@ const CompanyModel: CompanyModelType = {
       });
     },
 
-    *createCompany({ payload }: any, { call, put }: any) {
+    *createCompany({ payload }, { call, put }) {
       yield call(service.postCompany, payload);
       console.log('model', payload);
-      notification.success('Created successfully');
+      if (!payload) {
+        notification.error('Create company failed');
+      }
+      if (payload) {
+        notification.success('Create company success');
+        return yield put(history.push('/service-places'));
+      }
       yield put({
         type: 'save',
         payload,
       });
     },
+
+    *changeStatusCompany({ payload }, { call, put, select }) {
+      const data = yield call(service.statusCompany, payload);
+      // Success
+      notification.success('Cập nhật thành công!');
+
+      // Change item
+
+      // If found, change status then update
+
+      // Else reload table data
+      yield put({
+        type: 'fetch',
+      });
+    },
   },
+
   reducers: {
     save(state, { payload }) {
       return {

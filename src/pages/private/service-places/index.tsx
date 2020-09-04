@@ -25,27 +25,27 @@ const { Option } = Select;
 const columns = [
   {
     title: '#',
-    dataIndex: 'index',
+    dataIndex: 'key',
   },
   {
     title: 'Name',
     dataIndex: 'name',
-    render: (value: string, row: CompanyState) => {
-      return <span>{value}</span>;
-      // return <Link to="/booking">{row.name}</Link>
+    render: (value: string) => {
+      // return <span>{value}</span>
+      return <Link to="/booking">{value}</Link>;
     },
   },
   {
     title: 'Email',
     dataIndex: 'email',
-    render: (value: string, row: CompanyState) => {
+    render: (value: string) => {
       return <span>{value}</span>;
     },
   },
   {
     title: 'Phone',
     dataIndex: 'phone',
-    render: (value: string, row: CompanyState) => {
+    render: (value: string) => {
       return <span>{value}</span>;
     },
   },
@@ -55,18 +55,13 @@ const columns = [
     render: (value: any) => <Tag color="blue">{value}</Tag>,
   },
   {
-    title: 'Created at',
-    dataIndex: 'date',
-    // render: () => <DatePicker/>
-  },
-  {
     title: 'Active',
     dataIndex: 'active',
-    render: (value: any, row: CompanyState) => <Checkbox />,
+    render: (value: any) => <Checkbox />,
   },
   {
     render: () => (
-      <Tooltip placement="top" title="Change logo">
+      <Tooltip placement="top" title="Edit">
         <appIcon.EditOutlined />
       </Tooltip>
     ),
