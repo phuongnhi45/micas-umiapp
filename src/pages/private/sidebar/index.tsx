@@ -34,7 +34,7 @@ export class Sidebar extends React.Component {
         >
           <SubMenu key="sub2" icon={<appIcon.UserOutlined />} title="Member">
             <Menu.Item key="5">
-              <Link to="/account">Account</Link>
+              <Link to="/staff">Account</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../index.less';
 import { connect, Loading, ConnectProps, Dispatch } from 'umi';
-import { NewCompany } from './model';
+import { CompanyState, CompanyModelState } from './model';
 
 import {
   Row,
@@ -11,14 +11,13 @@ import {
   Table,
   Breadcrumb,
   Tag,
-  // Checkbox,
+  Checkbox,
   // DatePicker,
   Tooltip,
 } from 'antd';
 
 import appIcon from '@/config/icons';
 import { Link } from 'umi';
-import Item from 'antd/lib/list/Item';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -31,20 +30,29 @@ const columns = [
   {
     title: 'Name',
     dataIndex: 'name',
-    // render: text => <Link to="/booking">{text}</Link>,
+    render: (value: string, row: CompanyState) => {
+      return <span>{value}</span>;
+      // return <Link to="/booking">{row.name}</Link>
+    },
   },
   {
     title: 'Email',
     dataIndex: 'email',
+    render: (value: string, row: CompanyState) => {
+      return <span>{value}</span>;
+    },
   },
   {
     title: 'Phone',
     dataIndex: 'phone',
+    render: (value: string, row: CompanyState) => {
+      return <span>{value}</span>;
+    },
   },
   {
     title: 'Address',
     dataIndex: 'address',
-    render: () => <Tag color="blue">da-nang</Tag>,
+    render: (value: any) => <Tag color="blue">{value}</Tag>,
   },
   {
     title: 'Created at',
@@ -54,13 +62,7 @@ const columns = [
   {
     title: 'Active',
     dataIndex: 'active',
-    render: (value: any, row: NewCompany) => {
-      // if (row.active) {
-      //   return <p>Hoạt động</p>;
-      // }
-      // return <Checkbox/>;
-      console.log('row', row);
-    },
+    render: (value: any, row: CompanyState) => <Checkbox />,
   },
   {
     render: () => (
@@ -71,33 +73,10 @@ const columns = [
   },
 ];
 
-const data: Item[] = [];
-for (let i = 1; i < 21; i++) {
-  data.push({
-    key: i.toString(),
-    name: `Edward King ${i}`,
-    phone: `0989 123 2${i}`,
-    index: `${i}`,
-    email: `${i}@gmail.com`,
-    address: '',
-    date: '16/06/2020, 17:28',
-  });
-}
-
-interface Item {
-  key: string;
-  name: string;
-  email: string;
-  phone: string;
-  index: string;
-  address: string;
-  date: string;
-}
-
 export interface PageProps extends ConnectProps {
-  Company: NewCompany;
   dispatch: Dispatch;
   loading: boolean;
+  company: CompanyModelState;
 }
 
 class ServicePlace extends React.Component<PageProps, any> {
@@ -112,7 +91,7 @@ class ServicePlace extends React.Component<PageProps, any> {
   }
 
   render() {
-    const { Company } = this.props;
+    const { company } = this.props;
     return (
       <>
         <Row className={styles.row}>
@@ -149,7 +128,7 @@ class ServicePlace extends React.Component<PageProps, any> {
           </Col>
 
           <Col className={styles.filter_box} span={19}>
-            <Table columns={columns} dataSource={Item} />
+            <Table columns={columns} dataSource={company.companies} />
           </Col>
         </Row>
       </>
@@ -158,8 +137,8 @@ class ServicePlace extends React.Component<PageProps, any> {
 }
 
 export default connect(
-  ({ Company, loading }: { Company: NewCompany; loading: Loading }) => ({
-    Company,
+  ({ company, loading }: { company: CompanyModelState; loading: Loading }) => ({
+    company,
     loading: loading.models.company,
   }),
 )(ServicePlace);

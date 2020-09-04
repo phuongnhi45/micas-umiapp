@@ -168,8 +168,8 @@ class TableList extends React.Component<PageProps, any> {
       <Table
         rowSelection={rowSelection}
         columns={columns}
-        rowKey="_id"
         dataSource={Employee}
+        rowKey="_id"
       />
     );
   }
