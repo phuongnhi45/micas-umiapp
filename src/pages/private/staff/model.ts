@@ -1,12 +1,14 @@
 import service from './services';
 import { Effect, Reducer, history } from 'umi';
 import notification from '@/utils/notification';
+
 export interface EmployeeState {
   name: string;
   phone: string;
   password: string;
   active: boolean;
 }
+
 export interface EmployeeModelType {
   namespace: string;
   // state: EmployeeState;
@@ -31,12 +33,11 @@ const EmployeeModel: EmployeeModelType = {
   effects: {
     *submitEmployee({ payload }: any, { call, put, select }: any) {
       yield call(service.postEmployee, payload);
-      const token = payload.Data;
-      console.log('data ở file model => ', payload.Data);
-      if (!payload.Data) {
+      console.log('data ở file model => ', payload);
+      if (!payload) {
         notification.error('Create employee failed');
       }
-      if (payload.Data) {
+      if (payload) {
         notification.success('Create employee success');
         yield put({
           type: 'save',
@@ -46,7 +47,6 @@ const EmployeeModel: EmployeeModelType = {
     },
     *getEmployees({ payload }: any, { call, put, select }: any) {
       const data = yield call(service.getEmployees);
-
       yield put({
         type: 'save',
         payload: data,
@@ -63,4 +63,5 @@ const EmployeeModel: EmployeeModelType = {
     },
   },
 };
+
 export default EmployeeModel;
