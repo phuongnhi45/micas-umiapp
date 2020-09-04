@@ -10,6 +10,7 @@ import {
   MessageOutlined,
   CarOutlined,
   EditOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 
 export default {
@@ -24,4 +25,5 @@ export default {
   MessageOutlined,
   CarOutlined,
   EditOutlined,
+  SearchOutlined,
 };

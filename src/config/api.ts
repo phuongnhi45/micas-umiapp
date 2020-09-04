@@ -17,7 +17,7 @@ export default {
   //company
   getCompanies: {
     fetchCompanies: () => ({
-      url: '/companies',
+      url: '/companies/',
       method: methods.get,
     }),
   },

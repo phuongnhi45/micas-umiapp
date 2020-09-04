@@ -1,50 +1,46 @@
 import service from './service';
-import { Effect, Reducer, history } from 'umi';
+import { Effect, Reducer } from 'umi';
 import notification from '@/utils/notification';
-
-export interface NewCompany {
-  company: CompanyState | null;
-}
 
 export interface CompanyState {
   address: string;
   name: string;
   active: boolean;
+  location: string;
+  email: string;
+  phone: string;
+  date: string;
 }
 
-export interface CompanyType {
+export interface CompanyModelType {
   namespace: string;
-  state: NewCompany;
+  state: any;
   effects: {
     getCompanies: Effect;
     createCompany: Effect;
   };
   reducers: {
-    save: Reducer<NewCompany>;
+    save: Reducer<CompanyState>;
   };
 }
 
-const Company: CompanyType = {
+const Company: CompanyModelType = {
   namespace: 'company',
-  state: {
-    company: null,
-  },
+  state: [],
   effects: {
-    *getCompanies({ payload }, { call, put }) {
-      const response = yield call(service.fetchCompanies, payload);
-      const { success, message, data } = response.data;
-      if (!success) {
-        return notification.error(message);
-      }
-      console.log(data);
+    *getCompanies({ payload }: any, { call, put }: any) {
+      const response = yield call(service.fetchCompanies);
+      const { data } = response.data;
+      console.log('model', data);
       yield put({
         type: 'save',
         payload: response,
       });
     },
-    *createCompany({ payload }, { call, put }) {
+    *createCompany({ payload }: any, { call, put }: any) {
       yield call(service.postCompany, payload);
       console.log('model', payload);
+      notification.success('Created successfully');
       yield put({
         type: 'save',
         payload,
