@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../index.less';
 import { connect, Loading, ConnectProps, Dispatch } from 'umi';
-import { CompanyState } from './model';
+import { CompanyState, CompanyModelState } from './model';
 
 import {
   Row,
@@ -30,31 +30,29 @@ const columns = [
   {
     title: 'Name',
     dataIndex: 'name',
-    render: (row: CompanyState) => {
-      return <span>{row.name}</span>;
+    render: (value: string, row: CompanyState) => {
+      return <span>{value}</span>;
       // return <Link to="/booking">{row.name}</Link>
     },
   },
   {
     title: 'Email',
     dataIndex: 'email',
-    render: (row: CompanyState) => {
-      return <span>{row.email}</span>;
+    render: (value: string, row: CompanyState) => {
+      return <span>{value}</span>;
     },
   },
   {
     title: 'Phone',
     dataIndex: 'phone',
-    render: (row: CompanyState) => {
-      return <span>{row.phone}</span>;
+    render: (value: string, row: CompanyState) => {
+      return <span>{value}</span>;
     },
   },
   {
     title: 'Address',
     dataIndex: 'address',
-    render: (value: any, row: CompanyState) => (
-      <Tag color="blue">{row.address}</Tag>
-    ),
+    render: (value: any, row: CompanyState) => <Tag color="blue">{value}</Tag>,
   },
   {
     title: 'Created at',
@@ -78,7 +76,7 @@ const columns = [
 export interface PageProps extends ConnectProps {
   dispatch: Dispatch;
   loading: boolean;
-  data: CompanyState[];
+  company: CompanyModelState;
 }
 
 class ServicePlace extends React.Component<PageProps, any> {
@@ -93,8 +91,7 @@ class ServicePlace extends React.Component<PageProps, any> {
   }
 
   render() {
-    const { data } = this.props;
-    console.log(data);
+    const { company } = this.props;
     return (
       <>
         <Row className={styles.row}>
@@ -131,7 +128,7 @@ class ServicePlace extends React.Component<PageProps, any> {
           </Col>
 
           <Col className={styles.filter_box} span={19}>
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={company.companies} />
           </Col>
         </Row>
       </>
@@ -140,8 +137,8 @@ class ServicePlace extends React.Component<PageProps, any> {
 }
 
 export default connect(
-  ({ Company, loading }: { Company: CompanyState; loading: Loading }) => ({
-    Company,
+  ({ company, loading }: { company: CompanyModelState; loading: Loading }) => ({
+    company,
     loading: loading.models.company,
   }),
 )(ServicePlace);

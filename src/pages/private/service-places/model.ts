@@ -24,16 +24,26 @@ export interface CompanyModelType {
   };
 }
 
+const initState: CompanyModelState = {
+  companies: [],
+};
+
+export interface CompanyModelState {
+  companies: CompanyState[];
+}
+
 const CompanyModel: CompanyModelType = {
   namespace: 'company',
-  state: [],
+  state: initState,
   effects: {
     *getCompanies({ payload }, { call, put }) {
       const data = yield call(service.fetchCompanies);
       console.log('model', data);
       yield put({
         type: 'save',
-        payload: data,
+        payload: {
+          companies: data,
+        },
       });
     },
 
