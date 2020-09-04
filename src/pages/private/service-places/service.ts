@@ -9,7 +9,6 @@ const fetchCompanies = async (payload: any) => {
   });
   const data = res.data;
   const result = data.Data;
-  console.log('service', result);
   return result;
 };
 

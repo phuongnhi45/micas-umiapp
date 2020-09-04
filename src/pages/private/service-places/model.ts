@@ -24,19 +24,19 @@ export interface CompanyModelType {
   };
 }
 
-const Company: CompanyModelType = {
+const CompanyModel: CompanyModelType = {
   namespace: 'company',
   state: [],
   effects: {
-    *getCompanies({ payload }: any, { call, put }: any) {
-      const response = yield call(service.fetchCompanies);
-      const { data } = response.data;
+    *getCompanies({ payload }, { call, put }) {
+      const data = yield call(service.fetchCompanies);
       console.log('model', data);
       yield put({
         type: 'save',
-        payload: response,
+        payload: data,
       });
     },
+
     *createCompany({ payload }: any, { call, put }: any) {
       yield call(service.postCompany, payload);
       console.log('model', payload);
@@ -57,4 +57,4 @@ const Company: CompanyModelType = {
   },
 };
 
-export default Company;
+export default CompanyModel;
