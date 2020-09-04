@@ -23,19 +23,17 @@ class TableList extends React.Component<PageProps, any> {
       type: 'Employee/getEmployees',
     });
   }
-
-  onSelectChange = selectedRowKeys => {
+  onSelectChange = (selectedRowKeys: any) => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
   };
-
-  getColumnSearchProps = dataIndex => ({
+  getColumnSearchProps = (dataIndex: any) => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
       confirm,
       clearFilters,
-    }) => (
+    }: any) => (
       <div style={{ padding: 8 }}>
         <Input
           ref={node => {
@@ -71,24 +69,24 @@ class TableList extends React.Component<PageProps, any> {
         </Space>
       </div>
     ),
-    filterIcon: filtered => (
+    filterIcon: (filtered: any) => (
       <appIcon.SearchOutlined
         style={{ color: filtered ? '#1890ff' : undefined }}
       />
     ),
-    onFilter: (value, record) =>
+    onFilter: (value: any, record: any) =>
       record[dataIndex]
         ? record[dataIndex]
             .toString()
             .toLowerCase()
             .includes(value.toLowerCase())
         : '',
-    onFilterDropdownVisibleChange: visible => {
+    onFilterDropdownVisibleChange: (visible: any) => {
       if (visible) {
         setTimeout(() => this.searchInput.select(), 100);
       }
     },
-    render: text =>
+    render: (text: any) =>
       this.state.searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
@@ -101,7 +99,7 @@ class TableList extends React.Component<PageProps, any> {
       ),
   });
 
-  handleSearch = (selectedKeys, confirm, dataIndex) => {
+  handleSearch = (selectedKeys: any, confirm: any, dataIndex: any) => {
     confirm();
     this.setState({
       searchText: selectedKeys[0],
@@ -109,7 +107,7 @@ class TableList extends React.Component<PageProps, any> {
     });
   };
 
-  handleReset = clearFilters => {
+  handleReset = (clearFilters: any) => {
     clearFilters();
     this.setState({ searchText: '' });
   };
@@ -143,7 +141,7 @@ class TableList extends React.Component<PageProps, any> {
         {
           key: 'odd',
           text: 'Select Odd Row',
-          onSelect: changableRowKeys => {
+          onSelect: (changableRowKeys: any) => {
             let newSelectedRowKeys = [];
             newSelectedRowKeys = changableRowKeys.filter((key, index) => {
               if (index % 2 !== 0) {
@@ -157,7 +155,7 @@ class TableList extends React.Component<PageProps, any> {
         {
           key: 'even',
           text: 'Select Even Row',
-          onSelect: changableRowKeys => {
+          onSelect: (changableRowKeys: any) => {
             let newSelectedRowKeys = [];
             newSelectedRowKeys = changableRowKeys.filter((key, index) => {
               if (index % 2 !== 0) {
@@ -174,8 +172,8 @@ class TableList extends React.Component<PageProps, any> {
       <Table
         rowSelection={rowSelection}
         columns={columns}
-        rowKey="_id"
         dataSource={Employee}
+        rowKey="_id"
       />
     );
   }
