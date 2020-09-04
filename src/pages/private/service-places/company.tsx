@@ -3,7 +3,7 @@ import { Form, Input, Button, Breadcrumb } from 'antd';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 
 import notification from '@/utils/notification';
-import { NewCompany } from './model';
+import { CompanyState } from './model';
 
 import styles from '../index.less';
 import appIcon from '@/config/icons';
@@ -17,7 +17,7 @@ const tailLayout = {
 };
 
 export interface CompanyProps extends ConnectProps {
-  company: NewCompany;
+  company: CompanyState;
   dispatch: Dispatch;
   loading: boolean;
 }
@@ -93,7 +93,7 @@ class newCompany extends React.Component<CompanyProps, any> {
 }
 
 export default connect(
-  ({ company, loading }: { company: NewCompany; loading: Loading }) => ({
+  ({ company, loading }: { company: CompanyState; loading: Loading }) => ({
     company,
     loading: loading.models.company,
   }),
