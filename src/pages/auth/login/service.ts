@@ -12,7 +12,7 @@ const postLogIn = async (payload: any) => {
       const data = res.data;
       if (data.Data) {
         const token = localStorage.setItem('accessToken', data.Data);
-        return data.Data;
+        return token;
       } else {
         return data.Data;
       }

@@ -21,7 +21,6 @@ class SignIn extends React.Component<SignInProps, any> {
   };
   render() {
     const isLogin = localStorage.getItem('accessToken');
-    console.log(isLogin, 'islogin trong trang index');
     if (isLogin) {
       return <Redirect to="/service-places" />;
     } else {
