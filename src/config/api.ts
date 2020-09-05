@@ -14,6 +14,7 @@ export default {
       method: methods.post,
     }),
   },
+  //employee
   submitEmployee: {
     postEmployee: () => ({
       url: '/employee-register',
@@ -37,6 +38,12 @@ export default {
     postCompany: () => ({
       url: '/companies/',
       method: methods.post,
+    }),
+  },
+  changeStatusCompany: {
+    statusCompany: (_id: string) => ({
+      url: `/companies/active/${_id}`,
+      method: methods.patch,
     }),
   },
 };

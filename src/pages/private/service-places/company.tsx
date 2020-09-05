@@ -2,7 +2,6 @@ import React from 'react';
 import { Form, Input, Button, Breadcrumb } from 'antd';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 
-import notification from '@/utils/notification';
 import { CompanyState } from './model';
 
 import styles from '../index.less';
@@ -30,10 +29,6 @@ class newCompany extends React.Component<CompanyProps, any> {
     });
   };
 
-  onFinishFailed = (errorInfo: any) => {
-    notification.error(errorInfo);
-  };
-
   render() {
     return (
       <>
@@ -48,7 +43,6 @@ class newCompany extends React.Component<CompanyProps, any> {
             remember: true,
           }}
           onFinish={this.onFinish}
-          onFinishFailed={this.onFinishFailed}
           className={styles.company}
         >
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>

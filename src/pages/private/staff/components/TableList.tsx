@@ -1,21 +1,23 @@
 import React from 'react';
-import 'antd/dist/antd.css';
 import { Table, Input, Button, Space } from 'antd';
 import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
+import appIcon from '@/config/icons';
 import { connect, Loading, ConnectProps, Dispatch } from 'umi';
 import { EmployeeState } from '../model';
+
 export interface PageProps extends ConnectProps {
   Employee: EmployeeState;
   dispatch: Dispatch;
   loading: boolean;
 }
+
 class TableList extends React.Component<PageProps, any> {
   state = {
     searchText: '',
     searchedColumn: '',
     selectedRowKeys: [],
   };
+
   componentDidMount() {
     this.props.dispatch({
       type: 'Employee/getEmployees',
@@ -51,7 +53,7 @@ class TableList extends React.Component<PageProps, any> {
           <Button
             type="primary"
             onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
+            icon={<appIcon.SearchOutlined />}
             size="small"
             style={{ width: 90 }}
           >
@@ -68,7 +70,9 @@ class TableList extends React.Component<PageProps, any> {
       </div>
     ),
     filterIcon: (filtered: any) => (
-      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+      <appIcon.SearchOutlined
+        style={{ color: filtered ? '#1890ff' : undefined }}
+      />
     ),
     onFilter: (value: any, record: any) =>
       record[dataIndex]
@@ -174,6 +178,7 @@ class TableList extends React.Component<PageProps, any> {
     );
   }
 }
+
 export default connect(
   ({ Employee, loading }: { Employee: EmployeeState; loading: Loading }) => ({
     Employee,

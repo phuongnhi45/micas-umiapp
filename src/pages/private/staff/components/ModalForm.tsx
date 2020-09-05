@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal, Form, Input, Radio } from 'antd';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { EmployeeState } from '../model';
+
 const CollectionCreateForm = ({ visible, onCreate, onCancel }: any) => {
   const [form] = Form.useForm();
   return (
@@ -113,6 +114,7 @@ class ModalForm extends React.Component<EmployeeProps, any> {
     );
   }
 }
+
 export default connect(
   ({ Employee, loading }: { Employee: EmployeeState; loading: Loading }) => ({
     Employee,
