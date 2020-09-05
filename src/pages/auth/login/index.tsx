@@ -2,10 +2,8 @@ import React from 'react';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { Input, Button, Form } from 'antd';
 import { Redirect } from 'umi';
-
 import appIcon from '@/config/icons';
 import { LoginState } from './model';
-
 import styles from './style.less';
 
 export interface SignInProps extends ConnectProps {
@@ -23,6 +21,7 @@ class SignIn extends React.Component<SignInProps, any> {
   };
   render() {
     const isLogin = localStorage.getItem('accessToken');
+    console.log(isLogin, 'islogin trong trang index');
     if (isLogin) {
       return <Redirect to="/service-places" />;
     } else {
