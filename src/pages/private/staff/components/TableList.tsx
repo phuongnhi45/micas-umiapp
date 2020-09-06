@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Input, Button, Space } from 'antd';
+import { Table, Input, Button, Space, Checkbox } from 'antd';
 import Highlighter from 'react-highlight-words';
 import appIcon from '@/config/icons';
 import { connect, Loading, ConnectProps, Dispatch } from 'umi';
@@ -25,6 +25,14 @@ class TableList extends React.Component<PageProps, any> {
   }
   onSelectChange = (selectedRowKeys: any) => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
+    //chắc tạo dispatch action chộ ni
+    // this.props.dispatch({
+    //   type: 'Employee/updateStatus',
+    //   payload: selectedRowKeys,
+    // });
+    const a = [...selectedRowKeys];
+    const _id = a.pop();
+    console.log(_id, 'id nè');
     this.setState({ selectedRowKeys });
   };
   getColumnSearchProps = (dataIndex: any) => ({
@@ -115,6 +123,13 @@ class TableList extends React.Component<PageProps, any> {
   render() {
     const { Employee } = this.props;
     const { selectedRowKeys } = this.state;
+    const onChangeStatus = (value: any, e: any) => {
+      console.log(value);
+      console.log(`checked = ${e.target.checked}`);
+      if (!e.target.checked) {
+        console.log('nana false');
+      }
+    };
     const columns = [
       {
         title: 'Name',
@@ -129,6 +144,13 @@ class TableList extends React.Component<PageProps, any> {
         key: 'phone',
         width: '40%',
         ...this.getColumnSearchProps('phone'),
+      },
+      {
+        title: 'Active',
+        dataIndex: '_id', //chộ ni nếu ko ra thì dùng id
+        render: (value: any) => {
+          return <Checkbox onChange={e => onChangeStatus(value, e)} />;
+        },
       },
     ];
 
