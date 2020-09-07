@@ -28,10 +28,18 @@ const postCompany = async (payload: any) => {
   return response;
 };
 
-const statusCompany = async ({ _id }: { _id: string }) => {
+const statusCompany = async ({ _id }: { _id: string }, payload: any) => {
   const api = APIConst.changeStatusCompany.statusCompany(_id);
-  const data = await request.call(api.url, { method: api.method });
-  return data;
+  const response = await request
+    .call(api.url, {
+      method: api.method,
+      data: payload,
+    })
+    .then(function(res) {
+      console.log('service', res.data);
+      return res.data;
+    });
+  return response;
 };
 
 export default {

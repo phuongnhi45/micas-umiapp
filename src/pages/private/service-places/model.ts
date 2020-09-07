@@ -7,9 +7,8 @@ export interface CompanyState {
   name: string;
   active: boolean;
   location: string;
-  email: string;
-  phone: string;
   date: string;
+  _id: string;
 }
 
 export interface CompanyModelType {
@@ -65,9 +64,15 @@ const CompanyModel: CompanyModelType = {
     },
 
     *changeStatusCompany({ payload }, { call, put, select }) {
-      const data = yield call(service.statusCompany, payload);
+      const response = yield call(service.statusCompany, payload);
+      const { success, message, data } = response.data;
+      if (!success) {
+        return notification.error(message);
+      }
+      console.log('model', response);
+      console.log(data);
       // Success
-      notification.success('Cập nhật thành công!');
+      // notification.success(message);
 
       // Change item
 
