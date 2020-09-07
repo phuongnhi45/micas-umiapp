@@ -24,7 +24,18 @@ const getEmployees = async () => {
   console.log(result);
   return result;
 };
+const postUpdateStatus = async (payload: any) => {
+  console.log('payload', payload);
+  console.log('type of payload', typeof payload);
+  const api = APIConst.updateStatus.postChangeStatus(payload);
+  await request.call(api.url, {
+    method: api.method,
+    data: payload,
+  });
+  return 'oke';
+};
 export default {
   postEmployee,
   getEmployees,
+  postUpdateStatus,
 };

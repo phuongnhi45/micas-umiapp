@@ -128,7 +128,12 @@ class TableList extends React.Component<PageProps, any> {
       console.log(`checked = ${e.target.checked}`);
       if (!e.target.checked) {
         console.log('nana false');
+        //chắc tạo dispatch action chộ ni
       }
+      this.props.dispatch({
+        type: 'Employee/updateStatus',
+        payload: value,
+      });
     };
     const columns = [
       {

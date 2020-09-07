@@ -27,6 +27,12 @@ export default {
       method: methods.get,
     }),
   },
+  updateStatus: {
+    postChangeStatus: (_id: any) => ({
+      url: `/employees/${_id}/active`,
+      method: methods.patch,
+    }),
+  },
   //company
   getCompanies: {
     fetchCompanies: () => ({

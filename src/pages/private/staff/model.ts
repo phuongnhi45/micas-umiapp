@@ -16,6 +16,7 @@ export interface EmployeeModelType {
   effects: {
     submitEmployee: Effect;
     getEmployees: Effect;
+    updateStatus: Effect;
   };
   reducers: {
     save: Reducer<EmployeeState>;
@@ -51,6 +52,9 @@ const EmployeeModel: EmployeeModelType = {
         type: 'save',
         payload: data,
       });
+    },
+    *updateStatus({ payload }: any, { call, put, select }: any) {
+      yield call(service.postUpdateStatus, payload);
     },
   },
 
