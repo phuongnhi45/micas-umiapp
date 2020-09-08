@@ -11,7 +11,6 @@ export interface EmployeeState {
 
 export interface EmployeeModelType {
   namespace: string;
-  // state: EmployeeState;
   state: any;
   effects: {
     submitEmployee: Effect;
@@ -23,13 +22,13 @@ export interface EmployeeModelType {
     save: Reducer<EmployeeState>;
   };
 }
+
 const EmployeeModel: EmployeeModelType = {
   namespace: 'Employee',
   state: [],
   effects: {
     *submitEmployee({ payload }: any, { call, put, select }: any) {
       yield call(service.postEmployee, payload);
-      console.log('data ở file model => ', payload);
       if (!payload) {
         notification.error('Create employee failed');
       }

@@ -10,7 +10,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }: any) => {
   return (
     <Modal
       visible={visible}
-      title="Edit company"
+      title="Edit information company"
       okText="Submit"
       cancelText="Cancel"
       onCancel={onCancel}
@@ -75,7 +75,6 @@ class EditCompany extends React.Component<CompanyProps, any> {
   };
 
   onCreate = (values: any) => {
-    console.log('Received values of form: ', values);
     const { onEdit } = this.props;
     const id = onEdit();
     this.setState({ show: false });

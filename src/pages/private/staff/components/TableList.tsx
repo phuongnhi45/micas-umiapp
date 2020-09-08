@@ -1,8 +1,8 @@
 import React from 'react';
-import { Table, Input, Button, Space, Checkbox } from 'antd';
+import { Table, Input, Button, Space, Checkbox, Tag } from 'antd';
 import Highlighter from 'react-highlight-words';
 import appIcon from '@/config/icons';
-import { connect, Loading, ConnectProps, Dispatch } from 'umi';
+import { connect, Loading, ConnectProps, Dispatch, CompanyState } from 'umi';
 import { EmployeeState } from '../model';
 import EditModal from './EditModal';
 
@@ -17,6 +17,7 @@ class TableList extends React.Component<PageProps, any> {
     searchText: '',
     searchedColumn: '',
     selectedRowKeys: [],
+    active: false,
   };
 
   componentDidMount() {
@@ -24,12 +25,7 @@ class TableList extends React.Component<PageProps, any> {
       type: 'Employee/getEmployees',
     });
   }
-  onSelectChange = (selectedRowKeys: any) => {
-    const a = [...selectedRowKeys];
-    const _id = a.pop();
-    console.log(_id, 'id nè');
-    this.setState({ selectedRowKeys });
-  };
+
   getColumnSearchProps = (dataIndex: any) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -117,9 +113,9 @@ class TableList extends React.Component<PageProps, any> {
 
   render() {
     const { Employee } = this.props;
+    const { active } = this.state;
 
     const onChangeStatus = (value: any, e: any) => {
-      console.log(`checked = ${e.target.checked}`);
       if (!e.target.checked) {
       }
       this.props.dispatch({
@@ -137,26 +133,42 @@ class TableList extends React.Component<PageProps, any> {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        width: '50%',
         ...this.getColumnSearchProps('name'),
       },
       {
         title: 'Phone',
         dataIndex: 'phone',
         key: 'phone',
-        width: '40%',
         ...this.getColumnSearchProps('phone'),
       },
       {
         title: 'Active',
         dataIndex: '_id',
-        render: (value: any) => {
-          return <Checkbox onChange={e => onChangeStatus(value, e)} />;
+        width: '10%',
+        align: 'center',
+        render: (value: any, row: CompanyState) => {
+          if (row.active) {
+            return (
+              <Checkbox
+                checked={!active}
+                onChange={e => onChangeStatus(value, e)}
+              />
+            );
+          } else {
+            return (
+              <Checkbox
+                checked={active}
+                onChange={e => onChangeStatus(value, e)}
+              />
+            );
+          }
         },
       },
       {
-        title: '',
+        title: 'Action',
         dataIndex: '_id',
+        width: '10%',
+        align: 'center',
         render: (value: any) => {
           return (
             <EditModal onEdit={() => onEdit(value)} type="primary"></EditModal>
@@ -165,7 +177,9 @@ class TableList extends React.Component<PageProps, any> {
       },
     ];
 
-    return <Table columns={columns} dataSource={Employee} rowKey="_id" />;
+    return (
+      <Table bordered columns={columns} dataSource={Employee} rowKey="_id" />
+    );
   }
 }
 

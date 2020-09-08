@@ -1,15 +1,17 @@
 import React from 'react';
-import { Button, Modal, Form, Input } from 'antd';
+import { Modal, Form, Input, Tooltip } from 'antd';
 import { connect, Loading, ConnectProps, Dispatch } from 'umi';
 import { EmployeeState } from '../model';
+
+import appIcon from '@/config/icons';
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel }: any) => {
   const [form] = Form.useForm();
   return (
     <Modal
       visible={visible}
-      title="Create a new collection"
-      okText="Create"
+      title="Edit information employee"
+      okText="Submit"
       cancelText="Cancel"
       onCancel={onCancel}
       onOk={() => {
@@ -83,9 +85,8 @@ class EditModal extends React.Component<EmployeeProps, any> {
   state = {
     show: false,
   };
+
   onCreate = (values: any) => {
-    console.log('Received values of form: ', values);
-    console.log(this.props.onEdit());
     const { onEdit } = this.props;
     const id = onEdit();
     this.setState({ show: false });
@@ -94,20 +95,18 @@ class EditModal extends React.Component<EmployeeProps, any> {
       payload: { values, id },
     });
   };
-  //this .props bên kia,cố nhớ lên nào
+
   render() {
     const { show } = this.state;
-
     return (
       <div>
-        <Button
-          type="primary"
-          onClick={() => {
-            this.setState({ show: true });
-          }}
-        >
-          Edit Staff
-        </Button>
+        <Tooltip placement="top" title="edit">
+          <appIcon.EditOutlined
+            onClick={() => {
+              this.setState({ show: true });
+            }}
+          />
+        </Tooltip>
         <CollectionCreateForm
           visible={show}
           onCreate={this.onCreate}
