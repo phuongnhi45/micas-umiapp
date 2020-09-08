@@ -28,14 +28,27 @@ const postCompany = async (payload: any) => {
   return response;
 };
 
-const statusCompany = async ({ _id }: { _id: string }) => {
+const statusCompany = async ({ _id }: { _id: string }, payload: any) => {
   const api = APIConst.changeStatusCompany.statusCompany(_id);
-  const data = await request.call(api.url, { method: api.method });
-  return data;
+  const response = await request.call(api.url, {
+    method: api.method,
+    data: payload,
+  });
+  return response;
+};
+
+const editCompany = async ({ _id }: { _id: string }, payload: any) => {
+  const api = APIConst.updateCompany.editCompany(_id);
+  const response = await request.call(api.url, {
+    method: api.method,
+    data: payload,
+  });
+  return response;
 };
 
 export default {
   fetchCompanies,
   postCompany,
   statusCompany,
+  editCompany,
 };

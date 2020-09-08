@@ -10,8 +10,12 @@ const postLogIn = async (payload: any) => {
     })
     .then(function(res) {
       const data = res.data;
-      const token = localStorage.setItem('accessToken', data.Data);
-      return token;
+      if (data.Data) {
+        const token = localStorage.setItem('accessToken', data.Data);
+        return token;
+      } else {
+        return data.Data;
+      }
     })
     .catch(function(error) {
       return error;

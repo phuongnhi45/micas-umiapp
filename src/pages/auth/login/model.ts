@@ -31,12 +31,14 @@ const LoginModel: LoginModelType = {
     *submitlogin({ payload }, { call, put }) {
       yield call(service.postLogIn, payload);
       const token = localStorage.getItem('accessToken');
-      console.log('token:', token);
       if (token) {
         notification.success('Login success');
         return yield put(history.push('/service-places'));
       } else {
         notification.error('Login failed');
+      }
+      if (!token) {
+        return;
       }
       yield put({
         type: 'save',

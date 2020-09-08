@@ -7,9 +7,8 @@ export interface CompanyState {
   name: string;
   active: boolean;
   location: string;
-  email: string;
-  phone: string;
   date: string;
+  _id: string;
 }
 
 export interface CompanyModelType {
@@ -18,6 +17,7 @@ export interface CompanyModelType {
   effects: {
     getCompanies: Effect;
     createCompany: Effect;
+    updateCompany: Effect;
     changeStatusCompany: Effect;
   };
   reducers: {
@@ -55,7 +55,7 @@ const CompanyModel: CompanyModelType = {
         notification.error('Create company failed');
       }
       if (payload) {
-        notification.success('Create company success');
+        notification.success('Create success');
         return yield put(history.push('/service-places'));
       }
       yield put({
@@ -65,17 +65,30 @@ const CompanyModel: CompanyModelType = {
     },
 
     *changeStatusCompany({ payload }, { call, put, select }) {
-      const data = yield call(service.statusCompany, payload);
-      // Success
-      notification.success('Cập nhật thành công!');
+      const response = yield call(service.statusCompany, payload);
+      const { success, message, data } = response.data;
+      if (!success) {
+        return notification.error(message);
+      }
+      if (success) {
+        return notification.success(message);
+      }
+      console.log(data);
+      // Else reload table data
+      yield put({
+        type: 'save',
+        payload: data,
+      });
+    },
 
-      // Change item
-
-      // If found, change status then update
+    *updateCompany({ payload }, { call, put, select }) {
+      const response = yield call(service.editCompany, payload);
+      console.log(response.data);
 
       // Else reload table data
       yield put({
-        type: 'fetch',
+        type: 'save',
+        payload,
       });
     },
   },

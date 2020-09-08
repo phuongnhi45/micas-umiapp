@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal, Form, Input, Radio } from 'antd';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { EmployeeState } from '../model';
+import styles from '../../index.less';
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel }: any) => {
   const [form] = Form.useForm();
@@ -94,7 +95,7 @@ class ModalForm extends React.Component<EmployeeProps, any> {
   render() {
     const { show } = this.state;
     return (
-      <div>
+      <div className={styles.staff}>
         <Button
           type="primary"
           onClick={() => {

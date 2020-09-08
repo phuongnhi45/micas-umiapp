@@ -1,10 +1,12 @@
 import React from 'react';
-import { Table, Input, Button, Space, Checkbox } from 'antd';
+import { Table, Input, Button, Space, Checkbox, Tag } from 'antd';
 import Highlighter from 'react-highlight-words';
 import appIcon from '@/config/icons';
-import { connect, Loading, ConnectProps, Dispatch } from 'umi';
+import { connect, Loading, ConnectProps, Dispatch, CompanyState } from 'umi';
 import { EmployeeState } from '../model';
 import EditModal from './EditModal';
+
+type IActiveFilterValue = 'active' | 'inactive';
 
 export interface PageProps extends ConnectProps {
   Employee: EmployeeState;
@@ -17,6 +19,7 @@ class TableList extends React.Component<PageProps, any> {
     searchText: '',
     searchedColumn: '',
     selectedRowKeys: [],
+    active: false,
   };
 
   componentDidMount() {
@@ -24,10 +27,7 @@ class TableList extends React.Component<PageProps, any> {
       type: 'Employee/getEmployees',
     });
   }
-  // onSelectChange = (selectedRowKeys: any) => {
-  //   console.log(selectedRowKeys,'select row key nè')
-  //   this.setState({ selectedRowKeys });
-  // };
+
   getColumnSearchProps = (dataIndex: any) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -115,7 +115,7 @@ class TableList extends React.Component<PageProps, any> {
 
   render() {
     const { Employee } = this.props;
-    const { selectedRowKeys } = this.state;
+    const { selectedRowKeys, active } = this.state;
     const onChangeStatus = (value: any, e: any) => {
       console.log(value);
       console.log(`checked = ${e.target.checked}`);
@@ -125,10 +125,9 @@ class TableList extends React.Component<PageProps, any> {
         type: 'Employee/updateStatus',
         payload: value,
       });
+      //this.setState({active:!active});
     };
     const onEdit = value => {
-      console.log('id nè huhu ');
-      console.log(value);
       return value;
     };
     const columns = [
@@ -149,8 +148,22 @@ class TableList extends React.Component<PageProps, any> {
       {
         title: 'Active',
         dataIndex: '_id',
-        render: (value: any) => {
-          return <Checkbox onChange={e => onChangeStatus(value, e)} />;
+        render: (value: any, row: CompanyState) => {
+          if (row.active) {
+            return (
+              <Checkbox
+                checked={!active}
+                onChange={e => onChangeStatus(value, e)}
+              />
+            );
+          } else {
+            return (
+              <Checkbox
+                checked={active}
+                onChange={e => onChangeStatus(value, e)}
+              />
+            );
+          }
         },
       },
       {
@@ -164,50 +177,7 @@ class TableList extends React.Component<PageProps, any> {
       },
     ];
 
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectChange,
-      selections: [
-        Table.SELECTION_ALL,
-        Table.SELECTION_INVERT,
-        {
-          key: 'odd',
-          text: 'Select Odd Row',
-          onSelect: (changableRowKeys: any) => {
-            let newSelectedRowKeys = [];
-            newSelectedRowKeys = changableRowKeys.filter((key, index) => {
-              if (index % 2 !== 0) {
-                return false;
-              }
-              return true;
-            });
-            this.setState({ selectedRowKeys: newSelectedRowKeys });
-          },
-        },
-        {
-          key: 'even',
-          text: 'Select Even Row',
-          onSelect: (changableRowKeys: any) => {
-            let newSelectedRowKeys = [];
-            newSelectedRowKeys = changableRowKeys.filter((key, index) => {
-              if (index % 2 !== 0) {
-                return true;
-              }
-              return false;
-            });
-            this.setState({ selectedRowKeys: newSelectedRowKeys });
-          },
-        },
-      ],
-    };
-    return (
-      <Table
-        rowSelection={rowSelection}
-        columns={columns}
-        dataSource={Employee}
-        rowKey="_id"
-      />
-    );
+    return <Table columns={columns} dataSource={Employee} rowKey="_id" />;
   }
 }
 

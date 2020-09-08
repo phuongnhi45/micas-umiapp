@@ -2,10 +2,8 @@ import React from 'react';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { Input, Button, Form } from 'antd';
 import { Redirect } from 'umi';
-
 import appIcon from '@/config/icons';
 import { LoginState } from './model';
-
 import styles from './style.less';
 
 export interface SignInProps extends ConnectProps {
