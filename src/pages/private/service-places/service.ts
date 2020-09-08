@@ -30,15 +30,19 @@ const postCompany = async (payload: any) => {
 
 const statusCompany = async ({ _id }: { _id: string }, payload: any) => {
   const api = APIConst.changeStatusCompany.statusCompany(_id);
-  const response = await request
-    .call(api.url, {
-      method: api.method,
-      data: payload,
-    })
-    .then(function(res) {
-      console.log('service', res.data);
-      return res.data;
-    });
+  const response = await request.call(api.url, {
+    method: api.method,
+    data: payload,
+  });
+  return response;
+};
+
+const editCompany = async ({ _id }: { _id: string }, payload: any) => {
+  const api = APIConst.updateCompany.editCompany(_id);
+  const response = await request.call(api.url, {
+    method: api.method,
+    data: payload,
+  });
   return response;
 };
 
@@ -46,4 +50,5 @@ export default {
   fetchCompanies,
   postCompany,
   statusCompany,
+  editCompany,
 };

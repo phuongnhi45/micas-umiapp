@@ -46,4 +46,10 @@ export default {
       method: methods.patch,
     }),
   },
+  updateCompany: {
+    editCompany: (_id: string) => ({
+      url: `/companies/${_id}`,
+      method: methods.patch,
+    }),
+  },
 };

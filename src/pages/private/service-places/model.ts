@@ -17,6 +17,7 @@ export interface CompanyModelType {
   effects: {
     getCompanies: Effect;
     createCompany: Effect;
+    updateCompany: Effect;
     changeStatusCompany: Effect;
   };
   reducers: {
@@ -54,7 +55,7 @@ const CompanyModel: CompanyModelType = {
         notification.error('Create company failed');
       }
       if (payload) {
-        notification.success('Create company success');
+        notification.success('Create success');
         return yield put(history.push('/service-places'));
       }
       yield put({
@@ -69,18 +70,25 @@ const CompanyModel: CompanyModelType = {
       if (!success) {
         return notification.error(message);
       }
-      console.log('model', response);
+      if (success) {
+        return notification.success(message);
+      }
       console.log(data);
-      // Success
-      // notification.success(message);
+      // Else reload table data
+      yield put({
+        type: 'save',
+        payload: data,
+      });
+    },
 
-      // Change item
-
-      // If found, change status then update
+    *updateCompany({ payload }, { call, put, select }) {
+      const response = yield call(service.editCompany, payload);
+      console.log(response.data);
 
       // Else reload table data
       yield put({
-        type: 'fetch',
+        type: 'save',
+        payload,
       });
     },
   },

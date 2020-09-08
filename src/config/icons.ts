@@ -11,8 +11,6 @@ import {
   CarOutlined,
   EditOutlined,
   SearchOutlined,
-  CheckSquareOutlined,
-  CheckSquareFilled,
 } from '@ant-design/icons';
 
 export default {
@@ -28,6 +26,4 @@ export default {
   CarOutlined,
   EditOutlined,
   SearchOutlined,
-  CheckSquareOutlined,
-  CheckSquareFilled,
 };

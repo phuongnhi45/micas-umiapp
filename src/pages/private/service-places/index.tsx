@@ -12,7 +12,6 @@ import {
   Tag,
   Space,
   Button,
-  // DatePicker,
   Tooltip,
 } from 'antd';
 
@@ -43,14 +42,6 @@ class ServicePlace extends React.Component<PageProps, any> {
   onSelectChange = (selectedRowKeys: any) => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
-  };
-
-  start = () => {
-    setTimeout(() => {
-      this.setState({
-        selectedRowKeys: [],
-      });
-    }, 1000);
   };
 
   getColumnSearchProps = (dataIndex: any) => ({
@@ -136,6 +127,7 @@ class ServicePlace extends React.Component<PageProps, any> {
   onChangeStatus = (active: boolean, _id: string) => {
     this.props.dispatch({
       type: 'company/changeStatusCompany',
+      payload: { active, _id },
     });
     console.log(_id, active);
   };
@@ -169,7 +161,7 @@ class ServicePlace extends React.Component<PageProps, any> {
       {
         title: 'Created at',
         dataIndex: 'date',
-        // render: () => <DatePicker/>
+        render: () => <p>16/06/2020, 17:28</p>,
       },
       {
         title: 'Active',
@@ -191,14 +183,14 @@ class ServicePlace extends React.Component<PageProps, any> {
                 onClick={() => this.onChangeStatus(active, row._id)}
                 color="#2E89EB"
               >
-                active
+                Active
               </Tag>
             );
           }
           return (
             <Tag
               onClick={() => this.onChangeStatus(active, row._id)}
-              color="#2E89EB"
+              color="#0DC94F"
             >
               Inactive
             </Tag>
@@ -211,7 +203,7 @@ class ServicePlace extends React.Component<PageProps, any> {
       {
         title: 'Action',
         dataIndex: 'action',
-        render: () => (
+        render: (row: CompanyState) => (
           <Tooltip placement="top" title="Change logo">
             <appIcon.EditOutlined />
           </Tooltip>
