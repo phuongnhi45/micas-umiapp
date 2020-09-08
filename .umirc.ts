@@ -16,7 +16,7 @@ export default defineConfig({
         { path: '/staff', component: 'private/staff/index' },
         {
           path: '/create-company',
-          component: 'private/service-places/company',
+          component: 'private/service-places/createCompany',
         },
       ],
     },

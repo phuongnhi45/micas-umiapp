@@ -42,7 +42,13 @@ export default {
   },
   changeStatusCompany: {
     statusCompany: (_id: string) => ({
-      url: `/companies/active/${_id}`,
+      url: `/companies/${_id}/active`,
+      method: methods.patch,
+    }),
+  },
+  updateCompany: {
+    editCompany: (_id: string) => ({
+      url: `/companies/${_id}`,
       method: methods.patch,
     }),
   },
