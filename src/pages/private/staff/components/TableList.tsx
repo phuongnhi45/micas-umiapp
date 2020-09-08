@@ -1,9 +1,10 @@
 import React from 'react';
-import { Table, Input, Button, Space } from 'antd';
+import { Table, Input, Button, Space, Checkbox } from 'antd';
 import Highlighter from 'react-highlight-words';
 import appIcon from '@/config/icons';
 import { connect, Loading, ConnectProps, Dispatch } from 'umi';
 import { EmployeeState } from '../model';
+import EditModal from './EditModal';
 
 export interface PageProps extends ConnectProps {
   Employee: EmployeeState;
@@ -24,7 +25,9 @@ class TableList extends React.Component<PageProps, any> {
     });
   }
   onSelectChange = (selectedRowKeys: any) => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    const a = [...selectedRowKeys];
+    const _id = a.pop();
+    console.log(_id, 'id nè');
     this.setState({ selectedRowKeys });
   };
   getColumnSearchProps = (dataIndex: any) => ({
@@ -114,7 +117,21 @@ class TableList extends React.Component<PageProps, any> {
 
   render() {
     const { Employee } = this.props;
-    const { selectedRowKeys } = this.state;
+
+    const onChangeStatus = (value: any, e: any) => {
+      console.log(`checked = ${e.target.checked}`);
+      if (!e.target.checked) {
+      }
+      this.props.dispatch({
+        type: 'Employee/updateStatus',
+        payload: value,
+      });
+    };
+
+    const onEdit = (value: any) => {
+      return value;
+    };
+
     const columns = [
       {
         title: 'Name',
@@ -130,52 +147,25 @@ class TableList extends React.Component<PageProps, any> {
         width: '40%',
         ...this.getColumnSearchProps('phone'),
       },
+      {
+        title: 'Active',
+        dataIndex: '_id',
+        render: (value: any) => {
+          return <Checkbox onChange={e => onChangeStatus(value, e)} />;
+        },
+      },
+      {
+        title: '',
+        dataIndex: '_id',
+        render: (value: any) => {
+          return (
+            <EditModal onEdit={() => onEdit(value)} type="primary"></EditModal>
+          );
+        },
+      },
     ];
 
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectChange,
-      selections: [
-        Table.SELECTION_ALL,
-        Table.SELECTION_INVERT,
-        {
-          key: 'odd',
-          text: 'Select Odd Row',
-          onSelect: (changableRowKeys: any) => {
-            let newSelectedRowKeys = [];
-            newSelectedRowKeys = changableRowKeys.filter((index: any) => {
-              if (index % 2 !== 0) {
-                return false;
-              }
-              return true;
-            });
-            this.setState({ selectedRowKeys: newSelectedRowKeys });
-          },
-        },
-        {
-          key: 'even',
-          text: 'Select Even Row',
-          onSelect: (changableRowKeys: any) => {
-            let newSelectedRowKeys = [];
-            newSelectedRowKeys = changableRowKeys.filter((index: any) => {
-              if (index % 2 !== 0) {
-                return true;
-              }
-              return false;
-            });
-            this.setState({ selectedRowKeys: newSelectedRowKeys });
-          },
-        },
-      ],
-    };
-    return (
-      <Table
-        rowSelection={rowSelection}
-        columns={columns}
-        dataSource={Employee}
-        rowKey="_id"
-      />
-    );
+    return <Table columns={columns} dataSource={Employee} rowKey="_id" />;
   }
 }
 

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Button, Modal, Form, Input, Radio } from 'antd';
-import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
+import React from 'react';
+import { Button, Modal, Form, Input } from 'antd';
+import { connect, Loading, ConnectProps, Dispatch } from 'umi';
 import { EmployeeState } from '../model';
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel }: any) => {
@@ -79,19 +79,25 @@ export interface EmployeeProps extends ConnectProps {
   loading: boolean;
 }
 
-class ModalForm extends React.Component<EmployeeProps, any> {
+class EditModal extends React.Component<EmployeeProps, any> {
   state = {
     show: false,
   };
   onCreate = (values: any) => {
+    console.log('Received values of form: ', values);
+    console.log(this.props.onEdit());
+    const { onEdit } = this.props;
+    const id = onEdit();
     this.setState({ show: false });
     this.props.dispatch({
-      type: 'Employee/submitEmployee',
-      payload: values,
+      type: 'Employee/editEmployee',
+      payload: { values, id },
     });
   };
+  //this .props bên kia,cố nhớ lên nào
   render() {
     const { show } = this.state;
+
     return (
       <div>
         <Button
@@ -100,7 +106,7 @@ class ModalForm extends React.Component<EmployeeProps, any> {
             this.setState({ show: true });
           }}
         >
-          New Staff
+          Edit Staff
         </Button>
         <CollectionCreateForm
           visible={show}
@@ -119,4 +125,4 @@ export default connect(
     Employee,
     loading: loading.models.Employee,
   }),
-)(ModalForm);
+)(EditModal);

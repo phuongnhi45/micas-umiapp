@@ -16,6 +16,8 @@ export interface EmployeeModelType {
   effects: {
     submitEmployee: Effect;
     getEmployees: Effect;
+    updateStatus: Effect;
+    editEmployee: Effect;
   };
   reducers: {
     save: Reducer<EmployeeState>;
@@ -23,12 +25,6 @@ export interface EmployeeModelType {
 }
 const EmployeeModel: EmployeeModelType = {
   namespace: 'Employee',
-  // state: {
-  //   name: '',
-  //   phone: '',
-  //   password: '',
-  //   active: false
-  // },
   state: [],
   effects: {
     *submitEmployee({ payload }: any, { call, put, select }: any) {
@@ -52,13 +48,17 @@ const EmployeeModel: EmployeeModelType = {
         payload: data,
       });
     },
+    *updateStatus({ payload }: any, { call, put, select }: any) {
+      yield call(service.postUpdateStatus, payload);
+    },
+    *editEmployee({ payload }: any, { call, put, select }: any) {
+      yield call(service.editEmployee, payload);
+    },
   },
 
   reducers: {
     save(state, action) {
-      // console.log('state', state);
       console.log('action', action.payload);
-
       return [...action.payload];
     },
   },
