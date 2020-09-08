@@ -39,7 +39,7 @@ const CompanyModel: CompanyModelType = {
   effects: {
     *getCompanies({ payload }, { call, put }) {
       const data = yield call(service.fetchCompanies);
-      console.log('model', data);
+      console.log('get list', data);
       yield put({
         type: 'save',
         payload: {
@@ -50,7 +50,7 @@ const CompanyModel: CompanyModelType = {
 
     *createCompany({ payload }, { call, put }) {
       yield call(service.postCompany, payload);
-      console.log('model', payload);
+      console.log('create', payload);
       if (!payload) {
         notification.error('Create company failed');
       }
@@ -74,22 +74,16 @@ const CompanyModel: CompanyModelType = {
         return notification.success(message);
       }
       console.log(data);
-      // Else reload table data
+      //reload table data
       yield put({
         type: 'save',
         payload: data,
       });
     },
 
-    *updateCompany({ payload }, { call, put, select }) {
-      const response = yield call(service.editCompany, payload);
-      console.log(response.data);
-
-      // Else reload table data
-      yield put({
-        type: 'save',
-        payload,
-      });
+    *updateCompany({ payload }, { call }) {
+      yield call(service.editCompany, payload);
+      //reload table data
     },
   },
 

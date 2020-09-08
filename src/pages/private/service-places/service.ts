@@ -37,13 +37,13 @@ const statusCompany = async ({ _id }: { _id: string }, payload: any) => {
   return response;
 };
 
-const editCompany = async ({ _id }: { _id: string }, payload: any) => {
-  const api = APIConst.updateCompany.editCompany(_id);
-  const response = await request.call(api.url, {
+const editCompany = async (payload: any) => {
+  const returnedTarget = Object.assign(payload.values, { active: true });
+  const api = APIConst.updateCompany.editCompany(payload.id);
+  request.call(api.url, {
     method: api.method,
-    data: payload,
+    data: returnedTarget,
   });
-  return response;
 };
 
 export default {

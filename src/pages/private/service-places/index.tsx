@@ -1,24 +1,15 @@
 import React from 'react';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { CompanyState, CompanyModelState } from './model';
+import EditCompany from './editCompany';
 
 import Highlighter from 'react-highlight-words';
-import {
-  Row,
-  Col,
-  Input,
-  Table,
-  Breadcrumb,
-  Tag,
-  Space,
-  Button,
-  Tooltip,
-} from 'antd';
-
-type IActiveFilterValue = 'active' | 'inactive';
+import { Row, Col, Input, Table, Breadcrumb, Tag, Space, Button } from 'antd';
 
 import appIcon from '@/config/icons';
 import styles from '../index.less';
+
+type IActiveFilterValue = 'active' | 'inactive';
 
 export interface PageProps extends ConnectProps {
   dispatch: Dispatch;
@@ -143,6 +134,7 @@ class ServicePlace extends React.Component<PageProps, any> {
       {
         title: '#',
         dataIndex: 'index',
+        align: 'center',
       },
       {
         title: 'Name',
@@ -153,19 +145,22 @@ class ServicePlace extends React.Component<PageProps, any> {
         },
       },
       {
-        title: 'Address',
+        title: 'City',
         dataIndex: 'address',
+        align: 'center',
         ...this.getColumnSearchProps('address'),
         render: (value: any) => <Tag color="blue">{value}</Tag>,
       },
       {
         title: 'Created at',
         dataIndex: 'date',
+        align: 'center',
         render: () => <p>16/06/2020, 17:28</p>,
       },
       {
         title: 'Active',
         dataIndex: 'active',
+        align: 'center',
         filters: [
           {
             text: 'Active',
@@ -202,14 +197,18 @@ class ServicePlace extends React.Component<PageProps, any> {
       },
       {
         title: 'Action',
-        dataIndex: 'action',
-        render: (row: CompanyState) => (
-          <Tooltip placement="top" title="Change logo">
-            <appIcon.EditOutlined />
-          </Tooltip>
-        ),
+        dataIndex: '_id',
+        align: 'center',
+        render: (value: any) => {
+          return <EditCompany onEdit={() => onEdit(value)} type="primary" />;
+        },
       },
     ];
+
+    const onEdit = (value: any) => {
+      console.log('index', value);
+      return value;
+    };
 
     return (
       <>
@@ -225,7 +224,7 @@ class ServicePlace extends React.Component<PageProps, any> {
 
         <Row>
           <Col className={styles.filter_box} span={24}>
-            <Table columns={columns} dataSource={company.companies} />
+            <Table columns={columns} bordered dataSource={company.companies} />
           </Col>
         </Row>
       </>
