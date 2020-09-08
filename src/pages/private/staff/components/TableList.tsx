@@ -4,7 +4,7 @@ import Highlighter from 'react-highlight-words';
 import appIcon from '@/config/icons';
 import { connect, Loading, ConnectProps, Dispatch } from 'umi';
 import { EmployeeState } from '../model';
-
+import EditModal from './EditModal';
 export interface PageProps extends ConnectProps {
   Employee: EmployeeState;
   dispatch: Dispatch;
@@ -25,11 +25,6 @@ class TableList extends React.Component<PageProps, any> {
   }
   onSelectChange = (selectedRowKeys: any) => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
-    //chắc tạo dispatch action chộ ni
-    // this.props.dispatch({
-    //   type: 'Employee/updateStatus',
-    //   payload: selectedRowKeys,
-    // });
     const a = [...selectedRowKeys];
     const _id = a.pop();
     console.log(_id, 'id nè');
@@ -127,13 +122,16 @@ class TableList extends React.Component<PageProps, any> {
       console.log(value);
       console.log(`checked = ${e.target.checked}`);
       if (!e.target.checked) {
-        console.log('nana false');
-        //chắc tạo dispatch action chộ ni
       }
       this.props.dispatch({
         type: 'Employee/updateStatus',
         payload: value,
       });
+    };
+    const onEdit = value => {
+      console.log('id nè huhu ');
+      console.log(value);
+      return value;
     };
     const columns = [
       {
@@ -152,9 +150,18 @@ class TableList extends React.Component<PageProps, any> {
       },
       {
         title: 'Active',
-        dataIndex: '_id', //chộ ni nếu ko ra thì dùng id
+        dataIndex: '_id',
         render: (value: any) => {
           return <Checkbox onChange={e => onChangeStatus(value, e)} />;
+        },
+      },
+      {
+        title: '',
+        dataIndex: '_id',
+        render: (value: any) => {
+          return (
+            <EditModal onEdit={() => onEdit(value)} type="primary"></EditModal>
+          );
         },
       },
     ];

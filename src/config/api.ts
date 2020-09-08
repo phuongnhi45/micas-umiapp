@@ -33,6 +33,12 @@ export default {
       method: methods.patch,
     }),
   },
+  editEmployee: {
+    editEmployee: (_id: any) => ({
+      url: `/employees/${_id}`,
+      method: methods.patch,
+    }),
+  },
   //company
   getCompanies: {
     fetchCompanies: () => ({

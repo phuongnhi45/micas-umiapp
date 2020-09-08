@@ -78,7 +78,6 @@ class ServicePlace extends React.Component<PageProps, any> {
   handleChange(value: any) {
     console.log(`Selected: ${value}`);
   }
-
   componentDidMount() {
     this.props.dispatch({
       type: 'company/getCompanies',

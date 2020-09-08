@@ -24,18 +24,26 @@ const getEmployees = async () => {
   console.log(result);
   return result;
 };
-const postUpdateStatus = async (payload: any) => {
-  console.log('payload', payload);
-  console.log('type of payload', typeof payload);
+const postUpdateStatus = (payload: any) => {
   const api = APIConst.updateStatus.postChangeStatus(payload);
-  await request.call(api.url, {
+  request.call(api.url, {
     method: api.method,
     data: payload,
   });
-  return 'oke';
+};
+const editEmployee = async (payload: any) => {
+  console.log('payload', payload.values);
+  console.log('type of payload', typeof payload);
+  const returnedTarget = Object.assign(payload.values, { active: true });
+  const api = APIConst.editEmployee.editEmployee(payload.id);
+  request.call(api.url, {
+    method: api.method,
+    data: returnedTarget,
+  });
 };
 export default {
   postEmployee,
   getEmployees,
   postUpdateStatus,
+  editEmployee,
 };
