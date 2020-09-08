@@ -5,6 +5,7 @@ import appIcon from '@/config/icons';
 import { connect, Loading, ConnectProps, Dispatch } from 'umi';
 import { EmployeeState } from '../model';
 import EditModal from './EditModal';
+
 export interface PageProps extends ConnectProps {
   Employee: EmployeeState;
   dispatch: Dispatch;
@@ -23,13 +24,10 @@ class TableList extends React.Component<PageProps, any> {
       type: 'Employee/getEmployees',
     });
   }
-  onSelectChange = (selectedRowKeys: any) => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
-    const a = [...selectedRowKeys];
-    const _id = a.pop();
-    console.log(_id, 'id nè');
-    this.setState({ selectedRowKeys });
-  };
+  // onSelectChange = (selectedRowKeys: any) => {
+  //   console.log(selectedRowKeys,'select row key nè')
+  //   this.setState({ selectedRowKeys });
+  // };
   getColumnSearchProps = (dataIndex: any) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -219,3 +217,4 @@ export default connect(
     loading: loading.models.Employee,
   }),
 )(TableList);
+//nếu có active thì cho màu xanh,đó là lúc đổ ra, nếu không thì cho màu trắng
