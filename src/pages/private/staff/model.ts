@@ -57,7 +57,6 @@ const EmployeeModel: EmployeeModelType = {
 
   reducers: {
     save(state, action) {
-      console.log('action', action.payload);
       return [...action.payload];
     },
   },

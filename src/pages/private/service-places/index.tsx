@@ -4,10 +4,21 @@ import { CompanyState, CompanyModelState } from './model';
 import EditCompany from './editCompany';
 
 import Highlighter from 'react-highlight-words';
-import { Row, Col, Input, Table, Breadcrumb, Tag, Space, Button } from 'antd';
+import {
+  Row,
+  Col,
+  Input,
+  Table,
+  Breadcrumb,
+  Tag,
+  Space,
+  Button,
+  TimePicker,
+} from 'antd';
 
 import appIcon from '@/config/icons';
 import styles from '../index.less';
+import 'antd/dist/antd.css';
 
 type IActiveFilterValue = 'active' | 'inactive';
 
@@ -120,7 +131,6 @@ class ServicePlace extends React.Component<PageProps, any> {
       type: 'company/changeStatusCompany',
       payload: { active, _id },
     });
-    console.log(_id, active);
   };
 
   handleReset = (clearFilters: any) => {
@@ -155,7 +165,8 @@ class ServicePlace extends React.Component<PageProps, any> {
         title: 'Created at',
         dataIndex: 'date',
         align: 'center',
-        render: () => <p>16/06/2020, 17:28</p>,
+        width: '20%',
+        render: () => Date(),
       },
       {
         title: 'Active',
@@ -176,7 +187,7 @@ class ServicePlace extends React.Component<PageProps, any> {
             return (
               <Tag
                 onClick={() => this.onChangeStatus(active, row._id)}
-                color="#2E89EB"
+                color="geekblue"
               >
                 Active
               </Tag>
@@ -185,7 +196,7 @@ class ServicePlace extends React.Component<PageProps, any> {
           return (
             <Tag
               onClick={() => this.onChangeStatus(active, row._id)}
-              color="#0DC94F"
+              color="green"
             >
               Inactive
             </Tag>
