@@ -6,8 +6,6 @@ import { connect, Loading, ConnectProps, Dispatch, CompanyState } from 'umi';
 import { EmployeeState } from '../model';
 import EditModal from './EditModal';
 
-type IActiveFilterValue = 'active' | 'inactive';
-
 export interface PageProps extends ConnectProps {
   Employee: EmployeeState;
   dispatch: Dispatch;
@@ -18,7 +16,6 @@ class TableList extends React.Component<PageProps, any> {
   state = {
     searchText: '',
     searchedColumn: '',
-    selectedRowKeys: [],
     active: false,
   };
 
@@ -115,7 +112,8 @@ class TableList extends React.Component<PageProps, any> {
 
   render() {
     const { Employee } = this.props;
-    const { selectedRowKeys, active } = this.state;
+    const { active } = this.state;
+    console.log(Employee, 'employee');
     const onChangeStatus = (value: any, e: any) => {
       console.log(value);
       console.log(`checked = ${e.target.checked}`);
@@ -125,9 +123,8 @@ class TableList extends React.Component<PageProps, any> {
         type: 'Employee/updateStatus',
         payload: value,
       });
-      //this.setState({active:!active});
     };
-    const onEdit = value => {
+    const onEdit = (value: any) => {
       return value;
     };
     const columns = [
@@ -187,4 +184,3 @@ export default connect(
     loading: loading.models.Employee,
   }),
 )(TableList);
-//nếu có active thì cho màu xanh,đó là lúc đổ ra, nếu không thì cho màu trắng
