@@ -42,6 +42,7 @@ class Staff extends React.Component<EmployeeProps, any> {
 
   render() {
     const { isVisible, staff } = this.state;
+    const { loading } = this.props;
     return (
       <div>
         <div style={{ padding: '20px 0px' }}>
@@ -49,7 +50,11 @@ class Staff extends React.Component<EmployeeProps, any> {
             New Staff
           </Button>
         </div>
-        <TableList staffs={this.props.Employee} onUpdate={this.onToggleModal} />
+        <TableList
+          staffs={this.props.Employee}
+          onUpdate={this.onToggleModal}
+          loading={loading}
+        />
         <ModalForm
           staff={staff}
           visible={isVisible}

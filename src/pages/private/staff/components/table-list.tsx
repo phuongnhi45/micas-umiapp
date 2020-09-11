@@ -6,6 +6,7 @@ import { EditOutlined } from '@ant-design/icons';
 interface Props {
   onUpdate: (isVisible: boolean, data: any) => void;
   staffs: any;
+  loading: boolean;
 }
 
 class TableList extends React.Component<Props> {
@@ -17,7 +18,7 @@ class TableList extends React.Component<Props> {
 
   render() {
     const { active } = this.state;
-    const { staffs, onUpdate } = this.props;
+    const { staffs, onUpdate, loading } = this.props;
     const onChangeStatus = (value: any, e: any) => {
       console.log(value);
       console.log(`checked = ${e.target.checked}`);
@@ -80,7 +81,13 @@ class TableList extends React.Component<Props> {
     ];
 
     return (
-      <Table columns={columns} dataSource={staffs} rowKey="_id" size="small" />
+      <Table
+        columns={columns}
+        dataSource={staffs}
+        rowKey="_id"
+        size="small"
+        loading={loading}
+      />
     );
   }
 }
