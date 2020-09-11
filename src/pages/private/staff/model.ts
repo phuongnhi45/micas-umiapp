@@ -1,5 +1,5 @@
 import service from './services';
-import { Effect, Reducer, history } from 'umi';
+import { Effect, Reducer } from 'umi';
 import notification from '@/utils/notification';
 
 export interface EmployeeState {
@@ -42,6 +42,7 @@ const EmployeeModel: EmployeeModelType = {
     },
     *getEmployees({ payload }: any, { call, put, select }: any) {
       const data = yield call(service.getEmployees);
+      console.log(data, 'fdata nè');
       yield put({
         type: 'save',
         payload: data,

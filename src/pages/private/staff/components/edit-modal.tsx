@@ -1,17 +1,15 @@
 import React from 'react';
-import { Modal, Form, Input, Tooltip } from 'antd';
-import { connect, Loading, ConnectProps, Dispatch } from 'umi';
-import { EmployeeState } from '../model';
-
-import appIcon from '@/config/icons';
+import { Button, Modal, Form, Input } from 'antd';
+import styles from '../../index.less';
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel }: any) => {
   const [form] = Form.useForm();
+  const staff = '';
   return (
     <Modal
       visible={visible}
-      title="Edit information employee"
-      okText="Submit"
+      title={staff ? 'Edit employee' : 'Create employee'}
+      okText="Create"
       cancelText="Cancel"
       onCancel={onCancel}
       onOk={() => {
@@ -75,43 +73,19 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }: any) => {
   );
 };
 
-export interface EmployeeProps extends ConnectProps {
-  Employee: EmployeeState;
-  dispatch: Dispatch;
-  loading: boolean;
-}
-
-class EditModal extends React.Component<EmployeeProps, any> {
-  state = {
-    show: false,
-  };
-
-  onCreate = (values: any) => {
-    const { onEdit } = this.props;
-    const id = onEdit();
-    this.setState({ show: false });
-    this.props.dispatch({
-      type: 'Employee/editEmployee',
-      payload: { values, id },
-    });
-  };
-
+class ModalForm extends React.Component<any> {
   render() {
-    const { show } = this.state;
+    const { show, onCreate, onShow } = this.props;
     return (
-      <div>
-        <Tooltip placement="top" title="edit">
-          <appIcon.EditOutlined
-            onClick={() => {
-              this.setState({ show: true });
-            }}
-          />
-        </Tooltip>
+      <div className={styles.staff}>
+        <Button type="primary" onClick={onShow}>
+          New Staff
+        </Button>
         <CollectionCreateForm
           visible={show}
-          onCreate={this.onCreate}
+          onCreate={onCreate}
           onCancel={() => {
-            this.setState({ show: false });
+            return show;
           }}
         />
       </div>
@@ -119,9 +93,4 @@ class EditModal extends React.Component<EmployeeProps, any> {
   }
 }
 
-export default connect(
-  ({ Employee, loading }: { Employee: EmployeeState; loading: Loading }) => ({
-    Employee,
-    loading: loading.models.Employee,
-  }),
-)(EditModal);
+export default ModalForm;

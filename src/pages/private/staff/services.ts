@@ -17,9 +17,17 @@ const postEmployee = async (payload: any) => {
   return dataResponse;
 };
 
+type ILocalStorageKey = 'acess_token' | 'username';
+
 const getEmployees = async () => {
   const api = APIConst.getEmployees.list();
-  const res = await request.call(api.url, { method: api.method });
+  const res = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization:
+        'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjU3NGQ0YjdjNjg5ODQyZWFlYmU0MmIiLCJleHAiOjE1OTk4OTg4MjR9.zEE6HTGcgbRZV3GxaOzpjIpmhfDOPFrVjEEBeE0Ua3w',
+    },
+  });
   const data = res.data;
   const result = data.Data;
   return result;

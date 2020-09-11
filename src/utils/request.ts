@@ -7,6 +7,7 @@ const call = async (
   url: string,
   options: any,
 ): Promise<{ data: any; err: any }> => {
+  console.log('option', options);
   // Skip auto error handler
   options.skipErrorHandler = true;
 
