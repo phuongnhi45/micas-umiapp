@@ -52,38 +52,36 @@ const CompanyModel: CompanyModelType = {
       yield call(service.postCompany, payload);
       console.log('create', payload);
       if (!payload) {
-        notification.error('Create company failed');
-      }
-      if (payload) {
+        return notification.error('Create company failed');
+      } else {
         notification.success('Create success');
-        return yield put(history.push('/service-places'));
+        yield put(history.push('/service-places'));
       }
       yield put({
-        type: 'save',
+        type: 'getCompanies',
         payload,
       });
     },
 
-    *changeStatusCompany({ payload }, { call, put, select }) {
+    *changeStatusCompany({ payload }, { call, put }) {
       const response = yield call(service.statusCompany, payload);
-      const { success, message, data } = response.data;
-      if (!success) {
+      const { Data, message } = response.data;
+      if (!Data) {
         return notification.error(message);
       }
-      if (success) {
-        return notification.success(message);
-      }
-      console.log(data);
-      //reload table data
+      notification.success(message);
       yield put({
-        type: 'save',
-        payload: data,
+        type: 'getCompanies',
       });
     },
 
-    *updateCompany({ payload }, { call }) {
-      yield call(service.editCompany, payload);
-      //reload table data
+    *updateCompany({ payload }, { call, put }) {
+      const response = yield call(service.editCompany, payload);
+      console.log(response);
+
+      yield put({
+        type: 'getCompanies',
+      });
     },
   },
 
