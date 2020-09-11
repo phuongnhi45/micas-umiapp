@@ -42,25 +42,25 @@ export default {
   //company
   getCompanies: {
     fetchCompanies: () => ({
-      url: '/companies/',
+      url: '/admin/companies/?name',
       method: methods.get,
     }),
   },
   createCompany: {
     postCompany: () => ({
-      url: '/companies/',
+      url: '/admin/companies/',
       method: methods.post,
     }),
   },
   changeStatusCompany: {
     statusCompany: (_id: string) => ({
-      url: `/companies/${_id}/active`,
+      url: `/admin/companies/${_id}`,
       method: methods.patch,
     }),
   },
   updateCompany: {
     editCompany: (_id: string) => ({
-      url: `/companies/${_id}`,
+      url: `/admin/companies/${_id}`,
       method: methods.patch,
     }),
   },

@@ -18,7 +18,6 @@ import {
 
 import appIcon from '@/config/icons';
 import styles from '../index.less';
-import 'antd/dist/antd.css';
 
 type IActiveFilterValue = 'active' | 'inactive';
 
@@ -39,6 +38,7 @@ class ServicePlace extends React.Component<PageProps, any> {
     this.props.dispatch({
       type: 'company/getCompanies',
     });
+    console.log('fetch data');
   }
 
   onSelectChange = (selectedRowKeys: any) => {

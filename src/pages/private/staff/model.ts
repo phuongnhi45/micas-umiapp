@@ -1,5 +1,5 @@
 import service from './services';
-import { Effect, Reducer, history } from 'umi';
+import { Effect, Reducer } from 'umi';
 import notification from '@/utils/notification';
 
 export interface EmployeeState {
@@ -28,17 +28,15 @@ const EmployeeModel: EmployeeModelType = {
   state: [],
   effects: {
     *submitEmployee({ payload }: any, { call, put, select }: any) {
-      yield call(service.postEmployee, payload);
-      if (!payload) {
-        notification.error('Create employee failed');
+      const response = yield call(service.postEmployee, payload);
+      if (!response.success) {
+        return notification.error('Create employee failed');
       }
-      if (payload) {
-        notification.success('Create employee success');
-        yield put({
-          type: 'save',
-          payload,
-        });
-      }
+      notification.success('Create employee success');
+      yield put({
+        type: 'save',
+        payload,
+      });
     },
     *getEmployees({ payload }: any, { call, put, select }: any) {
       const data = yield call(service.getEmployees);
