@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Button, Modal, Form, Input, Radio } from 'antd';
-import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
-import { EmployeeState } from '../model';
+import React from 'react';
+import { Button, Modal, Form, Input } from 'antd';
+import styles from '../../index.less';
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel }: any) => {
   const [form] = Form.useForm();
+  const staff = '';
   return (
     <Modal
       visible={visible}
-      title="Create a new collection"
+      title={staff ? 'Edit employee' : 'Create employee'}
       okText="Create"
       cancelText="Cancel"
       onCancel={onCancel}
@@ -73,46 +73,19 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }: any) => {
   );
 };
 
-export interface EmployeeProps extends ConnectProps {
-  Employee: EmployeeState;
-  dispatch: Dispatch;
-  loading: boolean;
-}
-
-class EditModal extends React.Component<EmployeeProps, any> {
-  state = {
-    show: false,
-  };
-  onCreate = (values: any) => {
-    console.log('Received values of form: ', values);
-    console.log(this.props.onEdit());
-    const { onEdit } = this.props;
-    const id = onEdit();
-    this.setState({ show: false });
-    this.props.dispatch({
-      type: 'Employee/editEmployee',
-      payload: { values, id },
-    });
-  };
-  //this .props bên kia,cố nhớ lên nào
+class ModalForm extends React.Component<any> {
   render() {
-    const { show } = this.state;
-
+    const { show, onCreate, onShow } = this.props;
     return (
-      <div>
-        <Button
-          type="primary"
-          onClick={() => {
-            this.setState({ show: true });
-          }}
-        >
-          Edit Staff
+      <div className={styles.staff}>
+        <Button type="primary" onClick={onShow}>
+          New Staff
         </Button>
         <CollectionCreateForm
           visible={show}
-          onCreate={this.onCreate}
+          onCreate={onCreate}
           onCancel={() => {
-            this.setState({ show: false });
+            return show;
           }}
         />
       </div>
@@ -120,9 +93,4 @@ class EditModal extends React.Component<EmployeeProps, any> {
   }
 }
 
-export default connect(
-  ({ Employee, loading }: { Employee: EmployeeState; loading: Loading }) => ({
-    Employee,
-    loading: loading.models.Employee,
-  }),
-)(EditModal);
+export default ModalForm;

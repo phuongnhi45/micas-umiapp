@@ -23,7 +23,7 @@ export default {
   },
   getEmployees: {
     list: () => ({
-      url: '/employees/',
+      url: '/admin/employees/?active&name/',
       method: methods.get,
     }),
   },
