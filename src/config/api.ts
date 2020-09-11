@@ -60,7 +60,7 @@ export default {
   },
   updateCompany: {
     editCompany: (_id: string) => ({
-      url: `/admin/companies/${_id}`,
+      url: `/admin/companies/${_id}active=true&name=Test&address=ĐN`,
       method: methods.patch,
     }),
   },
