@@ -40,7 +40,6 @@ const EmployeeModel: EmployeeModelType = {
     },
     *getEmployees({ payload }: any, { call, put, select }: any) {
       const data = yield call(service.getEmployees);
-      console.log(data, 'fdata nè');
       yield put({
         type: 'save',
         payload: data,

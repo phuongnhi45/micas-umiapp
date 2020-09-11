@@ -1,12 +1,14 @@
 import React from 'react';
-import { Table, Input, Button, Space, Checkbox, Tag } from 'antd';
-import Highlighter from 'react-highlight-words';
-import appIcon from '@/config/icons';
-import EditModal from './edit-modal';
-import { EmployeeProps } from '..';
-import { EmployeeState } from 'umi';
+import { Table, Button, Checkbox } from 'antd';
+import { EmployeeState, Loading } from 'umi';
+import { EditOutlined } from '@ant-design/icons';
 
-class TableList extends React.Component<any> {
+interface Props {
+  onUpdate: (isVisible: boolean, data: any) => void;
+  staffs: any;
+}
+
+class TableList extends React.Component<Props> {
   state = {
     searchText: '',
     searchedColumn: '',
@@ -15,32 +17,36 @@ class TableList extends React.Component<any> {
 
   render() {
     const { active } = this.state;
-    const { Employee } = this.props;
+    const { staffs, onUpdate } = this.props;
     const onChangeStatus = (value: any, e: any) => {
       console.log(value);
       console.log(`checked = ${e.target.checked}`);
       if (!e.target.checked) {
       }
     };
-    const onEdit = (value: any) => {
-      return value;
-    };
     const columns = [
+      {
+        key: '_id',
+        title: '#',
+        render: (value: any, record: EmployeeState, index: number) => index + 1,
+        algin: 'center',
+      },
       {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        width: '50%',
+        algin: 'center',
       },
       {
         title: 'Phone',
         dataIndex: 'phone',
         key: 'phone',
-        width: '40%',
+        algin: 'center',
       },
       {
         title: 'Active',
         dataIndex: '_id',
+        algin: 'center',
         render: (value: any, row: EmployeeState) => {
           if (row.active) {
             return (
@@ -61,15 +67,21 @@ class TableList extends React.Component<any> {
       },
       {
         title: '',
+        algin: 'center',
         render: (value: any, row: EmployeeState) => {
           return (
-            <EditModal onEdit={() => onEdit(value)} type="primary"></EditModal>
+            <Button
+              icon={<EditOutlined />}
+              onClick={() => onUpdate(true, row)}
+            />
           );
         },
       },
     ];
 
-    return <Table columns={columns} dataSource={Employee} rowKey="_id" />;
+    return (
+      <Table columns={columns} dataSource={staffs} rowKey="_id" size="small" />
+    );
   }
 }
 

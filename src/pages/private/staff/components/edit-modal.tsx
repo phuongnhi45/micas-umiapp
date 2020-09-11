@@ -1,23 +1,35 @@
 import React from 'react';
-import { Button, Modal, Form, Input } from 'antd';
+import { Modal, Form, Input } from 'antd';
 import styles from '../../index.less';
+import lodash from 'lodash';
 
-const CollectionCreateForm = ({ visible, onCreate, onCancel }: any) => {
+interface Props {
+  visible: boolean;
+  staff: any;
+  onSubmit: (data: any) => void;
+  onCancel: (isVisible: boolean, data: any) => void;
+}
+const CollectionForm = ({ visible, onSubmit, onCancel, staff }: Props) => {
   const [form] = Form.useForm();
-  const staff = '';
+  const cancelAndResetField = () => {
+    form.resetFields();
+    onCancel(false, null);
+  };
+
+  form.setFieldsValue(staff ? staff : {});
   return (
     <Modal
       visible={visible}
       title={staff ? 'Edit employee' : 'Create employee'}
-      okText="Create"
+      okText={staff ? 'Update' : 'Create'}
       cancelText="Cancel"
-      onCancel={onCancel}
+      onCancel={cancelAndResetField}
       onOk={() => {
         form
           .validateFields()
           .then(values => {
             form.resetFields();
-            onCreate(values);
+            onSubmit(values);
           })
           .catch(info => {
             console.log('Validate Failed:', info);
@@ -34,7 +46,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }: any) => {
       >
         <Form.Item
           name="name"
-          label=" Name"
+          label="Name"
           rules={[
             {
               required: true,
@@ -73,20 +85,16 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }: any) => {
   );
 };
 
-class ModalForm extends React.Component<any> {
+class ModalForm extends React.Component<Props> {
   render() {
-    const { show, onCreate, onShow } = this.props;
+    const { visible, onSubmit, onCancel, staff } = this.props;
     return (
       <div className={styles.staff}>
-        <Button type="primary" onClick={onShow}>
-          New Staff
-        </Button>
-        <CollectionCreateForm
-          visible={show}
-          onCreate={onCreate}
-          onCancel={() => {
-            return show;
-          }}
+        <CollectionForm
+          visible={visible}
+          onSubmit={onSubmit}
+          onCancel={onCancel}
+          staff={staff}
         />
       </div>
     );

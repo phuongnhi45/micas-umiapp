@@ -2,7 +2,8 @@ import React from 'react';
 import ModalForm from './components/edit-modal';
 import TableList from './components/table-list';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
-import EmployeeModel, { EmployeeState } from './model';
+import { EmployeeState } from './model';
+import { Button } from 'antd';
 export interface EmployeeProps extends ConnectProps {
   Employee: EmployeeState;
   dispatch: Dispatch;
@@ -11,30 +12,50 @@ export interface EmployeeProps extends ConnectProps {
 
 class Staff extends React.Component<EmployeeProps, any> {
   state = {
-    show: false,
+    isVisible: false,
+    staff: null,
   };
+
   componentDidMount() {
     this.props.dispatch({
       type: 'Employee/getEmployees',
     });
   }
-  onCreate = (values: any) => {
-    this.setState({ show: false });
+
+  onSubmit = (values: any, staffId: string = '') => {
     console.log(values, 'values in form ');
+    console.log(staffId, 'If staff !== empty => update else create');
     this.props.dispatch({
       type: 'Employee/submitEmployee',
       payload: values,
+      staffId,
+    });
+    this.onToggleModal(false, null);
+  };
+
+  onToggleModal = (isVisible: boolean, staff: any = null) => {
+    this.setState({
+      isVisible,
+      staff,
     });
   };
-  onShow = () => {
-    this.setState({ show: true });
-  };
+
   render() {
-    const { show } = this.state;
+    const { isVisible, staff } = this.state;
     return (
       <div>
-        <ModalForm onCreate={this.onCreate} show={show} onShow={this.onShow} />
-        <TableList Employee={this.props.Employee} />
+        <div style={{ padding: '20px 0px' }}>
+          <Button type="primary" onClick={() => this.onToggleModal(true)}>
+            New Staff
+          </Button>
+        </div>
+        <TableList staffs={this.props.Employee} onUpdate={this.onToggleModal} />
+        <ModalForm
+          staff={staff}
+          visible={isVisible}
+          onSubmit={this.onSubmit}
+          onCancel={this.onToggleModal}
+        />
       </div>
     );
   }
