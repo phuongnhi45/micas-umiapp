@@ -135,6 +135,7 @@ class ServicePlace extends React.Component<PageProps, any> {
         title: '#',
         dataIndex: 'index',
         align: 'center',
+        render: (index: number) => index + 1,
       },
       {
         title: 'Name',
