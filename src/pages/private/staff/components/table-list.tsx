@@ -1,9 +1,7 @@
 import React from 'react';
-import { Table, Input, Button, Space, Checkbox, Tag } from 'antd';
-import Highlighter from 'react-highlight-words';
+import { Table, Checkbox } from 'antd';
 import appIcon from '@/config/icons';
 import EditModal from './edit-modal';
-import { EmployeeProps } from '..';
 import { EmployeeState } from 'umi';
 
 class TableList extends React.Component<any> {
@@ -16,6 +14,7 @@ class TableList extends React.Component<any> {
   render() {
     const { active } = this.state;
     const { Employee } = this.props;
+
     const onChangeStatus = (value: any, e: any) => {
       console.log(value);
       console.log(`checked = ${e.target.checked}`);
@@ -61,7 +60,7 @@ class TableList extends React.Component<any> {
       },
       {
         title: '',
-        render: (value: any, row: EmployeeState) => {
+        render: (value: any) => {
           return (
             <EditModal onEdit={() => onEdit(value)} type="primary"></EditModal>
           );
