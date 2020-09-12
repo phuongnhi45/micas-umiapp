@@ -4,17 +4,7 @@ import { CompanyState, CompanyModelState } from './model';
 import EditCompany from './editCompany';
 
 import Highlighter from 'react-highlight-words';
-import {
-  Row,
-  Col,
-  Input,
-  Table,
-  Breadcrumb,
-  Tag,
-  Space,
-  Button,
-  TimePicker,
-} from 'antd';
+import { Row, Col, Input, Table, Breadcrumb, Tag, Space, Button } from 'antd';
 
 import appIcon from '@/config/icons';
 import styles from '../index.less';
@@ -229,7 +219,7 @@ class ServicePlace extends React.Component<PageProps, any> {
             CỨU HỘ
           </Breadcrumb>
           <div className={styles.create} style={{ height: '100%' }}>
-            <Link to="/create-company">New Company</Link>
+            <Link to="/update-company">New Company</Link>
           </div>
         </Row>
 

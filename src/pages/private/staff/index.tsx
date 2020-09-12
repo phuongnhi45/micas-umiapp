@@ -1,8 +1,9 @@
 import React from 'react';
 import ModalForm from './components/edit-modal';
 import TableList from './components/table-list';
-import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
+import { connect, Loading, ConnectProps, Dispatch } from 'umi';
 import EmployeeModel, { EmployeeState } from './model';
+
 export interface EmployeeProps extends ConnectProps {
   Employee: EmployeeState;
   dispatch: Dispatch;
@@ -13,11 +14,13 @@ class Staff extends React.Component<EmployeeProps, any> {
   state = {
     show: false,
   };
+
   componentDidMount() {
     this.props.dispatch({
       type: 'Employee/getEmployees',
     });
   }
+
   onCreate = (values: any) => {
     this.setState({ show: false });
     console.log(values, 'values in form ');
@@ -26,9 +29,11 @@ class Staff extends React.Component<EmployeeProps, any> {
       payload: values,
     });
   };
+
   onShow = () => {
     this.setState({ show: true });
   };
+
   render() {
     const { show } = this.state;
     return (
@@ -46,5 +51,3 @@ export default connect(
     loading: loading.models.Employee,
   }),
 )(Staff);
-// bên index này thực hiện, tất cả đều truyền từ index này qua 2 files kia,
-//có id hay ko
