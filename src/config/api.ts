@@ -35,7 +35,7 @@ export default {
   },
   editEmployee: {
     editEmployee: (_id: any) => ({
-      url: `/employees/${_id}`,
+      url: `/admin/employees/${_id}`,
       method: methods.patch,
     }),
   },

@@ -4,6 +4,8 @@ import TableList from './components/table-list';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { EmployeeState } from './model';
 import { Button } from 'antd';
+import './index.less';
+import SearchInput from './components/search-input';
 export interface EmployeeProps extends ConnectProps {
   Employee: EmployeeState;
   dispatch: Dispatch;
@@ -22,14 +24,21 @@ class Staff extends React.Component<EmployeeProps, any> {
     });
   }
 
-  onSubmit = (values: any, staffId: string = '') => {
+  onSubmit = (values: any, staff: any) => {
     console.log(values, 'values in form ');
-    console.log(staffId, 'If staff !== empty => update else create');
-    this.props.dispatch({
-      type: 'Employee/submitEmployee',
-      payload: values,
-      staffId,
-    });
+    console.log(staff, 'If staff !== empty => update else create');
+    if (staff) {
+      const id = staff._id;
+      this.props.dispatch({
+        type: 'Employee/editEmployee',
+        payload: { values, id },
+      });
+    } else {
+      this.props.dispatch({
+        type: 'Employee/submitEmployee',
+        payload: values,
+      });
+    }
     this.onToggleModal(false, null);
   };
 
@@ -46,21 +55,28 @@ class Staff extends React.Component<EmployeeProps, any> {
     return (
       <div>
         <div style={{ padding: '20px 0px' }}>
-          <Button type="primary" onClick={() => this.onToggleModal(true)}>
+          <Button
+            className="btnCreate"
+            type="primary"
+            onClick={() => this.onToggleModal(true)}
+          >
             New Staff
           </Button>
         </div>
-        <TableList
-          staffs={this.props.Employee}
-          onUpdate={this.onToggleModal}
-          loading={loading}
-        />
-        <ModalForm
-          staff={staff}
-          visible={isVisible}
-          onSubmit={this.onSubmit}
-          onCancel={this.onToggleModal}
-        />
+        <div className="listsearch">
+          <SearchInput />
+          <TableList
+            staffs={this.props.Employee}
+            onUpdate={this.onToggleModal}
+            loading={loading}
+          />
+          <ModalForm
+            staff={staff}
+            visible={isVisible}
+            onSubmit={this.onSubmit}
+            onCancel={this.onToggleModal}
+          />
+        </div>
       </div>
     );
   }
@@ -72,5 +88,3 @@ export default connect(
     loading: loading.models.Employee,
   }),
 )(Staff);
-// bên index này thực hiện, tất cả đều truyền từ index này qua 2 files kia,
-//có id hay ko

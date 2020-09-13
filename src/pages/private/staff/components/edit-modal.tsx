@@ -1,12 +1,11 @@
 import React from 'react';
 import { Modal, Form, Input } from 'antd';
 import styles from '../../index.less';
-import lodash from 'lodash';
 
 interface Props {
   visible: boolean;
   staff: any;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: any, staff: any) => void;
   onCancel: (isVisible: boolean, data: any) => void;
 }
 const CollectionForm = ({ visible, onSubmit, onCancel, staff }: Props) => {
@@ -29,7 +28,9 @@ const CollectionForm = ({ visible, onSubmit, onCancel, staff }: Props) => {
           .validateFields()
           .then(values => {
             form.resetFields();
-            onSubmit(values);
+            {
+              staff ? onSubmit(values, staff) : onSubmit(values, staff);
+            }
           })
           .catch(info => {
             console.log('Validate Failed:', info);

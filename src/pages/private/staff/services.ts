@@ -9,9 +9,11 @@ const postEmployee = async (payload: any) => {
       data: payload,
     })
     .then(function(res) {
+      console.log('res', res);
       return res.data;
     })
     .catch(function(error) {
+      console.log('lỗi', error);
       return error;
     });
   return dataResponse;
@@ -25,9 +27,10 @@ const getEmployees = async () => {
     method: api.method,
     headers: {
       Authorization:
-        'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjU3NGQ0YjdjNjg5ODQyZWFlYmU0MmIiLCJleHAiOjE1OTk4OTg4MjR9.zEE6HTGcgbRZV3GxaOzpjIpmhfDOPFrVjEEBeE0Ua3w',
+        'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjU3NGQ0YjdjNjg5ODQyZWFlYmU0MmIiLCJleHAiOjE2MDAwMzY3NzZ9.GBT5LaNTUTBqEzS0LEOgRyHssB5KeBTNv5Dmawoh160',
     },
   });
+  console.log('res', res);
   const data = res.data;
   const result = data.Data;
   return result;
@@ -42,11 +45,14 @@ const postUpdateStatus = (payload: any) => {
 };
 
 const editEmployee = async (payload: any) => {
-  const returnedTarget = Object.assign(payload.values, { active: true });
   const api = APIConst.editEmployee.editEmployee(payload.id);
   request.call(api.url, {
     method: api.method,
-    data: returnedTarget,
+    headers: {
+      Authorization:
+        'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjU3NGQ0YjdjNjg5ODQyZWFlYmU0MmIiLCJleHAiOjE2MDAwMzY3NzZ9.GBT5LaNTUTBqEzS0LEOgRyHssB5KeBTNv5Dmawoh160',
+    },
+    data: payload,
   });
 };
 

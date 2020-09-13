@@ -29,13 +29,14 @@ const EmployeeModel: EmployeeModelType = {
   effects: {
     *submitEmployee({ payload }: any, { call, put, select }: any) {
       const response = yield call(service.postEmployee, payload);
-      if (!response.success) {
+      if (!response || response.err) {
         return notification.error('Create employee failed');
       }
       notification.success('Create employee success');
       yield put({
-        type: 'save',
-        payload,
+        // type: 'save',
+        // payload,
+        type: 'getEmployees',
       });
     },
     *getEmployees({ payload }: any, { call, put, select }: any) {
@@ -47,9 +48,15 @@ const EmployeeModel: EmployeeModelType = {
     },
     *updateStatus({ payload }: any, { call, put, select }: any) {
       yield call(service.postUpdateStatus, payload);
+      yield put({
+        type: 'getEmployees',
+      });
     },
     *editEmployee({ payload }: any, { call, put, select }: any) {
       yield call(service.editEmployee, payload);
+      yield put({
+        type: 'getEmployees',
+      });
     },
   },
 

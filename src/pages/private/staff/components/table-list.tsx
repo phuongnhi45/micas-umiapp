@@ -81,13 +81,15 @@ class TableList extends React.Component<Props> {
     ];
 
     return (
-      <Table
-        columns={columns}
-        dataSource={staffs}
-        rowKey="_id"
-        size="small"
-        loading={loading}
-      />
+      <div style={{ color: 'red' }}>
+        <Table
+          columns={columns}
+          dataSource={staffs}
+          rowKey="_id"
+          size="small"
+          loading={loading}
+        />
+      </div>
     );
   }
 }
