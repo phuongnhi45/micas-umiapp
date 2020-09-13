@@ -3,7 +3,7 @@ import ModalForm from './components/edit-modal';
 import TableList from './components/table-list';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { EmployeeState } from './model';
-import { Button } from 'antd';
+import { Table, Button, Checkbox, Row, Col } from 'antd';
 import './index.less';
 import SearchInput from './components/search-input';
 export interface EmployeeProps extends ConnectProps {
@@ -63,13 +63,18 @@ class Staff extends React.Component<EmployeeProps, any> {
             New Staff
           </Button>
         </div>
-        <div className="listsearch">
+        <div className="listandsearch">
           <SearchInput />
-          <TableList
-            staffs={this.props.Employee}
-            onUpdate={this.onToggleModal}
-            loading={loading}
-          />
+
+          <Row className="list1">
+            <Col className="colTable">
+              <TableList
+                staffs={this.props.Employee}
+                onUpdate={this.onToggleModal}
+                loading={loading}
+              />
+            </Col>
+          </Row>
           <ModalForm
             staff={staff}
             visible={isVisible}
