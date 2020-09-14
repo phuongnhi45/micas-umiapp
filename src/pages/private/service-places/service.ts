@@ -1,13 +1,17 @@
 import request from '@/utils/request';
 import { APIConst } from '@/config';
 
-const fetchCompanies = async (payload: any) => {
+const token = localStorage.getItem('accessToken');
+
+const fetchCompanies = async () => {
   const api = APIConst.getCompanies.fetchCompanies();
-  const res = await request.call(api.url, {
+  const response = await request.call(api.url, {
     method: api.method,
-    data: payload,
+    header: {
+      Authorization: `Bearer ${token}`,
+    },
   });
-  const data = res.data;
+  const data = response.data;
   const result = data.Data;
   return result;
 };
@@ -38,12 +42,27 @@ const statusCompany = async ({ _id }: { _id: string }, payload: any) => {
 };
 
 const editCompany = async (payload: any) => {
-  const returnedTarget = Object.assign(payload.values, { active: true });
   const api = APIConst.updateCompany.editCompany(payload.id);
   request.call(api.url, {
     method: api.method,
-    data: returnedTarget,
+    data: payload,
+    header: {
+      Authorization: `Bearer ${token}`,
+    },
   });
+};
+
+const searchCompanies = async (payload: any) => {
+  const api = APIConst.searchCompanies.searchCompanies(payload);
+  const response = await request.call(api.url, {
+    method: api.method,
+    header: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = response.data;
+  const result = data.Data;
+  return result;
 };
 
 export default {
@@ -51,4 +70,5 @@ export default {
   postCompany,
   statusCompany,
   editCompany,
+  searchCompanies,
 };

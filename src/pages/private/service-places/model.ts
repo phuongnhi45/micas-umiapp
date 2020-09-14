@@ -19,6 +19,7 @@ export interface CompanyModelType {
     createCompany: Effect;
     updateCompany: Effect;
     changeStatusCompany: Effect;
+    searchCompanies: Effect;
   };
   reducers: {
     save: Reducer<CompanyState>;
@@ -82,6 +83,21 @@ const CompanyModel: CompanyModelType = {
       yield put({
         type: 'getCompanies',
       });
+    },
+
+    *searchCompanies({ payload }, { call, put }) {
+      const data = yield call(service.searchCompanies, payload);
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: data,
+        });
+      } else {
+        yield put({
+          type: 'save',
+          payload: [],
+        });
+      }
     },
   },
 

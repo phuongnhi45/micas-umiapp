@@ -64,4 +64,10 @@ export default {
       method: methods.patch,
     }),
   },
+  searchCompanies: {
+    searchCompanies: (name: any) => ({
+      url: `/admin/companies/?name=${name}`,
+      method: methods.get,
+    }),
+  },
 };
