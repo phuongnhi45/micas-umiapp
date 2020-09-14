@@ -39,6 +39,12 @@ export default {
       method: methods.patch,
     }),
   },
+  getSeachNameEmployee: {
+    getSearchNameEmployee: (name: any) => ({
+      url: `/admin/employees/?active&name=${name}`,
+      method: methods.get,
+    }),
+  },
   //company
   getCompanies: {
     fetchCompanies: () => ({

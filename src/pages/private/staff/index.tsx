@@ -1,9 +1,9 @@
 import React from 'react';
 import ModalForm from './components/edit-modal';
 import TableList from './components/table-list';
-import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
+import { connect, Loading, ConnectProps, Dispatch } from 'umi';
 import { EmployeeState } from './model';
-import { Table, Button, Checkbox, Row, Col } from 'antd';
+import { Button, Row, Col } from 'antd';
 import './index.less';
 import SearchInput from './components/search-input';
 export interface EmployeeProps extends ConnectProps {
@@ -41,7 +41,13 @@ class Staff extends React.Component<EmployeeProps, any> {
     }
     this.onToggleModal(false, null);
   };
-
+  onSearch = (value: any) => {
+    console.log(value);
+    this.props.dispatch({
+      type: 'Employee/searchNameEmployee',
+      payload: value,
+    });
+  };
   onToggleModal = (isVisible: boolean, staff: any = null) => {
     this.setState({
       isVisible,
@@ -64,7 +70,7 @@ class Staff extends React.Component<EmployeeProps, any> {
           </Button>
         </div>
         <div className="listandsearch">
-          <SearchInput />
+          <SearchInput onSearch={this.onSearch} />
 
           <Row className="list1">
             <Col className="colTable">

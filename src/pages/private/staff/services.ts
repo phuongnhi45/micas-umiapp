@@ -1,6 +1,7 @@
 import request from '@/utils/request';
 import { APIConst } from '@/config';
 
+const token = localStorage.getItem('accessToken');
 const postEmployee = async (payload: any) => {
   const api = APIConst.submitEmployee.postEmployee();
   const dataResponse = await request
@@ -26,11 +27,24 @@ const getEmployees = async () => {
   const res = await request.call(api.url, {
     method: api.method,
     headers: {
-      Authorization:
-        'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjU3NGQ0YjdjNjg5ODQyZWFlYmU0MmIiLCJleHAiOjE2MDAwMzY3NzZ9.GBT5LaNTUTBqEzS0LEOgRyHssB5KeBTNv5Dmawoh160',
+      Authorization: `bearer ${token}`,
     },
   });
   console.log('res', res);
+  const data = res.data;
+  const result = data.Data;
+  return result;
+};
+
+const getSearchNameEmployee = async (payload: any) => {
+  const api = APIConst.getSeachNameEmployee.getSearchNameEmployee(payload);
+  const res = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `bearer ${token}`,
+    },
+  });
+
   const data = res.data;
   const result = data.Data;
   return result;
@@ -49,8 +63,7 @@ const editEmployee = async (payload: any) => {
   request.call(api.url, {
     method: api.method,
     headers: {
-      Authorization:
-        'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjU3NGQ0YjdjNjg5ODQyZWFlYmU0MmIiLCJleHAiOjE2MDAwMzY3NzZ9.GBT5LaNTUTBqEzS0LEOgRyHssB5KeBTNv5Dmawoh160',
+      Authorization: `bearer ${token}`,
     },
     data: payload,
   });
@@ -61,4 +74,5 @@ export default {
   getEmployees,
   postUpdateStatus,
   editEmployee,
+  getSearchNameEmployee,
 };

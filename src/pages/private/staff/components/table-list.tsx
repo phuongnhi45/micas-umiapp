@@ -2,6 +2,7 @@ import React from 'react';
 import { Table, Button, Checkbox } from 'antd';
 import { EmployeeState, Loading } from 'umi';
 import { EditOutlined } from '@ant-design/icons';
+import '../index.less';
 
 interface Props {
   onUpdate: (isVisible: boolean, data: any) => void;

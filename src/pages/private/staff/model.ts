@@ -17,6 +17,7 @@ export interface EmployeeModelType {
     getEmployees: Effect;
     updateStatus: Effect;
     editEmployee: Effect;
+    searchNameEmployee: Effect;
   };
   reducers: {
     save: Reducer<EmployeeState>;
@@ -39,24 +40,38 @@ const EmployeeModel: EmployeeModelType = {
         type: 'getEmployees',
       });
     },
-    *getEmployees({ payload }: any, { call, put, select }: any) {
+    *getEmployees({ payload }: any, { call, put }: any) {
       const data = yield call(service.getEmployees);
       yield put({
         type: 'save',
         payload: data,
       });
     },
-    *updateStatus({ payload }: any, { call, put, select }: any) {
+    *updateStatus({ payload }: any, { call, put }: any) {
       yield call(service.postUpdateStatus, payload);
       yield put({
         type: 'getEmployees',
       });
     },
-    *editEmployee({ payload }: any, { call, put, select }: any) {
+    *editEmployee({ payload }: any, { call, put }: any) {
       yield call(service.editEmployee, payload);
       yield put({
         type: 'getEmployees',
       });
+    },
+    *searchNameEmployee({ payload }: any, { call, put }: any) {
+      const data = yield call(service.getSearchNameEmployee, payload);
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: data,
+        });
+      } else {
+        yield put({
+          type: 'save',
+          payload: [],
+        });
+      }
     },
   },
 
