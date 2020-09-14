@@ -66,8 +66,14 @@ export default {
   },
   updateCompany: {
     editCompany: (_id: string) => ({
-      url: `/admin/companies/${_id}active=true&name=Test&address=ĐN`,
+      url: `/admin/companies/${_id}`,
       method: methods.patch,
+    }),
+  },
+  searchCompanies: {
+    searchCompanies: (name: any) => ({
+      url: `/admin/companies/?name=${name}`,
+      method: methods.get,
     }),
   },
 };

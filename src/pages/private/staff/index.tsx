@@ -25,8 +25,6 @@ class Staff extends React.Component<EmployeeProps, any> {
   }
 
   onSubmit = (values: any, staff: any) => {
-    console.log(values, 'values in form ');
-    console.log(staff, 'If staff !== empty => update else create');
     if (staff) {
       const id = staff._id;
       this.props.dispatch({
@@ -41,6 +39,7 @@ class Staff extends React.Component<EmployeeProps, any> {
     }
     this.onToggleModal(false, null);
   };
+
   onSearch = (value: any) => {
     console.log(value);
     this.props.dispatch({
@@ -48,6 +47,7 @@ class Staff extends React.Component<EmployeeProps, any> {
       payload: value,
     });
   };
+
   onToggleModal = (isVisible: boolean, staff: any = null) => {
     this.setState({
       isVisible,
@@ -59,7 +59,7 @@ class Staff extends React.Component<EmployeeProps, any> {
     const { isVisible, staff } = this.state;
     const { loading } = this.props;
     return (
-      <div>
+      <>
         <div style={{ padding: '20px 0px' }}>
           <Button
             className="btnCreate"
@@ -71,7 +71,6 @@ class Staff extends React.Component<EmployeeProps, any> {
         </div>
         <div className="listandsearch">
           <SearchInput onSearch={this.onSearch} />
-
           <Row className="list1">
             <Col className="colTable">
               <TableList
@@ -88,7 +87,7 @@ class Staff extends React.Component<EmployeeProps, any> {
             onCancel={this.onToggleModal}
           />
         </div>
-      </div>
+      </>
     );
   }
 }
