@@ -28,7 +28,7 @@ const EmployeeModel: EmployeeModelType = {
   namespace: 'Employee',
   state: [],
   effects: {
-    *submitEmployee({ payload }: any, { call, put }: any) {
+    *submitEmployee({ payload }: any, { call, put, select }: any) {
       const response = yield call(service.postEmployee, payload);
       if (!response || response.err) {
         return notification.error('Create employee failed');
@@ -74,11 +74,8 @@ const EmployeeModel: EmployeeModelType = {
   },
 
   reducers: {
-    save(state, { payload }) {
-      return {
-        ...state,
-        ...payload,
-      };
+    save(state, action) {
+      return [...action.payload];
     },
   },
 };

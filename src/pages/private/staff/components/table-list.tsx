@@ -69,7 +69,7 @@ class TableList extends React.Component<Props> {
         },
       },
       {
-        title: '',
+        title: 'Action',
         algin: 'center',
         render: (value: any, row: EmployeeState) => {
           return (
@@ -88,7 +88,7 @@ class TableList extends React.Component<Props> {
         dataSource={staffs}
         bordered
         rowKey="_id"
-        size="small"
+        size="large"
         loading={loading}
       />
     );

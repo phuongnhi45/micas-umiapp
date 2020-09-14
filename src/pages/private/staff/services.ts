@@ -10,11 +10,9 @@ const postEmployee = async (payload: any) => {
       data: payload,
     })
     .then(function(res) {
-      console.log('res', res);
       return res.data;
     })
     .catch(function(error) {
-      console.log('lỗi', error);
       return error;
     });
   return dataResponse;
@@ -25,10 +23,9 @@ const getEmployees = async () => {
   const res = await request.call(api.url, {
     method: api.method,
     headers: {
-      Authorization: `bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
-  console.log('res', res);
   const data = res.data;
   const result = data.Data;
   return result;
@@ -39,7 +36,7 @@ const getSearchNameEmployee = async (payload: any) => {
   const res = await request.call(api.url, {
     method: api.method,
     headers: {
-      Authorization: `bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -61,7 +58,7 @@ const editEmployee = async (payload: any) => {
   request.call(api.url, {
     method: api.method,
     headers: {
-      Authorization: `bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     data: payload,
   });

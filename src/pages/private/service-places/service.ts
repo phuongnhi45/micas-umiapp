@@ -7,13 +7,12 @@ const fetchCompanies = async () => {
   const api = APIConst.getCompanies.fetchCompanies();
   const response = await request.call(api.url, {
     method: api.method,
-    header: {
+    headers: {
       Authorization: `Bearer ${token}`,
     },
   });
   const data = response.data;
   const result = data.Data;
-  console.log('service', result.data.data.Data);
   return result;
 };
 

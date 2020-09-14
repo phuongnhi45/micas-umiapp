@@ -26,21 +26,12 @@ export interface CompanyModelType {
   };
 }
 
-const initState: CompanyModelState = {
-  companies: [],
-};
-
-export interface CompanyModelState {
-  companies: CompanyState[];
-}
-
 const CompanyModel: CompanyModelType = {
-  namespace: 'company',
-  state: initState,
+  namespace: 'Company',
+  state: [],
   effects: {
     *getCompanies({ payload }, { call, put }) {
       const data = yield call(service.fetchCompanies);
-      console.log('get list', data);
       yield put({
         type: 'save',
         payload: {
@@ -51,7 +42,6 @@ const CompanyModel: CompanyModelType = {
 
     *createCompany({ payload }, { call, put }) {
       yield call(service.postCompany, payload);
-      console.log('create', payload);
       if (!payload) {
         return notification.error('Create company failed');
       } else {
@@ -101,11 +91,9 @@ const CompanyModel: CompanyModelType = {
   },
 
   reducers: {
-    save(state, { payload }) {
-      return {
-        ...state,
-        ...payload,
-      };
+    save(state, action) {
+      const data = action.payload.companies;
+      return [...data];
     },
   },
 };
