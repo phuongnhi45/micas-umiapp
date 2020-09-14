@@ -14,10 +14,6 @@ export default defineConfig({
         { path: '/service-places', component: 'private/service-places/index' },
         { path: '/booking', component: 'private/booking/index' },
         { path: '/staff', component: 'private/staff/index' },
-        {
-          path: '/update-company',
-          component: 'private/service-places/update-company',
-        },
       ],
     },
   ],

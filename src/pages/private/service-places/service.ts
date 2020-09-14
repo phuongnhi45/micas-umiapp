@@ -13,6 +13,7 @@ const fetchCompanies = async () => {
   });
   const data = response.data;
   const result = data.Data;
+  console.log('service', result.data.data.Data);
   return result;
 };
 
