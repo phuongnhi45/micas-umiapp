@@ -1,6 +1,7 @@
 import React from 'react';
-import 'antd/dist/antd.css';
 import { Input } from 'antd';
+
+import styles from '../../index.less';
 
 interface Props {
   onSearch: (value: any) => void;
@@ -16,9 +17,9 @@ const SearchInput = ({ onSearch }: Props) => {
         backgroundColor: 'white',
       }}
     >
-      <p style={{ fontSize: '30px', padding: '0', margin: '0' }}>Search</p>
+      <h2 className={styles.search}>Search</h2>
       <Search
-        style={{ padding: '10px 5px' }}
+        style={{ padding: '8px 5px' }}
         placeholder="input search text"
         onSearch={value => onSearch(value)}
         enterButton

@@ -1,11 +1,15 @@
 import React from 'react';
 import ModalForm from './components/edit-modal';
 import TableList from './components/table-list';
+import SearchInput from './components/search-input';
+
 import { connect, Loading, ConnectProps, Dispatch } from 'umi';
 import { EmployeeState } from './model';
-import { Button, Row, Col } from 'antd';
-import './index.less';
-import SearchInput from './components/search-input';
+import { Button, Row, Col, Breadcrumb } from 'antd';
+
+import appIcon from '@/config/icons';
+import styles from '../index.less';
+
 export interface EmployeeProps extends ConnectProps {
   Employee: EmployeeState;
   dispatch: Dispatch;
@@ -60,33 +64,33 @@ class Staff extends React.Component<EmployeeProps, any> {
     const { loading } = this.props;
     return (
       <>
-        <div style={{ padding: '20px 0px' }}>
-          <Button
-            className="btnCreate"
-            type="primary"
-            onClick={() => this.onToggleModal(true)}
-          >
+        <Row className={styles.header_content}>
+          <Breadcrumb className={styles.breadcrumb}>
+            <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CÔNG TY GARA,
+            CỨU HỘ
+          </Breadcrumb>
+          <Button type="primary" onClick={() => this.onToggleModal(true)}>
             New Staff
           </Button>
-        </div>
-        <div className="listandsearch">
-          <SearchInput onSearch={this.onSearch} />
-          <Row className="list1">
-            <Col className="colTable">
-              <TableList
-                staffs={this.props.Employee}
-                onUpdate={this.onToggleModal}
-                loading={loading}
-              />
-            </Col>
-          </Row>
-          <ModalForm
-            staff={staff}
-            visible={isVisible}
-            onSubmit={this.onSubmit}
-            onCancel={this.onToggleModal}
-          />
-        </div>
+        </Row>
+        <Row>
+          <Col span={4}>
+            <SearchInput onSearch={this.onSearch} />
+          </Col>
+          <Col span={20}>
+            <TableList
+              staffs={this.props.Employee}
+              onUpdate={this.onToggleModal}
+              loading={loading}
+            />
+          </Col>
+        </Row>
+        <ModalForm
+          staff={staff}
+          visible={isVisible}
+          onSubmit={this.onSubmit}
+          onCancel={this.onToggleModal}
+        />
       </>
     );
   }

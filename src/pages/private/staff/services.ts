@@ -20,8 +20,6 @@ const postEmployee = async (payload: any) => {
   return dataResponse;
 };
 
-type ILocalStorageKey = 'acess_token' | 'username';
-
 const getEmployees = async () => {
   const api = APIConst.getEmployees.list();
   const res = await request.call(api.url, {

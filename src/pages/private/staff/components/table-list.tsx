@@ -1,8 +1,9 @@
 import React from 'react';
 import { Table, Button, Checkbox } from 'antd';
-import { EmployeeState, Loading } from 'umi';
+import { EmployeeState } from 'umi';
 import { EditOutlined } from '@ant-design/icons';
-import '../index.less';
+
+import styles from '../../index.less';
 
 interface Props {
   onUpdate: (isVisible: boolean, data: any) => void;
@@ -82,15 +83,14 @@ class TableList extends React.Component<Props> {
     ];
 
     return (
-      <div style={{ color: 'red' }}>
-        <Table
-          columns={columns}
-          dataSource={staffs}
-          rowKey="_id"
-          size="small"
-          loading={loading}
-        />
-      </div>
+      <Table
+        columns={columns}
+        dataSource={staffs}
+        bordered
+        rowKey="_id"
+        size="small"
+        loading={loading}
+      />
     );
   }
 }
