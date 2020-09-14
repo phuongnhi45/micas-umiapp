@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Breadcrumb } from 'antd';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 
-import { CompanyState } from './model';
+import { CompanyState } from '../model';
 
 import styles from '../index.less';
 import appIcon from '@/config/icons';

@@ -11,6 +11,8 @@ import styles from '../index.less';
 
 type IActiveFilterValue = 'active' | 'inactive';
 
+const { Search } = Input;
+
 export interface PageProps extends ConnectProps {
   dispatch: Dispatch;
   loading: boolean;
@@ -225,7 +227,20 @@ class ServicePlace extends React.Component<PageProps, any> {
         </Row>
 
         <Row>
-          <Col className={styles.filter_box} span={24}>
+          <Col
+            style={{ marginRight: '10px' }}
+            className={styles.filter_box}
+            span={4}
+          >
+            <Search
+              placeholder="Search"
+              onSearch={(value: any) => console.log(value)}
+              enterButton
+              style={{ marginBottom: '10px' }}
+            />
+          </Col>
+
+          <Col className={styles.filter_box} span={19}>
             <Table columns={columns} bordered dataSource={company.companies} />
           </Col>
         </Row>

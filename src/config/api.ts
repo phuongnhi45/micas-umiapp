@@ -3,6 +3,7 @@ const methods = {
   post: 'post',
   put: 'put',
   patch: 'patch',
+  remove: 'delete',
 };
 
 export default {
@@ -68,6 +69,12 @@ export default {
     editCompany: (_id: string) => ({
       url: `/admin/companies/${_id}`,
       method: methods.patch,
+    }),
+  },
+  getRemoveCompany: {
+    removeCompany: (_id: string) => ({
+      url: `/admin/companies/${_id}`,
+      method: methods.remove,
     }),
   },
   searchCompanies: {

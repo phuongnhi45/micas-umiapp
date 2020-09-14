@@ -75,7 +75,7 @@ class EditCompany extends React.Component<CompanyProps, any> {
   };
 
   onCreate = (values: any) => {
-    const { onEdit } = this.props;
+    const { onEdit }: any = this.props;
     const id = onEdit();
     this.setState({ show: false });
     this.props.dispatch({
