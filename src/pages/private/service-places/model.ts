@@ -7,7 +7,6 @@ export interface CompanyState {
   name: string;
   active: boolean;
   location: string;
-  date: string;
   _id: string;
 }
 

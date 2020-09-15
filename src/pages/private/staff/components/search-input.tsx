@@ -6,17 +6,12 @@ import styles from '../../index.less';
 interface Props {
   onSearch: (value: any) => void;
 }
+
 const { Search } = Input;
 
 const SearchInput = ({ onSearch }: Props) => {
   return (
-    <div
-      style={{
-        marginRight: '10px',
-        position: 'relative',
-        backgroundColor: 'white',
-      }}
-    >
+    <div className={styles.search_column}>
       <h2 className={styles.search}>Search</h2>
       <Search
         style={{ padding: '8px 5px' }}
@@ -27,4 +22,5 @@ const SearchInput = ({ onSearch }: Props) => {
     </div>
   );
 };
+
 export default SearchInput;

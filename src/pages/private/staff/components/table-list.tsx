@@ -1,9 +1,7 @@
 import React from 'react';
 import { Table, Button, Checkbox } from 'antd';
 import { EmployeeState } from 'umi';
-import { EditOutlined } from '@ant-design/icons';
-
-import styles from '../../index.less';
+import appIcon from '@/config/icons';
 
 interface Props {
   onUpdate: (isVisible: boolean, data: any) => void;
@@ -21,12 +19,14 @@ class TableList extends React.Component<Props> {
   render() {
     const { active } = this.state;
     const { staffs, onUpdate, loading } = this.props;
+
     const onChangeStatus = (value: any, e: any) => {
       console.log(value);
       console.log(`checked = ${e.target.checked}`);
       if (!e.target.checked) {
       }
     };
+
     const columns = [
       {
         key: '_id',
@@ -70,11 +70,10 @@ class TableList extends React.Component<Props> {
       },
       {
         title: 'Action',
-        algin: 'center',
         render: (value: any, row: EmployeeState) => {
           return (
             <Button
-              icon={<EditOutlined />}
+              icon={<appIcon.EditOutlined />}
               onClick={() => onUpdate(true, row)}
             />
           );

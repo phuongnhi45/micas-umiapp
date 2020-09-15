@@ -5,7 +5,6 @@ import ListCompanies from './components/list-company';
 import SearchName from './components/search-company';
 
 import { Row, Col, Breadcrumb, Button } from 'antd';
-
 import appIcon from '@/config/icons';
 import styles from '../index.less';
 

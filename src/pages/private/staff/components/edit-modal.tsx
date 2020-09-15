@@ -8,6 +8,7 @@ interface Props {
   onSubmit: (data: any, staff: any) => void;
   onCancel: (isVisible: boolean, data: any) => void;
 }
+
 const CollectionForm = ({ visible, onSubmit, onCancel, staff }: Props) => {
   const [form] = Form.useForm();
   const cancelAndResetField = () => {

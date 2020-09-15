@@ -42,7 +42,6 @@ class ListCompanies extends React.Component<Props> {
       },
       {
         title: 'Created at',
-        dataIndex: 'date',
         align: 'center',
         width: '20%',
         render: () => Date(),
@@ -84,7 +83,6 @@ class ListCompanies extends React.Component<Props> {
       },
       {
         title: 'Action',
-        dataIndex: '_id',
         align: 'center',
         render: (value: any, row: CompanyState) => {
           return <appIcon.EditOutlined onClick={() => onUpdate(value)} />;
