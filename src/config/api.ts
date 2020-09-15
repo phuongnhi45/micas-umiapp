@@ -60,8 +60,8 @@ export default {
     }),
   },
   changeStatusCompany: {
-    statusCompany: (_id: string) => ({
-      url: `/admin/companies/${_id}`,
+    statusCompany: (payload: any) => ({
+      url: `/admin/companies/${payload._id}?active=${!payload.active}`,
       method: methods.patch,
     }),
   },

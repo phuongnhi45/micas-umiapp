@@ -73,7 +73,7 @@ const CompanyModel: CompanyModelType = {
       });
     },
 
-    *searchCompanies({ payload }, { call, put }) {
+    *searchCompanies({ payload }: any, { call, put }: any) {
       const data = yield call(service.searchCompanies, payload);
       if (data) {
         yield put({

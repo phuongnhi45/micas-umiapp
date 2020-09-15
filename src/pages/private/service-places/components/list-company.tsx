@@ -1,10 +1,11 @@
 import React from 'react';
-import { Table, Checkbox, Tag } from 'antd';
+import { Table, Tag, Button } from 'antd';
 import { Link, CompanyState } from 'umi';
 import appIcon from '@/config/icons';
 
 interface Props {
-  onUpdate: (data: any) => void;
+  onUpdate: (id: string) => void;
+  onChangeStatus: (active: boolean, _id: string) => void;
   companies: any;
   loading: boolean;
 }
@@ -18,13 +19,11 @@ class ListCompanies extends React.Component<Props> {
   };
 
   render() {
-    const { companies, loading, onUpdate } = this.props;
-    const { active } = this.state;
+    const { companies, loading, onUpdate, onChangeStatus } = this.props;
     const columns = [
       {
         title: '#',
         align: 'center',
-        key: '_id',
         render: (value: any, record: CompanyState, index: number) => index + 1,
       },
       {
@@ -84,19 +83,16 @@ class ListCompanies extends React.Component<Props> {
       {
         title: 'Action',
         align: 'center',
-        render: (value: any, row: CompanyState) => {
-          return <appIcon.EditOutlined onClick={() => onUpdate(value)} />;
+        render: (row: CompanyState) => {
+          return (
+            <Button
+              icon={<appIcon.EditOutlined />}
+              onClick={() => onUpdate(row._id)}
+            />
+          );
         },
       },
     ];
-
-    const onChangeStatus = (active: boolean, _id: string) => {
-      // this.props.dispatch({
-      //   type: 'Company/changeStatusCompany',
-      //   payload: { active, _id },
-      // });
-      console.log(active, _id);
-    };
 
     return (
       <Table

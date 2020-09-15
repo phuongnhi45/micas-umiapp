@@ -32,11 +32,14 @@ const postCompany = async (payload: any) => {
   return response;
 };
 
-const statusCompany = async ({ _id }: { _id: string }, payload: any) => {
-  const api = APIConst.changeStatusCompany.statusCompany(_id);
+const statusCompany = async (payload: any) => {
+  console.log(payload);
+  const api = APIConst.changeStatusCompany.statusCompany(payload);
   const response = await request.call(api.url, {
     method: api.method,
-    data: payload,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   return response;
 };
@@ -46,7 +49,7 @@ const editCompany = async (payload: any) => {
   request.call(api.url, {
     method: api.method,
     data: payload,
-    header: {
+    headers: {
       Authorization: `Bearer ${token}`,
     },
   });
@@ -56,7 +59,7 @@ const searchCompanies = async (payload: any) => {
   const api = APIConst.searchCompanies.searchCompanies(payload);
   const response = await request.call(api.url, {
     method: api.method,
-    header: {
+    headers: {
       Authorization: `Bearer ${token}`,
     },
   });

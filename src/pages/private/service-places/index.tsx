@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect, Loading, ConnectProps, Dispatch } from 'umi';
+import { connect, Loading, ConnectProps, Dispatch, Link, Redirect } from 'umi';
 import { CompanyState } from './model';
 import ListCompanies from './components/list-company';
 import SearchName from './components/search-company';
@@ -36,11 +36,17 @@ class ServicePlace extends React.Component<PageProps, any> {
   onChangeStatus = (active: boolean, _id: string) => {
     this.props.dispatch({
       type: 'Company/changeStatusCompany',
-      payload: { active, _id },
+      payload: { _id, active },
     });
   };
 
-  onToggleForm = () => {};
+  onToggleForm = (value: any) => {
+    if (value) {
+      //truyền value qa formCompany
+      console.log(value);
+      return <Redirect to="/new-company" />;
+    }
+  };
 
   render() {
     const { loading } = this.props;
@@ -52,8 +58,8 @@ class ServicePlace extends React.Component<PageProps, any> {
             <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CÔNG TY GARA,
             CỨU HỘ
           </Breadcrumb>
-          <Button type="primary" onClick={() => this.onToggleForm}>
-            New Company
+          <Button type="primary">
+            <Link to="/new-company">New Company</Link>
           </Button>
         </Row>
 
@@ -65,6 +71,7 @@ class ServicePlace extends React.Component<PageProps, any> {
           <Col className={styles.list_company} span={20}>
             <ListCompanies
               onUpdate={this.onToggleForm}
+              onChangeStatus={this.onChangeStatus}
               companies={this.props.Company}
               loading={loading}
             />
