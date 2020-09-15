@@ -47,27 +47,44 @@ const getSearchNameEmployee = async (payload: any) => {
 
 const postUpdateStatus = (payload: any) => {
   const api = APIConst.updateStatus.postChangeStatus(payload);
-  request.call(api.url, {
-    method: api.method,
-    data: payload,
-  });
-};
-
-const editEmployee = async (payload: any) => {
-  const api = APIConst.editEmployee.editEmployee(payload.id);
-  request.call(api.url, {
+  const res = request.call(api.url, {
     method: api.method,
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    data: payload,
   });
+  return res;
 };
 
+const editEmployee = (payload: any) => {
+  const act = { active: true };
+  const returnedTarget = Object.assign(payload.values, act);
+  const api = APIConst.editEmployee.editEmployee(payload.id);
+  const res = request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    data: returnedTarget,
+  });
+  return res;
+};
+
+const deleteEmployee = (payload: any) => {
+  const api = APIConst.deleteEmployee.deleteEmployee(payload._id);
+  const res = request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res;
+};
 export default {
   postEmployee,
   getEmployees,
   postUpdateStatus,
   editEmployee,
   getSearchNameEmployee,
+  deleteEmployee,
 };

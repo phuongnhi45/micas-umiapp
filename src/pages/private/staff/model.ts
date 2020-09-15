@@ -18,6 +18,7 @@ export interface EmployeeModelType {
     updateStatus: Effect;
     editEmployee: Effect;
     searchNameEmployee: Effect;
+    deleteEmployee: Effect;
   };
   reducers: {
     save: Reducer<EmployeeState>;
@@ -70,6 +71,12 @@ const EmployeeModel: EmployeeModelType = {
           payload: [],
         });
       }
+    },
+    *deleteEmployee({ payload }: any, { call, put }: any) {
+      const data = yield call(service.deleteEmployee, payload);
+      yield put({
+        type: 'getEmployees',
+      });
     },
   },
 

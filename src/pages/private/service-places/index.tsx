@@ -20,7 +20,6 @@ class ServicePlace extends React.Component<PageProps, any> {
   };
 
   onSearch = (value: any) => {
-    console.log('search:', value);
     this.props.dispatch({
       type: 'Company/searchCompanies',
       payload: value,

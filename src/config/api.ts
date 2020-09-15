@@ -29,8 +29,8 @@ export default {
     }),
   },
   updateStatus: {
-    postChangeStatus: (_id: any) => ({
-      url: `/employees/${_id}/active`,
+    postChangeStatus: (payload: any) => ({
+      url: `/admin/employees/${payload._id}?active=${payload.active}`,
       method: methods.patch,
     }),
   },
@@ -44,6 +44,12 @@ export default {
     getSearchNameEmployee: (name: any) => ({
       url: `/admin/employees/?active&name=${name}`,
       method: methods.get,
+    }),
+  },
+  deleteEmployee: {
+    deleteEmployee: (_id: any) => ({
+      url: `/admin/employees/${_id}`,
+      method: methods.remove,
     }),
   },
   //company
