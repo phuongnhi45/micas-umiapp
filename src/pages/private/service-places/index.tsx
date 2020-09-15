@@ -21,7 +21,7 @@ class ServicePlace extends React.Component<PageProps, any> {
   };
 
   onSearch = (value: any) => {
-    console.log(value);
+    console.log('search:', value);
     this.props.dispatch({
       type: 'Company/searchCompanies',
       payload: value,
@@ -54,17 +54,21 @@ class ServicePlace extends React.Component<PageProps, any> {
             CỨU HỘ
           </Breadcrumb>
           <Button type="primary" onClick={() => this.onToggleForm}>
-            New Staff
+            New Company
           </Button>
         </Row>
 
         <Row>
-          <Col className={styles.filter_box} span={4}>
+          <Col span={4}>
             <SearchName onSearch={this.onSearch} />
           </Col>
 
-          <Col className={styles.filter_box} span={20}>
-            <ListCompanies companies={this.props.Company} loading={loading} />
+          <Col className={styles.list_company} span={20}>
+            <ListCompanies
+              onUpdate={this.onToggleForm}
+              companies={this.props.Company}
+              loading={loading}
+            />
           </Col>
         </Row>
       </>

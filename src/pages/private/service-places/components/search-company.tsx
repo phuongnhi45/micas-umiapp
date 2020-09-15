@@ -11,16 +11,11 @@ const { Search } = Input;
 
 const SearchName = ({ onSearch }: Props) => {
   return (
-    <div
-      style={{
-        marginRight: '10px',
-        backgroundColor: 'white',
-      }}
-    >
+    <div className={styles.search_column}>
       <h2 className={styles.search}>Search</h2>
       <Search
-        style={{ width: '100%' }}
-        placeholder="input name text"
+        style={{ padding: '8px 5px' }}
+        placeholder="input search name"
         onSearch={value => onSearch(value)}
         enterButton
       />

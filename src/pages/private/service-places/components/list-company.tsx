@@ -4,7 +4,7 @@ import { Link, CompanyState } from 'umi';
 import appIcon from '@/config/icons';
 
 interface Props {
-  // onUpdate: (isVisible: boolean, data: any) => void;
+  onUpdate: (data: any) => void;
   companies: any;
   loading: boolean;
 }
@@ -18,7 +18,7 @@ class ListCompanies extends React.Component<Props> {
   };
 
   render() {
-    const { companies, loading } = this.props;
+    const { companies, loading, onUpdate } = this.props;
     const { active } = this.state;
     const columns = [
       {
@@ -87,7 +87,7 @@ class ListCompanies extends React.Component<Props> {
         dataIndex: '_id',
         align: 'center',
         render: (value: any, row: CompanyState) => {
-          return <appIcon.EditOutlined onClick={() => console.log(value)} />;
+          return <appIcon.EditOutlined onClick={() => onUpdate(value)} />;
         },
       },
     ];
