@@ -56,7 +56,7 @@ const CompanyModel: CompanyModelType = {
   state: initState,
   effects: {
     *getCompanies({ payload }, { call, put }) {
-      const data = yield call(service.fetchCompanies);
+      const data = yield call(service.fetchCompanies, payload);
       yield put({
         type: 'save',
         payload: {
@@ -81,11 +81,10 @@ const CompanyModel: CompanyModelType = {
 
     *changeStatusCompany({ payload }, { call, put }) {
       const response = yield call(service.statusCompany, payload);
-      const { Data, message } = response.data;
-      if (!Data) {
-        return notification.error(message);
+      if (!response.data) {
+        return notification.error('Change failed');
       }
-      notification.success(message);
+      notification.success(response.message);
       yield put({
         type: 'getCompanies',
       });
@@ -101,23 +100,26 @@ const CompanyModel: CompanyModelType = {
 
     *searchCompanies({ payload }: any, { call, put }: any) {
       const data = yield call(service.searchCompanies, payload);
+      console.log(data);
       if (data) {
         yield put({
           type: 'save',
-          payload: data,
+          companies: data,
         });
       } else {
+        notification.error('No result!');
         yield put({
-          type: 'save',
-          payload: [],
+          type: 'getCompanies',
         });
       }
     },
 
     *getRemoveCompany({ payload }: any, { call, put }: any) {
       const response = yield call(service.removeCompany, payload);
-      const { Data, message } = response.data;
-      console.log('delete', response.data);
+      if (!response.data) {
+        return notification.error('Delete failed');
+      }
+      notification.success('Deleted success');
       yield put({
         type: 'getCompanies',
       });

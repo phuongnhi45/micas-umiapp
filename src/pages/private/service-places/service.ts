@@ -11,9 +11,8 @@ const fetchCompanies = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
-  const data = response.data;
-  const result = data.Data;
-  return result;
+  const result = response.data.data;
+  return result.data;
 };
 
 const postCompany = async (payload: any) => {
@@ -29,11 +28,10 @@ const postCompany = async (payload: any) => {
     .catch(function(error) {
       return error;
     });
-  return response;
+  return response.data;
 };
 
 const statusCompany = async (payload: any) => {
-  console.log(payload);
   const api = APIConst.changeStatusCompany.statusCompany(payload);
   const response = await request.call(api.url, {
     method: api.method,
@@ -41,7 +39,7 @@ const statusCompany = async (payload: any) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response;
+  return response.data;
 };
 
 const editCompany = async (payload: any) => {
@@ -63,19 +61,19 @@ const searchCompanies = async (payload: any) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  const data = response.data;
-  const result = data.Data;
-  return result;
+  const result = response.data.data;
+  return result.data;
 };
 
-const removeCompany = (payload: any) => {
-  const api = APIConst.getRemoveCompany.removeCompany(payload._id);
-  request.call(api.url, {
+const removeCompany = async (payload: any) => {
+  const api = APIConst.getRemoveCompany.removeCompany(payload);
+  const response = await request.call(api.url, {
     method: api.method,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+  return response;
 };
 
 export default {

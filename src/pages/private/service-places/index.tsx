@@ -20,7 +20,6 @@ class ServicePlace extends React.Component<PageProps, any> {
   };
 
   onSearch = (value: any) => {
-    console.log('search:', value);
     this.props.dispatch({
       type: 'Company/searchCompanies',
       payload: value,
@@ -44,11 +43,11 @@ class ServicePlace extends React.Component<PageProps, any> {
     if (value) {
       //truyền value qa formCompany
       console.log(value);
-      return history.push('/new-company');
+      return history.push('/update-company');
     }
   };
 
-  onDelete = (_id: any) => {
+  onDelete = (_id: string) => {
     this.props.dispatch({
       type: 'Company/getRemoveCompany',
       payload: _id,
@@ -66,7 +65,7 @@ class ServicePlace extends React.Component<PageProps, any> {
             CỨU HỘ
           </Breadcrumb>
           <Button type="primary">
-            <Link to="/new-company">New Company</Link>
+            <Link to="/update-company">New Company</Link>
           </Button>
         </Row>
 

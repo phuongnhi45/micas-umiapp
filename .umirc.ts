@@ -15,7 +15,7 @@ export default defineConfig({
         { path: '/booking', component: 'private/booking/index' },
         { path: '/staff', component: 'private/staff/index' },
         {
-          path: '/new-company',
+          path: '/update-company',
           component: 'private/service-places/components/update-form',
         },
       ],

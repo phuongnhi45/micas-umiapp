@@ -11,7 +11,7 @@ interface Props {
   onChangeStatus: (active: boolean, _id: string) => void;
   companies: any;
   loading: boolean;
-  onDelete: (_id: any) => void;
+  onDelete: (_id: string) => void;
 }
 
 type IActiveFilterValue = 'active' | 'inactive';

@@ -49,7 +49,7 @@ export default {
   //company
   getCompanies: {
     fetchCompanies: () => ({
-      url: '/admin/companies/?name&active',
+      url: '/admin/companies/',
       method: methods.get,
     }),
   },

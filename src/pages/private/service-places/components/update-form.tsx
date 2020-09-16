@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form, Input, Button, Breadcrumb } from 'antd';
-import { ConnectProps, Dispatch, Link } from 'umi';
+import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 
-import { CompanyState } from '../model';
+import { CompanyModelState } from '../model';
 
 import styles from '../../index.less';
 import appIcon from '@/config/icons';
@@ -16,7 +16,7 @@ const tailLayout = {
 };
 
 export interface CompanyProps extends ConnectProps {
-  company: CompanyState;
+  Company: CompanyModelState;
   dispatch: Dispatch;
   loading: boolean;
 }
@@ -27,7 +27,7 @@ export interface CompanyProps extends ConnectProps {
 class formCompany extends React.Component<CompanyProps, any> {
   onFinish = async (value: any) => {
     this.props.dispatch({
-      type: 'company/createCompany',
+      type: 'Company/createCompany',
       payload: value,
     });
   };
@@ -87,4 +87,9 @@ class formCompany extends React.Component<CompanyProps, any> {
   }
 }
 
-export default formCompany;
+export default connect(
+  ({ Company, loading }: { Company: CompanyModelState; loading: Loading }) => ({
+    Company,
+    loading: loading.models.Company,
+  }),
+)(formCompany);
