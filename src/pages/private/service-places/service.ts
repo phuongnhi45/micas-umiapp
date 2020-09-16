@@ -68,10 +68,21 @@ const searchCompanies = async (payload: any) => {
   return result;
 };
 
+const removeCompany = (payload: any) => {
+  const api = APIConst.getRemoveCompany.removeCompany(payload._id);
+  request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export default {
   fetchCompanies,
   postCompany,
   statusCompany,
   editCompany,
   searchCompanies,
+  removeCompany,
 };

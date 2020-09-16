@@ -19,15 +19,41 @@ export interface CompanyModelType {
     updateCompany: Effect;
     changeStatusCompany: Effect;
     searchCompanies: Effect;
+    getRemoveCompany: Effect;
   };
   reducers: {
     save: Reducer<CompanyState>;
   };
 }
 
+const initState: CompanyModelState = {
+  companies: [],
+  filter: {
+    page: 0,
+    total: 20,
+    limit: 0,
+    keyword: '',
+    status: 'all',
+  },
+};
+
+export interface ICommonFilter {
+  page: number;
+  limit: number;
+  total: number;
+  status?: string;
+  keyword?: string;
+  active?: string | boolean;
+}
+
+export interface CompanyModelState {
+  companies: CompanyState[];
+  filter: ICommonFilter;
+}
+
 const CompanyModel: CompanyModelType = {
   namespace: 'Company',
-  state: [],
+  state: initState,
   effects: {
     *getCompanies({ payload }, { call, put }) {
       const data = yield call(service.fetchCompanies);
@@ -87,12 +113,23 @@ const CompanyModel: CompanyModelType = {
         });
       }
     },
+
+    *getRemoveCompany({ payload }: any, { call, put }: any) {
+      const response = yield call(service.removeCompany, payload);
+      const { Data, message } = response.data;
+      console.log('delete', response.data);
+      yield put({
+        type: 'getCompanies',
+      });
+    },
   },
 
   reducers: {
-    save(state, action) {
-      const data = action.payload.companies;
-      return [...data];
+    save(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
     },
   },
 };

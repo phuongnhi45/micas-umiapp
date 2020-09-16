@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect, Loading, ConnectProps, Dispatch, Link, Redirect } from 'umi';
-import { CompanyState } from './model';
+import { connect, Loading, ConnectProps, Dispatch, Link, history } from 'umi';
+import { CompanyModelState } from './model';
 import ListCompanies from './components/list-company';
 import SearchName from './components/search-company';
 
@@ -11,7 +11,7 @@ import styles from '../index.less';
 export interface PageProps extends ConnectProps {
   dispatch: Dispatch;
   loading: boolean;
-  Company: CompanyState;
+  Company: CompanyModelState;
 }
 
 class ServicePlace extends React.Component<PageProps, any> {
@@ -44,8 +44,15 @@ class ServicePlace extends React.Component<PageProps, any> {
     if (value) {
       //truyền value qa formCompany
       console.log(value);
-      return <Redirect to="/new-company" />;
+      return history.push('/new-company');
     }
+  };
+
+  onDelete = (_id: any) => {
+    this.props.dispatch({
+      type: 'Company/getRemoveCompany',
+      payload: _id,
+    });
   };
 
   render() {
@@ -72,8 +79,9 @@ class ServicePlace extends React.Component<PageProps, any> {
             <ListCompanies
               onUpdate={this.onToggleForm}
               onChangeStatus={this.onChangeStatus}
-              companies={this.props.Company}
+              companies={this.props.Company.companies}
               loading={loading}
+              onDelete={this.onDelete}
             />
           </Col>
         </Row>
@@ -83,7 +91,7 @@ class ServicePlace extends React.Component<PageProps, any> {
 }
 
 export default connect(
-  ({ Company, loading }: { Company: CompanyState; loading: Loading }) => ({
+  ({ Company, loading }: { Company: CompanyModelState; loading: Loading }) => ({
     Company,
     loading: loading.models.Company,
   }),

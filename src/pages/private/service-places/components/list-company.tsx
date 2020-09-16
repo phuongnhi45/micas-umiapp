@@ -1,13 +1,17 @@
 import React from 'react';
 import { Table, Tag, Button } from 'antd';
 import { Link, CompanyState } from 'umi';
+import * as moment from 'moment';
+
 import appIcon from '@/config/icons';
+import styles from '../../index.less';
 
 interface Props {
   onUpdate: (id: string) => void;
   onChangeStatus: (active: boolean, _id: string) => void;
   companies: any;
   loading: boolean;
+  onDelete: (_id: any) => void;
 }
 
 type IActiveFilterValue = 'active' | 'inactive';
@@ -19,7 +23,13 @@ class ListCompanies extends React.Component<Props> {
   };
 
   render() {
-    const { companies, loading, onUpdate, onChangeStatus } = this.props;
+    const {
+      companies,
+      onDelete,
+      loading,
+      onUpdate,
+      onChangeStatus,
+    } = this.props;
     const columns = [
       {
         title: '#',
@@ -42,8 +52,9 @@ class ListCompanies extends React.Component<Props> {
       {
         title: 'Created at',
         align: 'center',
-        width: '20%',
-        render: () => Date(),
+        render: (value: string) => {
+          return moment(value).format('DD/MM/YYYY, HH:mm');
+        },
       },
       {
         title: 'Active',
@@ -85,10 +96,16 @@ class ListCompanies extends React.Component<Props> {
         align: 'center',
         render: (row: CompanyState) => {
           return (
-            <Button
-              icon={<appIcon.EditOutlined />}
-              onClick={() => onUpdate(row._id)}
-            />
+            <div className={styles.action}>
+              <Button
+                icon={<appIcon.EditOutlined />}
+                onClick={() => onUpdate(row._id)}
+              />
+              <Button
+                icon={<appIcon.DeleteOutlined />}
+                onClick={() => onDelete(row._id)}
+              />
+            </div>
           );
         },
       },

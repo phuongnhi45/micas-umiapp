@@ -11,7 +11,7 @@ import {
   CarOutlined,
   EditOutlined,
   SearchOutlined,
-  DeleteFilled,
+  DeleteOutlined,
 } from '@ant-design/icons';
 
 export default {
@@ -27,5 +27,5 @@ export default {
   CarOutlined,
   EditOutlined,
   SearchOutlined,
-  DeleteFilled,
+  DeleteOutlined,
 };
