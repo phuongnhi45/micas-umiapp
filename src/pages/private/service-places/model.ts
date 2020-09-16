@@ -55,8 +55,8 @@ const CompanyModel: CompanyModelType = {
 
     *changeStatusCompany({ payload }, { call, put }) {
       const response = yield call(service.statusCompany, payload);
-      const { Data, message } = response.data;
-      if (!Data) {
+      const { data, message } = response.data;
+      if (!data) {
         return notification.error(message);
       }
       notification.success(message);

@@ -24,7 +24,7 @@ export default {
   },
   getEmployees: {
     list: () => ({
-      url: '/admin/employees/?active&name/',
+      url: '/admin/employees/',
       method: methods.get,
     }),
   },
