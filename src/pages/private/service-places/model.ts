@@ -75,7 +75,6 @@ const CompanyModel: CompanyModelType = {
       }
       yield put({
         type: 'getCompanies',
-        payload,
       });
     },
 

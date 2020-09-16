@@ -60,7 +60,7 @@ export default {
     }),
   },
   createCompany: {
-    postCompany: () => ({
+    postCompany: (payload: any) => ({
       url: '/admin/companies/',
       method: methods.post,
     }),

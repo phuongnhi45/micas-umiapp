@@ -16,10 +16,13 @@ const fetchCompanies = async () => {
 };
 
 const postCompany = async (payload: any) => {
-  const api = APIConst.createCompany.postCompany();
+  const api = APIConst.createCompany.postCompany(payload);
   const response = await request
     .call(api.url, {
       method: api.method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       data: payload,
     })
     .then(function(res) {
@@ -28,7 +31,7 @@ const postCompany = async (payload: any) => {
     .catch(function(error) {
       return error;
     });
-  return response.data;
+  return response;
 };
 
 const statusCompany = async (payload: any) => {
