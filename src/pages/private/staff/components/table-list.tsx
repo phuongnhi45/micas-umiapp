@@ -7,6 +7,8 @@ interface Props {
   onUpdate: (isVisible: boolean, data: any) => void;
   staffs: any;
   loading: boolean;
+  onChangeStatus: any;
+  onDelete: (_id: any) => void;
 }
 
 class TableList extends React.Component<Props> {
@@ -18,38 +20,30 @@ class TableList extends React.Component<Props> {
 
   render() {
     const { active } = this.state;
-    const { staffs, onUpdate, loading } = this.props;
-
-    const onChangeStatus = (value: any, e: any) => {
-      console.log(value);
-      console.log(`checked = ${e.target.checked}`);
-      if (!e.target.checked) {
-      }
-    };
-
+    const { staffs, onUpdate, onDelete, loading, onChangeStatus } = this.props;
     const columns = [
       {
         key: '_id',
         title: '#',
         render: (value: any, record: EmployeeState, index: number) => index + 1,
-        algin: 'center',
+        align: 'center',
       },
       {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        algin: 'center',
+        align: 'center',
       },
       {
         title: 'Phone',
         dataIndex: 'phone',
         key: 'phone',
-        algin: 'center',
+        align: 'center',
       },
       {
         title: 'Active',
         dataIndex: '_id',
-        algin: 'center',
+        align: 'center',
         render: (value: any, row: EmployeeState) => {
           if (row.active) {
             return (
@@ -68,14 +62,22 @@ class TableList extends React.Component<Props> {
           }
         },
       },
+
       {
-        title: 'Action',
-        render: (value: any, row: EmployeeState) => {
+        title: '',
+        align: 'center',
+        render: (row: EmployeeState) => {
           return (
-            <Button
-              icon={<appIcon.EditOutlined />}
-              onClick={() => onUpdate(true, row)}
-            />
+            <div>
+              <Button
+                icon={<appIcon.EditOutlined />}
+                onClick={() => onUpdate(true, row)}
+              />
+              <Button
+                icon={<appIcon.DeleteOutlined />}
+                onClick={() => onDelete(row)}
+              />
+            </div>
           );
         },
       },

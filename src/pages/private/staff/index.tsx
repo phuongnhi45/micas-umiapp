@@ -45,13 +45,19 @@ class Staff extends React.Component<EmployeeProps, any> {
   };
 
   onSearch = (value: any) => {
-    console.log(value);
     this.props.dispatch({
       type: 'Employee/searchNameEmployee',
       payload: value,
     });
   };
 
+  onChangeStatus = (_id: any, e: any) => {
+    const active = e.target.checked;
+    this.props.dispatch({
+      type: 'Employee/updateStatus',
+      payload: { _id, active },
+    });
+  };
   onToggleModal = (isVisible: boolean, staff: any = null) => {
     this.setState({
       isVisible,
@@ -59,6 +65,12 @@ class Staff extends React.Component<EmployeeProps, any> {
     });
   };
 
+  onDelete = (_id: any) => {
+    this.props.dispatch({
+      type: 'Employee/deleteEmployee',
+      payload: _id,
+    });
+  };
   render() {
     const { isVisible, staff } = this.state;
     const { loading } = this.props;
@@ -81,7 +93,9 @@ class Staff extends React.Component<EmployeeProps, any> {
             <TableList
               staffs={this.props.Employee}
               onUpdate={this.onToggleModal}
+              onDelete={this.onDelete}
               loading={loading}
+              onChangeStatus={this.onChangeStatus}
             />
           </Col>
         </Row>

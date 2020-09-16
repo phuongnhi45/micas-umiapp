@@ -43,14 +43,17 @@ const statusCompany = async (payload: any) => {
 };
 
 const editCompany = async (payload: any) => {
+  const active = { active: true };
+  const returnedTarget = Object.assign(payload.values, active);
   const api = APIConst.updateCompany.editCompany(payload.id);
-  request.call(api.url, {
+  const response = await request.call(api.url, {
     method: api.method,
-    data: payload,
+    data: returnedTarget,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+  return response;
 };
 
 const searchCompanies = async (payload: any) => {
