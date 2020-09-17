@@ -3,13 +3,19 @@ import { APIConst } from '@/config';
 
 const token = localStorage.getItem('accessToken');
 
-const fetchCompanies = async () => {
+/* 
+page: 0,
+name: "",
+*/
+
+const fetchCompanies = async (query: any) => {
   const api = APIConst.getCompanies.fetchCompanies();
   const response = await request.call(api.url, {
     method: api.method,
     headers: {
       Authorization: `Bearer ${token}`,
     },
+    body: query,
   });
   const result = response.data.data;
   return result.data;

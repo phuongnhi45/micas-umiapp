@@ -29,6 +29,7 @@ class ServicePlace extends React.Component<PageProps, any> {
   componentDidMount() {
     this.props.dispatch({
       type: 'Company/getCompanies',
+      // query,
     });
   }
 

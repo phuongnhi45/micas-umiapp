@@ -3,6 +3,15 @@ import { APIConst } from '@/config';
 
 const API_HOST = 'http://micasvn.ddns.net:9999';
 
+// serialize = function(obj) {
+//   var str = [];
+//   for (var p in obj)
+//     if (obj.hasOwnProperty(p)) {
+//       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+//     }
+//   return str.join("&");
+// }
+
 const call = async (
   url: string,
   options: any,
@@ -13,6 +22,11 @@ const call = async (
   if (!options.method) {
     options.method = APIConst.methods.get;
   }
+
+  // if (options.query && options.method==='get') {
+  //   const queryString=serialize(option.query)
+  //   url +=`${queryString}`
+  // }
 
   try {
     const data = await request(API_HOST + url, options);

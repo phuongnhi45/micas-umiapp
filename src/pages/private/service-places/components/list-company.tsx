@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Tag, Button } from 'antd';
+import { Table, Tag, Button, Pagination } from 'antd';
 import { Link, CompanyState } from 'umi';
 import * as moment from 'moment';
 
@@ -21,6 +21,10 @@ class ListCompanies extends React.Component<Props> {
     active: false,
     searchText: '',
   };
+
+  onPaginationChange(pagination: number) {
+    console.log(pagination);
+  }
 
   render() {
     const {
@@ -118,6 +122,14 @@ class ListCompanies extends React.Component<Props> {
         rowKey="_id"
         size="large"
         loading={loading}
+        pagination={{
+          current: 1,
+          defaultPageSize: 10,
+          defaultCurrent: 1,
+          total: 15,
+          pageSize: 10,
+        }}
+        // onChange={this.onPaginationChange}
       />
     );
   }

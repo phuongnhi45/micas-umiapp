@@ -30,8 +30,8 @@ const initState: CompanyModelState = {
   companies: [],
   filter: {
     page: 0,
-    total: 20,
-    limit: 0,
+    total: 0,
+    limit: 8,
     keyword: '',
     status: 'all',
   },
@@ -55,12 +55,21 @@ const CompanyModel: CompanyModelType = {
   namespace: 'Company',
   state: initState,
   effects: {
-    *getCompanies({ payload }, { call, put }) {
-      const data = yield call(service.fetchCompanies, payload);
+    /* 
+page: 0,
+name: "",
+*/
+    *getCompanies({ query }, { call, put, select }) {
+      const data = yield call(service.fetchCompanies, query);
+      // const {filter} = yield select(_=> _.Company)
       yield put({
         type: 'save',
         payload: {
           companies: data,
+          // filter: {
+          //   ...filter,
+          //   ...query,
+          // }
         },
       });
     },
