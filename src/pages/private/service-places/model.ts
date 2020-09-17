@@ -3,6 +3,19 @@ import { Effect, Reducer, history } from 'umi';
 import notification from '@/utils/notification';
 
 export interface CompanyState {
+  companies: ICompany[];
+  filter: IFilter;
+  company: any;
+}
+
+export interface IFilter {
+  page: number;
+  limit: number;
+  total: number;
+  name?: string;
+}
+
+export interface ICompany {
   address: string;
   name: string;
   active: boolean;
@@ -10,31 +23,48 @@ export interface CompanyState {
   _id: string;
 }
 
-export interface CompanyModelType {
+interface CompanyModelType {
   namespace: string;
-  state: any;
+  state: CompanyState;
   effects: {
     getCompanies: Effect;
     createCompany: Effect;
     updateCompany: Effect;
     changeStatusCompany: Effect;
-    searchCompanies: Effect;
+    getServicePlaceDetail: Effect;
   };
   reducers: {
-    save: Reducer<CompanyState>;
+    updateState: Reducer<CompanyState>;
   };
 }
 
+const initialState: CompanyState = {
+  companies: [],
+  filter: {
+    page: 0,
+    total: 0,
+    limit: 20,
+    name: '',
+  },
+  company: null,
+};
+
 const CompanyModel: CompanyModelType = {
   namespace: 'Company',
-  state: [],
+  state: initialState,
   effects: {
     *getCompanies({ payload }, { call, put }) {
-      const data = yield call(service.fetchCompanies);
+      const response = yield call(service.fetchCompanies, payload);
+      const { data, currentpage, limit, totalpage } = response.data.data;
       yield put({
-        type: 'save',
+        type: 'updateState',
         payload: {
           companies: data,
+          filter: {
+            page: currentpage,
+            total: totalpage,
+            limit,
+          },
         },
       });
     },
@@ -72,27 +102,24 @@ const CompanyModel: CompanyModelType = {
         type: 'getCompanies',
       });
     },
-
-    *searchCompanies({ payload }: any, { call, put }: any) {
-      const data = yield call(service.searchCompanies, payload);
-      if (data) {
-        yield put({
-          type: 'save',
-          payload: data,
-        });
-      } else {
-        yield put({
-          type: 'save',
-          payload: [],
-        });
-      }
+    *getServicePlaceDetail({ id }: any, { call, put }: any) {
+      const response = yield call(service.fetchCompanyDetail, id);
+      const { data } = response.data;
+      yield put({
+        type: 'updateState',
+        payload: {
+          company: data,
+        },
+      });
     },
   },
 
   reducers: {
-    save(state, action) {
-      const data = action.payload.companies;
-      return [...data];
+    updateState(state: any, { payload }: any) {
+      return {
+        ...state,
+        ...payload,
+      };
     },
   },
 };

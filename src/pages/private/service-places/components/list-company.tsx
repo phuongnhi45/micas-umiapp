@@ -1,13 +1,17 @@
 import React from 'react';
 import { Table, Tag, Button } from 'antd';
-import { Link, CompanyState } from 'umi';
+import { Link, ICompany, history } from 'umi';
 import appIcon from '@/config/icons';
+import format from '@/utils/format';
 
 interface Props {
-  onUpdate: (id: string) => void;
   onChangeStatus: (active: boolean, _id: string) => void;
-  companies: any;
+  companies: ICompany[];
   loading: boolean;
+  onChange: (pagination: any, filters: any, sorter: any) => void;
+  pageSize: number;
+  total: number;
+  current: number;
 }
 
 type IActiveFilterValue = 'active' | 'inactive';
@@ -18,19 +22,31 @@ class ListCompanies extends React.Component<Props> {
     searchText: '',
   };
 
+  goToEdit = (company: ICompany) => {
+    history.push(`/service-places/${company._id}/edit`);
+  };
+
   render() {
-    const { companies, loading, onUpdate, onChangeStatus } = this.props;
-    const columns = [
+    const {
+      companies,
+      loading,
+      onChangeStatus,
+      onChange,
+      pageSize,
+      total,
+      current,
+    } = this.props;
+    const columns: any = [
       {
         title: '#',
         align: 'center',
-        render: (value: any, record: CompanyState, index: number) => index + 1,
+        render: (value: any, record: ICompany, index: number) => index + 1,
       },
       {
         title: 'Name',
         dataIndex: 'name',
         render: (value: string) => {
-          return <Link to="/booking">{value}</Link>;
+          return <Link to="">{value}</Link>;
         },
       },
       {
@@ -40,10 +56,10 @@ class ListCompanies extends React.Component<Props> {
         render: (value: any) => <Tag color="blue">{value}</Tag>,
       },
       {
-        title: 'Created at',
+        title: 'Created Date',
         align: 'center',
-        width: '20%',
-        render: () => Date(),
+        dataIndex: 'createdAt',
+        render: (value: string) => format.date(new Date().toISOString()), // TODO: APi chưa có ngày tạo ...
       },
       {
         title: 'Active',
@@ -59,7 +75,7 @@ class ListCompanies extends React.Component<Props> {
             value: 'inactive' as IActiveFilterValue,
           },
         ],
-        render: (active: boolean, row: CompanyState) => {
+        render: (active: boolean, row: ICompany) => {
           if (row.active) {
             return (
               <Tag
@@ -77,17 +93,17 @@ class ListCompanies extends React.Component<Props> {
           );
         },
         filterMultiple: false,
-        onFilter: (filterValue: IActiveFilterValue, record: CompanyState) =>
+        onFilter: (filterValue: IActiveFilterValue, record: ICompany) =>
           record.active === (filterValue === 'active' ? true : false),
       },
       {
         title: 'Action',
         align: 'center',
-        render: (row: CompanyState) => {
+        render: (row: ICompany) => {
           return (
             <Button
               icon={<appIcon.EditOutlined />}
-              onClick={() => onUpdate(row._id)}
+              onClick={() => this.goToEdit(row)}
             />
           );
         },
@@ -99,8 +115,10 @@ class ListCompanies extends React.Component<Props> {
         columns={columns}
         dataSource={companies}
         rowKey="_id"
-        size="large"
+        size="small"
         loading={loading}
+        onChange={onChange}
+        pagination={{ pageSize, total, current: current + 1 }}
       />
     );
   }

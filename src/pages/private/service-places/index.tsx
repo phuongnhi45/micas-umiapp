@@ -8,6 +8,8 @@ import { Row, Col, Breadcrumb, Button } from 'antd';
 import appIcon from '@/config/icons';
 import styles from '../index.less';
 
+import lodash from 'lodash';
+
 export interface PageProps extends ConnectProps {
   dispatch: Dispatch;
   loading: boolean;
@@ -15,23 +17,25 @@ export interface PageProps extends ConnectProps {
 }
 
 class ServicePlace extends React.Component<PageProps, any> {
-  state = {
-    company: null,
-  };
-
-  onSearch = (value: any) => {
-    console.log('search:', value);
-    this.props.dispatch({
-      type: 'Company/searchCompanies',
-      payload: value,
-    });
-  };
-
   componentDidMount() {
+    this.onFilterChange({});
+  }
+
+  onFilterChange = (newFilter = {}) => {
+    const {
+      Company: { filter },
+    } = this.props;
+    const filters = lodash.merge(filter, newFilter);
+    const query = lodash.pick(filters, ['page', 'name', 'limit', 'active']);
+    this.loadData(query);
+  };
+
+  loadData = (payload: any) => {
     this.props.dispatch({
       type: 'Company/getCompanies',
+      payload,
     });
-  }
+  };
 
   onChangeStatus = (active: boolean, _id: string) => {
     this.props.dispatch({
@@ -48,9 +52,16 @@ class ServicePlace extends React.Component<PageProps, any> {
     }
   };
 
+  onTableChange = (pagination: any) => {
+    const { current } = pagination;
+    this.onFilterChange({ page: current - 1 });
+  };
+
   render() {
-    const { loading } = this.props;
-    const { company } = this.state;
+    const {
+      Company: { companies, filter },
+      loading,
+    } = this.props;
     return (
       <>
         <Row className={styles.row}>
@@ -65,15 +76,22 @@ class ServicePlace extends React.Component<PageProps, any> {
 
         <Row>
           <Col span={4}>
-            <SearchName onSearch={this.onSearch} />
+            <SearchName
+              onSearch={(name: string) =>
+                this.onFilterChange({ name, page: 0 })
+              }
+            />
           </Col>
 
           <Col className={styles.list_company} span={20}>
             <ListCompanies
-              onUpdate={this.onToggleForm}
               onChangeStatus={this.onChangeStatus}
-              companies={this.props.Company}
+              companies={companies}
               loading={loading}
+              pageSize={filter.limit}
+              total={filter.total}
+              current={filter.page}
+              onChange={this.onTableChange}
             />
           </Col>
         </Row>

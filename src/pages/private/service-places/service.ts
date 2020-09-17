@@ -3,17 +3,16 @@ import { APIConst } from '@/config';
 
 const token = localStorage.getItem('accessToken');
 
-const fetchCompanies = async () => {
+const fetchCompanies = async (payload: any) => {
   const api = APIConst.getCompanies.fetchCompanies();
   const response = await request.call(api.url, {
     method: api.method,
+    query: payload,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  const data = response.data;
-  const result = data.Data;
-  return result;
+  return response;
 };
 
 const postCompany = async (payload: any) => {
@@ -68,10 +67,22 @@ const searchCompanies = async (payload: any) => {
   return result;
 };
 
+const fetchCompanyDetail = async (id: string) => {
+  const api = APIConst.getCompanies.fetchCompanyDetail(id);
+  const response = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
 export default {
   fetchCompanies,
   postCompany,
   statusCompany,
   editCompany,
   searchCompanies,
+  fetchCompanyDetail,
 };
