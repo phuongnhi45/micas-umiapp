@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Tag, Button } from 'antd';
+import { Table, Tag, Button, Popconfirm } from 'antd';
 import { Link, CompanyState } from 'umi';
 import * as moment from 'moment';
 
@@ -101,10 +101,14 @@ class ListCompanies extends React.Component<Props> {
                 icon={<appIcon.EditOutlined />}
                 onClick={() => onUpdate(row._id)}
               />
-              <Button
-                icon={<appIcon.DeleteOutlined />}
-                onClick={() => onDelete(row._id)}
-              />
+              <Popconfirm
+                title="Are you sure？"
+                okText="Yes"
+                cancelText="No"
+                onConfirm={() => onDelete(row._id)}
+              >
+                <Button icon={<appIcon.DeleteOutlined />} />
+              </Popconfirm>
             </div>
           );
         },
@@ -118,6 +122,13 @@ class ListCompanies extends React.Component<Props> {
         rowKey="_id"
         size="large"
         loading={loading}
+        pagination={{
+          current: 1,
+          defaultCurrent: 1,
+          defaultPageSize: 8,
+          pageSize: 8,
+          total: 10,
+        }}
       />
     );
   }

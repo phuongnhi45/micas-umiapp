@@ -93,6 +93,10 @@ const CompanyModel: CompanyModelType = {
     *updateCompany({ payload }, { call, put }) {
       const response = yield call(service.editCompany, payload);
       console.log(response);
+      if (!response.data) {
+        return notification.error('Update error');
+      }
+      notification.success(response.message);
       yield put({
         type: 'getCompanies',
       });
