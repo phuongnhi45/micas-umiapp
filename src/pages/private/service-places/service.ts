@@ -54,19 +54,6 @@ const editCompany = async (payload: any) => {
   });
 };
 
-const searchCompanies = async (payload: any) => {
-  const api = APIConst.searchCompanies.searchCompanies(payload);
-  const response = await request.call(api.url, {
-    method: api.method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = response.data;
-  const result = data.Data;
-  return result;
-};
-
 const fetchCompanyDetail = async (id: string) => {
   const api = APIConst.getCompanies.fetchCompanyDetail(id);
   const response = await request.call(api.url, {
@@ -83,6 +70,5 @@ export default {
   postCompany,
   statusCompany,
   editCompany,
-  searchCompanies,
   fetchCompanyDetail,
 };

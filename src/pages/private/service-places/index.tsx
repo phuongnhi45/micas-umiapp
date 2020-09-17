@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect, Loading, ConnectProps, Dispatch, Link, Redirect } from 'umi';
+import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { CompanyState } from './model';
 import ListCompanies from './components/list-company';
 import SearchName from './components/search-company';
@@ -42,14 +42,6 @@ class ServicePlace extends React.Component<PageProps, any> {
       type: 'Company/changeStatusCompany',
       payload: { _id, active },
     });
-  };
-
-  onToggleForm = (value: any) => {
-    if (value) {
-      //truyền value qa formCompany
-      console.log(value);
-      return <Redirect to="/new-company" />;
-    }
   };
 
   onTableChange = (pagination: any) => {

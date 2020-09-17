@@ -102,6 +102,7 @@ const CompanyModel: CompanyModelType = {
         type: 'getCompanies',
       });
     },
+
     *getServicePlaceDetail({ id }: any, { call, put }: any) {
       const response = yield call(service.fetchCompanyDetail, id);
       const { data } = response.data;

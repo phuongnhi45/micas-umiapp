@@ -115,7 +115,7 @@ class ListCompanies extends React.Component<Props> {
         columns={columns}
         dataSource={companies}
         rowKey="_id"
-        size="small"
+        size="large"
         loading={loading}
         onChange={onChange}
         pagination={{ pageSize, total, current: current + 1 }}

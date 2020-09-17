@@ -32,13 +32,11 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
 
   if (!company) return <Spin />
   return (
-    <>
-      <FormCompany
-        company={company}
-        dispatch={dispatch}
-        loading={loading}
-      />
-    </>
+    <FormCompany
+      company={company}
+      dispatch={dispatch}
+      loading={loading}
+    />
   )
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, Breadcrumb } from 'antd';
-import { ConnectProps, Dispatch, Link } from 'umi';
+import { Dispatch, Link } from 'umi';
 
 import styles from '../../index.less';
 import appIcon from '@/config/icons';
@@ -44,7 +44,6 @@ class FormCompany extends React.Component<CompanyProps, any> {
         <Form
           {...layout}
           name="basic"
-          // initialValues={initialValue}
           onFinish={this.onFinish}
           className={styles.company}
         >

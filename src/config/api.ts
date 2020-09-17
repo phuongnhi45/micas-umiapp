@@ -59,7 +59,7 @@ export default {
   },
   createCompany: {
     postCompany: () => ({
-      url: '/admin/companies/',
+      url: '/admin/companies',
       method: methods.post,
     }),
   },
