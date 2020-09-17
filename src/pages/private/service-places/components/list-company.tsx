@@ -7,19 +7,17 @@ import appIcon from '@/config/icons';
 import styles from '../../index.less';
 
 interface Props {
-  onUpdate: (id: string) => void;
+  onUpdate: (_id: string) => void;
   onChangeStatus: (active: boolean, _id: string) => void;
   companies: any;
   loading: boolean;
   onDelete: (_id: string) => void;
 }
 
-type IActiveFilterValue = 'active' | 'inactive';
-
 class ListCompanies extends React.Component<Props> {
   state = {
-    active: false,
     searchText: '',
+    active: false,
   };
 
   render() {
@@ -60,17 +58,17 @@ class ListCompanies extends React.Component<Props> {
         title: 'Active',
         dataIndex: 'active',
         align: 'center',
-        filters: [
-          {
-            text: 'Active',
-            value: 'active' as IActiveFilterValue,
-          },
-          {
-            text: 'Inactive',
-            value: 'inactive' as IActiveFilterValue,
-          },
-        ],
-        render: (active: boolean, row: CompanyState) => {
+        // filters: [
+        //   {
+        //     text: 'Active',
+        //     value: 'Active' as IActiveFilterValue,
+        //   },
+        //   {
+        //     text: 'Inactive',
+        //     value: 'Inactive' as IActiveFilterValue,
+        //   },
+        // ],
+        render: (active: any, row: CompanyState) => {
           if (row.active) {
             return (
               <Tag
@@ -87,9 +85,6 @@ class ListCompanies extends React.Component<Props> {
             </Tag>
           );
         },
-        filterMultiple: false,
-        onFilter: (filterValue: IActiveFilterValue, record: CompanyState) =>
-          record.active === (filterValue === 'active' ? true : false),
       },
       {
         title: 'Action',
@@ -127,7 +122,7 @@ class ListCompanies extends React.Component<Props> {
           defaultCurrent: 1,
           defaultPageSize: 8,
           pageSize: 8,
-          total: 10,
+          total: 14,
         }}
       />
     );

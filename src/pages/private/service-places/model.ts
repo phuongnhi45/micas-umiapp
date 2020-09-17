@@ -5,7 +5,7 @@ import notification from '@/utils/notification';
 export interface CompanyState {
   address: string;
   name: string;
-  active: boolean;
+  active?: string | boolean;
   location: string;
   _id: string;
 }

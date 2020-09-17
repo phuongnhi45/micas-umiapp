@@ -32,7 +32,7 @@ class ServicePlace extends React.Component<PageProps, any> {
     });
   }
 
-  onChangeStatus = (active: boolean, _id: string) => {
+  onChangeStatus = (active: any, _id: string) => {
     this.props.dispatch({
       type: 'Company/changeStatusCompany',
       payload: { _id, active },
