@@ -1,8 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, Breadcrumb } from 'antd';
-import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
-
-import { CompanyModelState } from '../model';
+import { Dispatch, Link } from 'umi';
 
 import styles from '../../index.less';
 import appIcon from '@/config/icons';
@@ -15,44 +13,51 @@ const tailLayout = {
   wrapperCol: { offset: 3, span: 20 },
 };
 
-export interface CompanyProps extends ConnectProps {
-  Company: CompanyModelState;
+export interface CompanyProps {
+  company?: any;
   dispatch: Dispatch;
   loading: boolean;
 }
 
 // const breadcrumb = company ? 'Tạo mới' : 'Cập nhật';
-// const button = company ? 'Create' : 'Update';
 
-class formCompany extends React.Component<CompanyProps, any> {
+class FormCompany extends React.Component<CompanyProps, any> {
   onFinish = async (value: any) => {
-    this.props.dispatch({
-      type: 'Company/createCompany',
+    const { dispatch, company } = this.props;
+
+    dispatch({
+      type: 'company/createCompany',
       payload: value,
     });
   };
 
   render() {
+    const { company } = this.props; //null->create, else ->update
     return (
       <>
         <Breadcrumb style={{ margin: '20px 20px 20px 0px' }}>
-          <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CÔNG TY GARA,
-          CỨU HỘ/
+          <appIcon.ShopOutlined style={{ color: '#1890ff' }} />
+          SERVICE COMPANIES/ {company ? 'EDIT' : 'NEW'}
         </Breadcrumb>
         <Form
           {...layout}
           name="basic"
-          // initialValues={initialValue}
           onFinish={this.onFinish}
           className={styles.company}
         >
-          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+          <Form.Item
+            name="name"
+            label="Name"
+            rules={[{ required: true }]}
+            initialValue={company ? company.name : ''}
+          >
             <Input />
           </Form.Item>
 
           <Form.Item
             name="address"
             label="Address"
+            initialValue={company ? company.address : ''}
             rules={[{ required: true }]}
           >
             <Input />
@@ -74,7 +79,7 @@ class formCompany extends React.Component<CompanyProps, any> {
 
           <Form.Item {...tailLayout}>
             <Button type="primary" htmlType="submit">
-              Create
+              {company ? 'Update' : 'Create'}
             </Button>
           </Form.Item>
 
@@ -87,9 +92,4 @@ class formCompany extends React.Component<CompanyProps, any> {
   }
 }
 
-export default connect(
-  ({ Company, loading }: { Company: CompanyModelState; loading: Loading }) => ({
-    Company,
-    loading: loading.models.Company,
-  }),
-)(formCompany);
+export default FormCompany;

@@ -1,18 +1,23 @@
 import React from 'react';
 import { Table, Tag, Button, Popconfirm } from 'antd';
-import { Link, CompanyState } from 'umi';
-import * as moment from 'moment';
+import { Link, ICompany, history } from 'umi';
 
 import appIcon from '@/config/icons';
+import format from '@/utils/format';
 import styles from '../../index.less';
 
 interface Props {
-  onUpdate: (_id: string) => void;
   onChangeStatus: (active: boolean, _id: string) => void;
-  companies: any;
+  companies: ICompany[];
   loading: boolean;
   onDelete: (_id: string) => void;
+  onChange: (pagination: any, filters: any, sorter: any) => void;
+  pageSize: number;
+  total: number;
+  current: number;
 }
+
+type IActiveFilterValue = 'active' | 'inactive';
 
 class ListCompanies extends React.Component<Props> {
   state = {
@@ -20,25 +25,32 @@ class ListCompanies extends React.Component<Props> {
     active: false,
   };
 
+  goToEdit = (company: ICompany) => {
+    history.push(`/service-places/${company._id}/edit`);
+  };
+
   render() {
     const {
       companies,
-      onDelete,
       loading,
-      onUpdate,
       onChangeStatus,
+      onChange,
+      pageSize,
+      onDelete,
+      total,
+      current,
     } = this.props;
-    const columns = [
+    const columns: any = [
       {
         title: '#',
         align: 'center',
-        render: (value: any, record: CompanyState, index: number) => index + 1,
+        render: (value: any, record: ICompany, index: number) => index + 1,
       },
       {
         title: 'Name',
         dataIndex: 'name',
         render: (value: string) => {
-          return <Link to="/booking">{value}</Link>;
+          return <Link to="">{value}</Link>;
         },
       },
       {
@@ -48,27 +60,26 @@ class ListCompanies extends React.Component<Props> {
         render: (value: any) => <Tag color="blue">{value}</Tag>,
       },
       {
-        title: 'Created at',
+        title: 'Created Date',
         align: 'center',
-        render: (value: string) => {
-          return moment(value).format('DD/MM/YYYY, HH:mm');
-        },
+        dataIndex: 'createdAt',
+        render: (value: string) => format.date(new Date().toISOString()),
       },
       {
         title: 'Active',
         dataIndex: 'active',
         align: 'center',
-        // filters: [
-        //   {
-        //     text: 'Active',
-        //     value: 'Active' as IActiveFilterValue,
-        //   },
-        //   {
-        //     text: 'Inactive',
-        //     value: 'Inactive' as IActiveFilterValue,
-        //   },
-        // ],
-        render: (active: any, row: CompanyState) => {
+        filters: [
+          {
+            text: 'Active',
+            value: 'active' as IActiveFilterValue,
+          },
+          {
+            text: 'Inactive',
+            value: 'inactive' as IActiveFilterValue,
+          },
+        ],
+        render: (active: boolean, row: ICompany) => {
           if (row.active) {
             return (
               <Tag
@@ -85,16 +96,19 @@ class ListCompanies extends React.Component<Props> {
             </Tag>
           );
         },
+        filterMultiple: false,
+        onFilter: (filterValue: IActiveFilterValue, record: ICompany) =>
+          record.active === (filterValue === 'active' ? true : false),
       },
       {
         title: 'Action',
         align: 'center',
-        render: (row: CompanyState) => {
+        render: (row: ICompany) => {
           return (
             <div className={styles.action}>
               <Button
                 icon={<appIcon.EditOutlined />}
-                onClick={() => onUpdate(row._id)}
+                onClick={() => this.goToEdit(row)}
               />
               <Popconfirm
                 title="Are you sure？"
@@ -117,13 +131,8 @@ class ListCompanies extends React.Component<Props> {
         rowKey="_id"
         size="large"
         loading={loading}
-        pagination={{
-          current: 1,
-          defaultCurrent: 1,
-          defaultPageSize: 8,
-          pageSize: 8,
-          total: 14,
-        }}
+        onChange={onChange}
+        pagination={{ pageSize, total, current: current + 1 }}
       />
     );
   }

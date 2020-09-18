@@ -48,6 +48,10 @@ export default {
   },
   //company
   getCompanies: {
+    fetchCompanyDetail: (id: string) => ({
+      url: `/admin/companies/${id}`,
+      method: methods.get,
+    }),
     fetchCompanies: () => ({
       url: '/admin/companies',
       method: methods.get,
@@ -55,7 +59,7 @@ export default {
   },
   createCompany: {
     postCompany: () => ({
-      url: '/admin/companies/',
+      url: '/admin/companies',
       method: methods.post,
     }),
   },
@@ -75,12 +79,6 @@ export default {
     removeCompany: (_id: string) => ({
       url: `/admin/companies/${_id}`,
       method: methods.remove,
-    }),
-  },
-  searchCompanies: {
-    searchCompanies: (name: any) => ({
-      url: `/admin/companies/?name=${name}`,
-      method: methods.get,
     }),
   },
 };
