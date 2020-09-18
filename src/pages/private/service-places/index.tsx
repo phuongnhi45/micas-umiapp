@@ -1,6 +1,8 @@
 import React from 'react';
-import { connect, Loading, ConnectProps, Dispatch, Link, history } from 'umi';
-import { CompanyModelState } from './model';
+import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
+import { CompanyState } from './model';
+import lodash from 'lodash';
+
 import ListCompanies from './components/list-company';
 import SearchName from './components/search-company';
 
@@ -11,41 +13,40 @@ import styles from '../index.less';
 export interface PageProps extends ConnectProps {
   dispatch: Dispatch;
   loading: boolean;
-  Company: CompanyModelState;
+  Company: CompanyState;
 }
 
 class ServicePlace extends React.Component<PageProps, any> {
-  state = {
-    company: null,
-  };
-
-  onSearch = (value: any) => {
-    this.props.dispatch({
-      type: 'Company/searchCompanies',
-      payload: value,
-    });
-  };
-
   componentDidMount() {
-    this.props.dispatch({
-      type: 'Company/getCompanies',
-      // query,
-    });
+    this.onFilterChange({});
   }
 
-  onChangeStatus = (active: boolean, _id: string) => {
+  onFilterChange = (newFilter = {}) => {
+    const {
+      Company: { filter },
+    } = this.props;
+    const filters = lodash.merge(filter, newFilter);
+    const query = lodash.pick(filters, ['page', 'name', 'limit', 'active']);
+    this.loadData(query);
+  };
+
+  loadData = (payload: any) => {
+    this.props.dispatch({
+      type: 'Company/getCompanies',
+      payload,
+    });
+  };
+
+  onChangeStatus = (active: any, _id: string) => {
     this.props.dispatch({
       type: 'Company/changeStatusCompany',
       payload: { _id, active },
     });
   };
 
-  onToggleForm = (value: any) => {
-    if (value) {
-      //truyền value qa formCompany
-      console.log(value);
-      return history.push('/update-company');
-    }
+  onTableChange = (pagination: any) => {
+    const { current } = pagination;
+    this.onFilterChange({ page: current - 1 });
   };
 
   onDelete = (_id: string) => {
@@ -56,8 +57,10 @@ class ServicePlace extends React.Component<PageProps, any> {
   };
 
   render() {
-    const { loading } = this.props;
-    const { company } = this.state;
+    const {
+      Company: { companies, filter },
+      loading,
+    } = this.props;
     return (
       <>
         <Row className={styles.row}>
@@ -72,16 +75,23 @@ class ServicePlace extends React.Component<PageProps, any> {
 
         <Row>
           <Col span={4}>
-            <SearchName onSearch={this.onSearch} />
+            <SearchName
+              onSearch={(name: string) =>
+                this.onFilterChange({ name, page: 0 })
+              }
+            />
           </Col>
 
           <Col className={styles.list_company} span={20}>
             <ListCompanies
-              onUpdate={this.onToggleForm}
               onChangeStatus={this.onChangeStatus}
-              companies={this.props.Company.companies}
+              companies={companies}
               loading={loading}
+              pageSize={filter.limit}
+              total={filter.total}
+              current={filter.page}
               onDelete={this.onDelete}
+              onChange={this.onTableChange}
             />
           </Col>
         </Row>
@@ -91,7 +101,7 @@ class ServicePlace extends React.Component<PageProps, any> {
 }
 
 export default connect(
-  ({ Company, loading }: { Company: CompanyModelState; loading: Loading }) => ({
+  ({ Company, loading }: { Company: CompanyState; loading: Loading }) => ({
     Company,
     loading: loading.models.Company,
   }),

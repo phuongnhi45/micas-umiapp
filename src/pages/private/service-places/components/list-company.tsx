@@ -1,25 +1,32 @@
 import React from 'react';
-import { Table, Tag, Button, Pagination } from 'antd';
-import { Link, CompanyState } from 'umi';
-import * as moment from 'moment';
+import { Table, Tag, Button, Popconfirm } from 'antd';
+import { Link, ICompany, history } from 'umi';
 
 import appIcon from '@/config/icons';
+import format from '@/utils/format';
 import styles from '../../index.less';
 
 interface Props {
-  onUpdate: (id: string) => void;
   onChangeStatus: (active: boolean, _id: string) => void;
-  companies: any;
+  companies: ICompany[];
   loading: boolean;
   onDelete: (_id: string) => void;
+  onChange: (pagination: any, filters: any, sorter: any) => void;
+  pageSize: number;
+  total: number;
+  current: number;
 }
 
 type IActiveFilterValue = 'active' | 'inactive';
 
 class ListCompanies extends React.Component<Props> {
   state = {
-    active: false,
     searchText: '',
+    active: false,
+  };
+
+  goToEdit = (company: ICompany) => {
+    history.push(`/service-places/${company._id}/edit`);
   };
 
   onPaginationChange(pagination: number) {
@@ -29,22 +36,25 @@ class ListCompanies extends React.Component<Props> {
   render() {
     const {
       companies,
-      onDelete,
       loading,
-      onUpdate,
       onChangeStatus,
+      onChange,
+      pageSize,
+      onDelete,
+      total,
+      current,
     } = this.props;
-    const columns = [
+    const columns: any = [
       {
         title: '#',
         align: 'center',
-        render: (value: any, record: CompanyState, index: number) => index + 1,
+        render: (value: any, record: ICompany, index: number) => index + 1,
       },
       {
         title: 'Name',
         dataIndex: 'name',
         render: (value: string) => {
-          return <Link to="/booking">{value}</Link>;
+          return <Link to="">{value}</Link>;
         },
       },
       {
@@ -54,11 +64,10 @@ class ListCompanies extends React.Component<Props> {
         render: (value: any) => <Tag color="blue">{value}</Tag>,
       },
       {
-        title: 'Created at',
+        title: 'Created Date',
         align: 'center',
-        render: (value: string) => {
-          return moment(value).format('DD/MM/YYYY, HH:mm');
-        },
+        dataIndex: 'createdAt',
+        render: (value: string) => format.date(new Date().toISOString()),
       },
       {
         title: 'Active',
@@ -74,7 +83,7 @@ class ListCompanies extends React.Component<Props> {
             value: 'inactive' as IActiveFilterValue,
           },
         ],
-        render: (active: boolean, row: CompanyState) => {
+        render: (active: boolean, row: ICompany) => {
           if (row.active) {
             return (
               <Tag
@@ -92,23 +101,27 @@ class ListCompanies extends React.Component<Props> {
           );
         },
         filterMultiple: false,
-        onFilter: (filterValue: IActiveFilterValue, record: CompanyState) =>
+        onFilter: (filterValue: IActiveFilterValue, record: ICompany) =>
           record.active === (filterValue === 'active' ? true : false),
       },
       {
         title: 'Action',
         align: 'center',
-        render: (row: CompanyState) => {
+        render: (row: ICompany) => {
           return (
             <div className={styles.action}>
               <Button
                 icon={<appIcon.EditOutlined />}
-                onClick={() => onUpdate(row._id)}
+                onClick={() => this.goToEdit(row)}
               />
-              <Button
-                icon={<appIcon.DeleteOutlined />}
-                onClick={() => onDelete(row._id)}
-              />
+              <Popconfirm
+                title="Are you sure？"
+                okText="Yes"
+                cancelText="No"
+                onConfirm={() => onDelete(row._id)}
+              >
+                <Button icon={<appIcon.DeleteOutlined />} />
+              </Popconfirm>
             </div>
           );
         },
@@ -122,14 +135,8 @@ class ListCompanies extends React.Component<Props> {
         rowKey="_id"
         size="large"
         loading={loading}
-        pagination={{
-          current: 1,
-          defaultPageSize: 10,
-          defaultCurrent: 1,
-          total: 15,
-          pageSize: 10,
-        }}
-        // onChange={this.onPaginationChange}
+        onChange={onChange}
+        pagination={{ pageSize, total, current: current + 1 }}
       />
     );
   }

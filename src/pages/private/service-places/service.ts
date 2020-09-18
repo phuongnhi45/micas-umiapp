@@ -3,26 +3,20 @@ import { APIConst } from '@/config';
 
 const token = localStorage.getItem('accessToken');
 
-/* 
-page: 0,
-name: "",
-*/
-
-const fetchCompanies = async (query: any) => {
+const fetchCompanies = async (payload: any) => {
   const api = APIConst.getCompanies.fetchCompanies();
   const response = await request.call(api.url, {
     method: api.method,
+    query: payload,
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    body: query,
   });
-  const result = response.data.data;
-  return result.data;
+  return response;
 };
 
 const postCompany = async (payload: any) => {
-  const api = APIConst.createCompany.postCompany(payload);
+  const api = APIConst.createCompany.postCompany();
   const response = await request
     .call(api.url, {
       method: api.method,
@@ -48,16 +42,14 @@ const statusCompany = async (payload: any) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data;
+  return response;
 };
 
 const editCompany = async (payload: any) => {
-  const active = { active: true };
-  const returnedTarget = Object.assign(payload.values, active);
-  const api = APIConst.updateCompany.editCompany(payload.id);
+  const api = APIConst.updateCompany.editCompany(payload._id);
   const response = await request.call(api.url, {
     method: api.method,
-    data: returnedTarget,
+    data: payload,
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -65,16 +57,15 @@ const editCompany = async (payload: any) => {
   return response;
 };
 
-const searchCompanies = async (payload: any) => {
-  const api = APIConst.searchCompanies.searchCompanies(payload);
+const fetchCompanyDetail = async (id: string) => {
+  const api = APIConst.getCompanies.fetchCompanyDetail(id);
   const response = await request.call(api.url, {
     method: api.method,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  const result = response.data.data;
-  return result.data;
+  return response;
 };
 
 const removeCompany = async (payload: any) => {
@@ -93,6 +84,6 @@ export default {
   postCompany,
   statusCompany,
   editCompany,
-  searchCompanies,
   removeCompany,
+  fetchCompanyDetail,
 };
