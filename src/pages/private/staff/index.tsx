@@ -31,7 +31,7 @@ class Staff extends React.Component<EmployeeProps, any> {
       Employee: { filter },
     } = this.props;
     const filters = lodash.merge(filter, newFilter);
-    const query = lodash.pick(filters, ['page', 'name', 'limit', 'active']);
+    const query = lodash.pick(filters, ['page', 'name', 'active']);
     this.loadData(query);
   };
 

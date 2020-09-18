@@ -66,14 +66,14 @@ const EmployeeModel: EmployeeModelType = {
 
     *getEmployees({ payload }, { call, put }) {
       const response = yield call(service.getEmployees, payload);
-      const { data, currentpage, limit, totalpage } = response.data.data;
+      const { list, page, total, limit } = response.data.data;
       yield put({
         type: 'save',
         payload: {
-          employees: data,
+          employees: list,
           filter: {
-            page: currentpage,
-            total: totalpage,
+            page: page,
+            total: total,
             limit,
           },
         },
