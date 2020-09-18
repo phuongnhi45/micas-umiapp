@@ -23,8 +23,8 @@ export default {
     }),
   },
   getEmployees: {
-    list: () => ({
-      url: '/admin/employees/',
+    fetchEmployees: () => ({
+      url: '/admin/employees',
       method: methods.get,
     }),
   },
@@ -40,22 +40,21 @@ export default {
       method: methods.patch,
     }),
   },
-  getSeachNameEmployee: {
-    getSearchNameEmployee: (name: any) => ({
-      url: `/admin/employees/?active&name=${name}`,
-      method: methods.get,
-    }),
-  },
   deleteEmployee: {
     deleteEmployee: (_id: any) => ({
       url: `/admin/employees/${_id}`,
       method: methods.remove,
     }),
   },
+
   //company
   getCompanies: {
+    fetchCompanyDetail: (id: string) => ({
+      url: `/admin/companies/${id}`,
+      method: methods.get,
+    }),
     fetchCompanies: () => ({
-      url: '/admin/companies/?name&active',
+      url: '/admin/companies',
       method: methods.get,
     }),
   },
@@ -66,8 +65,8 @@ export default {
     }),
   },
   changeStatusCompany: {
-    statusCompany: (_id: string) => ({
-      url: `/admin/companies/${_id}`,
+    statusCompany: (payload: any) => ({
+      url: `/admin/companies/${payload._id}?active=${!payload.active}`,
       method: methods.patch,
     }),
   },
