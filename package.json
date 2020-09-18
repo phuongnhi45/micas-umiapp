@@ -30,6 +30,7 @@
     "jwt-decode": "^2.2.0",
     "lint-staged": "^10.0.7",
     "moment": "^2.28.0",
+    "lodash": "^4.17.20",
     "prettier": "^1.19.1",
     "react": "^16.13.1",
     "react-dom": "^16.12.0",

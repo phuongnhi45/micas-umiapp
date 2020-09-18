@@ -19,33 +19,18 @@ const postEmployee = async (payload: any) => {
   return dataResponse;
 };
 
-const getEmployees = async () => {
-  const api = APIConst.getEmployees.list();
-  const res = await request.call(api.url, {
+const getEmployees = async (payload: any) => {
+  console.log(payload, 'có gì trong cái gởi lên này');
+  const api = APIConst.getEmployees.fetchEmployees();
+  const response = await request.call(api.url, {
     method: api.method,
+    query: payload,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  const data = res.data;
-  const result = data.data.data;
-  return result;
-};
-
-const getSearchNameEmployee = async (payload: any) => {
-  const api = APIConst.getSeachNameEmployee.getSearchNameEmployee(payload);
-  const res = await request.call(api.url, {
-    method: api.method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!res.data) {
-    return;
-  }
-  const data = res.data;
-  const result = data.data.data;
-  return result;
+  console.log(response, 'res');
+  return response;
 };
 
 const postUpdateStatus = (payload: any) => {
@@ -88,6 +73,5 @@ export default {
   getEmployees,
   postUpdateStatus,
   editEmployee,
-  getSearchNameEmployee,
   deleteEmployee,
 };

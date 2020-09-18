@@ -24,11 +24,17 @@ export interface CompanyProps {
 class FormCompany extends React.Component<CompanyProps, any> {
   onFinish = async (value: any) => {
     const { dispatch, company } = this.props;
-
-    dispatch({
-      type: 'company/createCompany',
-      payload: value,
-    });
+    if (company) {
+      dispatch({
+        type: 'company/updateCompany',
+        payload: value,
+      });
+    } else {
+      dispatch({
+        type: 'company/createCompany',
+        payload: value,
+      });
+    }
   };
 
   render() {

@@ -1,14 +1,18 @@
 import React from 'react';
-import { Table, Button, Checkbox } from 'antd';
-import { EmployeeState } from 'umi';
+import { Table, Button, Checkbox, Popconfirm } from 'antd';
+import { IEmployee } from 'umi';
 import appIcon from '@/config/icons';
 
 interface Props {
   onUpdate: (isVisible: boolean, data: any) => void;
-  staffs: any;
+  onDelete: any;
+  employees: IEmployee[];
   loading: boolean;
-  onChangeStatus: any;
-  onDelete: (_id: any) => void;
+  onChangeStatus: (value: string, e: any) => void;
+  onChange: (pagination: any, filters: any, sorter: any) => void;
+  pageSize: number;
+  total: number;
+  current: number;
 }
 
 class TableList extends React.Component<Props> {
@@ -20,31 +24,42 @@ class TableList extends React.Component<Props> {
 
   render() {
     const { active } = this.state;
-    const { staffs, onUpdate, onDelete, loading, onChangeStatus } = this.props;
+    const {
+      employees,
+      onUpdate,
+      onDelete,
+      loading,
+      onChange,
+      pageSize,
+      total,
+      current,
+      onChangeStatus,
+    } = this.props;
+
     const columns = [
       {
         key: '_id',
         title: '#',
-        render: (value: any, record: EmployeeState, index: number) => index + 1,
-        align: 'center',
+        render: (value: any, record: IEmployee, index: number) => index + 1,
+        algin: 'center',
       },
       {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        align: 'center',
+        algin: 'center',
       },
       {
         title: 'Phone',
         dataIndex: 'phone',
         key: 'phone',
-        align: 'center',
+        algin: 'center',
       },
       {
         title: 'Active',
         dataIndex: '_id',
-        align: 'center',
-        render: (value: any, row: EmployeeState) => {
+        algin: 'center',
+        render: (value: any, row: IEmployee) => {
           if (row.active) {
             return (
               <Checkbox
@@ -62,22 +77,24 @@ class TableList extends React.Component<Props> {
           }
         },
       },
-
       {
-        title: '',
-        align: 'center',
-        render: (row: EmployeeState) => {
+        title: 'Action',
+        render: (value: any, row: IEmployee) => {
           return (
-            <div>
+            <>
               <Button
                 icon={<appIcon.EditOutlined />}
                 onClick={() => onUpdate(true, row)}
               />
-              <Button
-                icon={<appIcon.DeleteOutlined />}
-                onClick={() => onDelete(row)}
-              />
-            </div>
+              <Popconfirm
+                title="Are you sure？"
+                okText="Yes"
+                cancelText="No"
+                onConfirm={() => onDelete(row)}
+              >
+                <Button icon={<appIcon.DeleteOutlined />} />
+              </Popconfirm>
+            </>
           );
         },
       },
@@ -86,11 +103,13 @@ class TableList extends React.Component<Props> {
     return (
       <Table
         columns={columns}
-        dataSource={staffs}
+        dataSource={employees}
         bordered
         rowKey="_id"
         size="large"
         loading={loading}
+        onChange={onChange}
+        pagination={{ pageSize, total, current: current + 1 }}
       />
     );
   }

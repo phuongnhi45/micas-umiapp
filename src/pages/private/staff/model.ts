@@ -3,21 +3,34 @@ import { Effect, Reducer } from 'umi';
 import notification from '@/utils/notification';
 
 export interface EmployeeState {
+  employees: IEmployee[];
+  filter: IFilter;
+  employee: any;
+}
+
+export interface IFilter {
+  page: number;
+  limit: number;
+  total: number;
+  name?: string;
+}
+
+export interface IEmployee {
   name: string;
   phone: string;
   password: string;
   active: boolean;
+  _id: string;
 }
 
 export interface EmployeeModelType {
   namespace: string;
-  state: any;
+  state: EmployeeState;
   effects: {
     submitEmployee: Effect;
     getEmployees: Effect;
     updateStatus: Effect;
     editEmployee: Effect;
-    searchNameEmployee: Effect;
     deleteEmployee: Effect;
   };
   reducers: {
@@ -25,31 +38,48 @@ export interface EmployeeModelType {
   };
 }
 
+const initialState: EmployeeState = {
+  employees: [],
+  filter: {
+    page: 0,
+    total: 0,
+    limit: 20,
+    name: '',
+  },
+  employee: null,
+};
+
 const EmployeeModel: EmployeeModelType = {
   namespace: 'Employee',
-  state: [],
+  state: initialState,
   effects: {
     *submitEmployee({ payload }: any, { call, put, select }: any) {
       const response = yield call(service.postEmployee, payload);
       if (!response || response.err) {
-        return notification.error('Create employee failed!');
+        return notification.error('Create employee failed');
       }
-      notification.success('Create employee success!');
+      notification.success('Create employee success');
       yield put({
         type: 'getEmployees',
       });
     },
-    *getEmployees({ payload }: any, { call, put }: any) {
-      const data = yield call(service.getEmployees);
-      if (data) {
-        yield put({
-          type: 'save',
-          payload: data,
-        });
-      } else {
-        notification.error('No data log!');
-      }
+
+    *getEmployees({ payload }, { call, put }) {
+      const response = yield call(service.getEmployees, payload);
+      const { list, page, total, limit } = response.data.data;
+      yield put({
+        type: 'save',
+        payload: {
+          employees: list,
+          filter: {
+            page: page,
+            total: total,
+            limit,
+          },
+        },
+      });
     },
+
     *updateStatus({ payload }: any, { call, put }: any) {
       yield call(service.postUpdateStatus, payload);
       yield put({
@@ -57,43 +87,27 @@ const EmployeeModel: EmployeeModelType = {
       });
     },
     *editEmployee({ payload }: any, { call, put }: any) {
-      const data = yield call(service.editEmployee, payload);
-      if (data.data) {
-        notification.success('Edit employee success!');
-        yield put({
-          type: 'getEmployees',
-        });
-      } else {
-        console.log(data);
-        notification.error('Edit employee error!');
-      }
+      yield call(service.editEmployee, payload);
+      yield put({
+        type: 'getEmployees',
+      });
     },
-    *searchNameEmployee({ payload }: any, { call, put }: any) {
-      const data = yield call(service.getSearchNameEmployee, payload);
-      if (data) {
-        yield put({
-          type: 'save',
-          payload: data,
-        });
-      } else {
-        notification.error('No result!');
-        yield put({
-          type: 'getEmployees',
-        });
-      }
-    },
+
     *deleteEmployee({ payload }: any, { call, put }: any) {
       const data = yield call(service.deleteEmployee, payload);
       notification.success('Delete employee success');
       yield put({
-        type: 'getEmployees',
+        type: 'searchnameEmployee',
       });
     },
   },
 
   reducers: {
     save(state, action) {
-      return [...action.payload];
+      return {
+        ...state,
+        ...action.payload,
+      };
     },
   },
 };

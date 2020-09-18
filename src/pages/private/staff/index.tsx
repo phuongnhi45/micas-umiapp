@@ -6,7 +6,7 @@ import SearchInput from './components/search-input';
 import { connect, Loading, ConnectProps, Dispatch } from 'umi';
 import { EmployeeState } from './model';
 import { Button, Row, Col, Breadcrumb } from 'antd';
-
+import lodash from 'lodash';
 import appIcon from '@/config/icons';
 import styles from '../index.less';
 
@@ -23,10 +23,24 @@ class Staff extends React.Component<EmployeeProps, any> {
   };
 
   componentDidMount() {
+    this.onFilterChange({});
+  }
+
+  onFilterChange = (newFilter = {}) => {
+    const {
+      Employee: { filter },
+    } = this.props;
+    const filters = lodash.merge(filter, newFilter);
+    const query = lodash.pick(filters, ['page', 'name', 'active']);
+    this.loadData(query);
+  };
+
+  loadData = (payload: any) => {
     this.props.dispatch({
       type: 'Employee/getEmployees',
+      payload,
     });
-  }
+  };
 
   onSubmit = (values: any, staff: any) => {
     if (staff) {
@@ -44,10 +58,10 @@ class Staff extends React.Component<EmployeeProps, any> {
     this.onToggleModal(false, null);
   };
 
-  onSearch = (value: any) => {
-    this.props.dispatch({
-      type: 'Employee/searchNameEmployee',
-      payload: value,
+  onToggleModal = (isVisible: boolean, staff: any = null) => {
+    this.setState({
+      isVisible,
+      staff,
     });
   };
 
@@ -58,12 +72,6 @@ class Staff extends React.Component<EmployeeProps, any> {
       payload: { _id, active },
     });
   };
-  onToggleModal = (isVisible: boolean, staff: any = null) => {
-    this.setState({
-      isVisible,
-      staff,
-    });
-  };
 
   onDelete = (_id: any) => {
     this.props.dispatch({
@@ -71,15 +79,23 @@ class Staff extends React.Component<EmployeeProps, any> {
       payload: _id,
     });
   };
+
+  onTableChange = (pagination: any) => {
+    const { current } = pagination;
+    this.onFilterChange({ page: current - 1 });
+  };
   render() {
     const { isVisible, staff } = this.state;
-    const { loading } = this.props;
+    const {
+      loading,
+      Employee: { employees, filter },
+    } = this.props;
     return (
       <>
         <Row className={styles.header_content}>
           <Breadcrumb className={styles.breadcrumb}>
-            <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CÔNG TY GARA,
-            CỨU HỘ
+            <appIcon.ShopOutlined style={{ color: '#1890ff' }} />
+            COMPANY GARA
           </Breadcrumb>
           <Button type="primary" onClick={() => this.onToggleModal(true)}>
             New Staff
@@ -87,15 +103,23 @@ class Staff extends React.Component<EmployeeProps, any> {
         </Row>
         <Row>
           <Col span={4}>
-            <SearchInput onSearch={this.onSearch} />
+            <SearchInput
+              onSearch={(name: string) =>
+                this.onFilterChange({ name, page: 0 })
+              }
+            />
           </Col>
           <Col span={20}>
             <TableList
-              staffs={this.props.Employee}
               onUpdate={this.onToggleModal}
               onDelete={this.onDelete}
               loading={loading}
               onChangeStatus={this.onChangeStatus}
+              employees={employees}
+              pageSize={filter.limit}
+              total={filter.total}
+              current={filter.page}
+              onChange={this.onTableChange}
             />
           </Col>
         </Row>
