@@ -66,6 +66,19 @@ const EmployeeModel: EmployeeModelType = {
 
     *getEmployees({ payload }, { call, put }) {
       const response = yield call(service.getEmployees, payload);
+      console.log(response, 'response');
+      if (response.err === 'empty list') {
+        notification.error('No result!');
+        return yield put({
+          type: 'getEmployees',
+        });
+      }
+      if (response.err && response.err !== 'empty list') {
+        notification.error('Error server');
+        return yield put({
+          type: 'getEmployees',
+        });
+      }
       const { list, page, total, limit } = response.data.data;
       yield put({
         type: 'save',
@@ -88,17 +101,27 @@ const EmployeeModel: EmployeeModelType = {
     },
 
     *editEmployee({ payload }: any, { call, put }: any) {
-      yield call(service.editEmployee, payload);
-      yield put({
-        type: 'getEmployees',
-      });
+      const data = yield call(service.editEmployee, payload);
+      console.log(data, 'data edit');
+      if (data.data) {
+        notification.success('Edit employee success');
+        yield put({
+          type: 'getEmployees',
+        });
+      }
+      if (!data.data) {
+        notification.error('Edit employee failed!');
+        yield put({
+          type: 'getEmployees',
+        });
+      }
     },
 
     *deleteEmployee({ payload }: any, { call, put }: any) {
       const data = yield call(service.deleteEmployee, payload);
       notification.success('Deleted employee success');
       yield put({
-        type: 'searchnameEmployee',
+        type: 'getEmployees',
       });
     },
   },
