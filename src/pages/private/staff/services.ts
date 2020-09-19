@@ -20,7 +20,6 @@ const postEmployee = async (payload: any) => {
 };
 
 const getEmployees = async (payload: any) => {
-  console.log(payload, 'có gì trong cái gởi lên này');
   const api = APIConst.getEmployees.fetchEmployees();
   const response = await request.call(api.url, {
     method: api.method,
@@ -29,7 +28,6 @@ const getEmployees = async (payload: any) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(response, 'res');
   return response;
 };
 

@@ -71,8 +71,8 @@ export default {
     }),
   },
   updateCompany: {
-    editCompany: (_id: string) => ({
-      url: `/admin/companies/${_id}`,
+    editCompany: (id: string) => ({
+      url: `/admin/companies/${id}`,
       method: methods.patch,
     }),
   },

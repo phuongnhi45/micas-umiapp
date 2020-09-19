@@ -66,7 +66,6 @@ class ListCompanies extends React.Component<Props> {
       {
         title: 'Created Date',
         align: 'center',
-        dataIndex: 'createdAt',
         render: (value: string) => format.date(new Date().toISOString()),
       },
       {

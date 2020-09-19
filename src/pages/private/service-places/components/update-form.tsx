@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Button, Breadcrumb } from 'antd';
-import { Dispatch, Link } from 'umi';
+import { connect, Loading, Dispatch, Link } from 'umi';
+import { CompanyState } from '../model';
 
 import styles from '../../index.less';
 import appIcon from '@/config/icons';
@@ -19,19 +20,18 @@ export interface CompanyProps {
   loading: boolean;
 }
 
-// const breadcrumb = company ? 'Tạo mới' : 'Cập nhật';
-
 class FormCompany extends React.Component<CompanyProps, any> {
   onFinish = async (value: any) => {
-    const { dispatch, company } = this.props;
+    const { company, dispatch } = this.props;
     if (company) {
+      const id = company._id;
       dispatch({
-        type: 'company/updateCompany',
-        payload: value,
+        type: 'Company/updateCompany',
+        payload: { value, id },
       });
     } else {
       dispatch({
-        type: 'company/createCompany',
+        type: 'Company/createCompany',
         payload: value,
       });
     }
@@ -98,4 +98,9 @@ class FormCompany extends React.Component<CompanyProps, any> {
   }
 }
 
-export default FormCompany;
+export default connect(
+  ({ Company, loading }: { Company: CompanyState; loading: Loading }) => ({
+    Company,
+    loading: loading.models.Company,
+  }),
+)(FormCompany);

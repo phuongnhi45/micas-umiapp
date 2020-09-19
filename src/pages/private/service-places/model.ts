@@ -72,7 +72,6 @@ const CompanyModel: CompanyModelType = {
 
     *createCompany({ payload }, { call, put }) {
       yield call(service.postCompany, payload);
-      console.log(payload);
       if (!payload) {
         return notification.error('Create company failed');
       } else {
@@ -86,9 +85,8 @@ const CompanyModel: CompanyModelType = {
 
     *changeStatusCompany({ payload }, { call, put }) {
       const response = yield call(service.statusCompany, payload);
-      console.log('status', payload);
-      const { Data, message } = response.data;
-      if (!Data) {
+      const { data, message } = response.data;
+      if (!data) {
         return notification.error(message);
       }
       notification.success(message);
@@ -99,11 +97,12 @@ const CompanyModel: CompanyModelType = {
 
     *updateCompany({ payload }, { call, put }) {
       const response = yield call(service.editCompany, payload);
-      console.log('update', response);
-      if (!response.data) {
+      if (!response.data.data) {
         return notification.error('Update error');
+      } else {
+        notification.success('Updated success');
+        yield put(history.push('/service-places'));
       }
-      notification.success(response.message);
       yield put({
         type: 'getCompanies',
       });
@@ -121,11 +120,7 @@ const CompanyModel: CompanyModelType = {
     },
 
     *getRemoveCompany({ payload }: any, { call, put }: any) {
-      const response = yield call(service.removeCompany, payload);
-      console.log('delete', response);
-      if (!response.data) {
-        return notification.error('Delete failed');
-      }
+      yield call(service.removeCompany, payload);
       notification.success('Deleted success');
       yield put({
         type: 'getCompanies',
