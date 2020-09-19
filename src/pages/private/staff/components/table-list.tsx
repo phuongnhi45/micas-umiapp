@@ -17,8 +17,6 @@ interface Props {
 
 class TableList extends React.Component<Props> {
   state = {
-    searchText: '',
-    searchedColumn: '',
     active: false,
   };
 

@@ -16,6 +16,10 @@ const CollectionForm = ({ visible, onSubmit, onCancel, staff }: Props) => {
     onCancel(false, null);
   };
 
+  if (staff) {
+    staff.password = '123456';
+  }
+
   form.setFieldsValue(staff ? staff : {});
   return (
     <Modal
