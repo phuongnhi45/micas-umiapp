@@ -2,6 +2,7 @@ import request from '@/utils/request';
 import { APIConst } from '@/config';
 
 const token = localStorage.getItem('accessToken');
+
 const postEmployee = async (payload: any) => {
   const api = APIConst.submitEmployee.postEmployee();
   const dataResponse = await request

@@ -1,37 +1,60 @@
 import React from 'react';
-import { Table, Checkbox, Tag } from 'antd';
-import { Link, CompanyState } from 'umi';
+import { Table, Tag, Button, Popconfirm } from 'antd';
+import { Link, ICompany, history } from 'umi';
+
 import appIcon from '@/config/icons';
+import format from '@/utils/format';
+import styles from '../../index.less';
 
 interface Props {
-  onUpdate: (data: any) => void;
-  companies: any;
+  onChangeStatus: (active: boolean, _id: string) => void;
+  companies: ICompany[];
   loading: boolean;
+  onDelete: (_id: string) => void;
+  onChange: (pagination: any, filters: any, sorter: any) => void;
+  pageSize: number;
+  total: number;
+  current: number;
 }
 
 type IActiveFilterValue = 'active' | 'inactive';
 
 class ListCompanies extends React.Component<Props> {
   state = {
-    active: false,
     searchText: '',
+    active: false,
   };
 
+  goToEdit = (company: ICompany) => {
+    history.push(`/service-places/${company._id}/edit`);
+  };
+
+  onPaginationChange(pagination: number) {
+    console.log(pagination);
+  }
+
   render() {
-    const { companies, loading, onUpdate } = this.props;
-    const { active } = this.state;
-    const columns = [
+    const {
+      companies,
+      loading,
+      onChangeStatus,
+      onChange,
+      pageSize,
+      onDelete,
+      total,
+      current,
+    } = this.props;
+    const columns: any = [
       {
         title: '#',
         align: 'center',
-        key: '_id',
-        render: (value: any, record: CompanyState, index: number) => index + 1,
+        render: (value: any, record: ICompany, index: number) => index + 1,
       },
       {
         title: 'Name',
         dataIndex: 'name',
         render: (value: string) => {
-          return <Link to="/booking">{value}</Link>;
+          return <Link to="">{value}</Link>;
         },
       },
       {
@@ -41,10 +64,9 @@ class ListCompanies extends React.Component<Props> {
         render: (value: any) => <Tag color="blue">{value}</Tag>,
       },
       {
-        title: 'Created at',
+        title: 'Created Date',
         align: 'center',
-        width: '20%',
-        render: () => Date(),
+        render: (value: string) => format.date(new Date().toISOString()),
       },
       {
         title: 'Active',
@@ -60,7 +82,7 @@ class ListCompanies extends React.Component<Props> {
             value: 'inactive' as IActiveFilterValue,
           },
         ],
-        render: (active: boolean, row: CompanyState) => {
+        render: (active: boolean, row: ICompany) => {
           if (row.active) {
             return (
               <Tag
@@ -78,25 +100,32 @@ class ListCompanies extends React.Component<Props> {
           );
         },
         filterMultiple: false,
-        onFilter: (filterValue: IActiveFilterValue, record: CompanyState) =>
+        onFilter: (filterValue: IActiveFilterValue, record: ICompany) =>
           record.active === (filterValue === 'active' ? true : false),
       },
       {
         title: 'Action',
         align: 'center',
-        render: (value: any, row: CompanyState) => {
-          return <appIcon.EditOutlined onClick={() => onUpdate(value)} />;
+        render: (row: ICompany) => {
+          return (
+            <div className={styles.action}>
+              <Button
+                icon={<appIcon.EditOutlined />}
+                onClick={() => this.goToEdit(row)}
+              />
+              <Popconfirm
+                title="Are you sure？"
+                okText="Yes"
+                cancelText="No"
+                onConfirm={() => onDelete(row._id)}
+              >
+                <Button icon={<appIcon.DeleteOutlined />} />
+              </Popconfirm>
+            </div>
+          );
         },
       },
     ];
-
-    const onChangeStatus = (active: boolean, _id: string) => {
-      // this.props.dispatch({
-      //   type: 'Company/changeStatusCompany',
-      //   payload: { active, _id },
-      // });
-      console.log(active, _id);
-    };
 
     return (
       <Table
@@ -105,6 +134,8 @@ class ListCompanies extends React.Component<Props> {
         rowKey="_id"
         size="large"
         loading={loading}
+        onChange={onChange}
+        pagination={{ pageSize, total, current: current + 1 }}
       />
     );
   }

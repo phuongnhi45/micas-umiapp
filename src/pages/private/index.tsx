@@ -62,7 +62,7 @@ class UserStaff extends React.Component<any, any> {
           <Content
             style={{
               margin: '0 24px',
-              minHeight: 732,
+              minHeight: 757,
             }}
           >
             {this.props.children}

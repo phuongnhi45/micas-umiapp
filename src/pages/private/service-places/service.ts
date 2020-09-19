@@ -3,17 +3,16 @@ import { APIConst } from '@/config';
 
 const token = localStorage.getItem('accessToken');
 
-const fetchCompanies = async () => {
+const fetchCompanies = async (payload: any) => {
   const api = APIConst.getCompanies.fetchCompanies();
   const response = await request.call(api.url, {
     method: api.method,
+    query: payload,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  const data = response.data;
-  const result = data.Data;
-  return result;
+  return response;
 };
 
 const postCompany = async (payload: any) => {
@@ -21,6 +20,9 @@ const postCompany = async (payload: any) => {
   const response = await request
     .call(api.url, {
       method: api.method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       data: payload,
     })
     .then(function(res) {
@@ -32,37 +34,51 @@ const postCompany = async (payload: any) => {
   return response;
 };
 
-const statusCompany = async ({ _id }: { _id: string }, payload: any) => {
-  const api = APIConst.changeStatusCompany.statusCompany(_id);
+const statusCompany = async (payload: any) => {
+  const api = APIConst.changeStatusCompany.statusCompany(payload);
   const response = await request.call(api.url, {
     method: api.method,
-    data: payload,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   return response;
 };
 
 const editCompany = async (payload: any) => {
+  const active = { active: true };
+  const returnedTarget = Object.assign(payload.value, active);
   const api = APIConst.updateCompany.editCompany(payload.id);
-  request.call(api.url, {
-    method: api.method,
-    data: payload,
-    header: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-const searchCompanies = async (payload: any) => {
-  const api = APIConst.searchCompanies.searchCompanies(payload);
   const response = await request.call(api.url, {
     method: api.method,
-    header: {
+    data: returnedTarget,
+    headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  const data = response.data;
-  const result = data.Data;
-  return result;
+  return response;
+};
+
+const fetchCompanyDetail = async (id: string) => {
+  const api = APIConst.getCompanies.fetchCompanyDetail(id);
+  const response = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+const removeCompany = async (payload: any) => {
+  const api = APIConst.getRemoveCompany.removeCompany(payload);
+  const response = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
 };
 
 export default {
@@ -70,5 +86,6 @@ export default {
   postCompany,
   statusCompany,
   editCompany,
-  searchCompanies,
+  removeCompany,
+  fetchCompanyDetail,
 };

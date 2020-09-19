@@ -1,10 +1,9 @@
 import React from 'react';
 import { Form, Input, Button, Breadcrumb } from 'antd';
-import { ConnectProps, Dispatch, Link } from 'umi';
-
+import { connect, Loading, Dispatch, Link } from 'umi';
 import { CompanyState } from '../model';
 
-import styles from '../index.less';
+import styles from '../../index.less';
 import appIcon from '@/config/icons';
 
 const layout = {
@@ -15,45 +14,56 @@ const tailLayout = {
   wrapperCol: { offset: 3, span: 20 },
 };
 
-export interface CompanyProps extends ConnectProps {
-  company: CompanyState;
+export interface CompanyProps {
+  company?: any;
   dispatch: Dispatch;
   loading: boolean;
 }
 
-const title = company ? 'Tạo mới' : 'Cập nhật';
-
-class formCompany extends React.Component<CompanyProps, any> {
+class FormCompany extends React.Component<CompanyProps, any> {
   onFinish = async (value: any) => {
-    this.props.dispatch({
-      type: 'company/createCompany',
-      payload: value,
-    });
+    const { company, dispatch } = this.props;
+    if (company) {
+      const id = company._id;
+      dispatch({
+        type: 'Company/updateCompany',
+        payload: { value, id },
+      });
+    } else {
+      dispatch({
+        type: 'Company/createCompany',
+        payload: value,
+      });
+    }
   };
 
   render() {
+    const { company } = this.props; //null->create, else ->update
     return (
       <>
         <Breadcrumb style={{ margin: '20px 20px 20px 0px' }}>
-          <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CÔNG TY GARA,
-          CỨU HỘ/ {title}
+          <appIcon.ShopOutlined style={{ color: '#1890ff' }} />
+          SERVICE COMPANIES/ {company ? 'EDIT' : 'NEW'}
         </Breadcrumb>
         <Form
           {...layout}
           name="basic"
-          initialValues={{
-            remember: true,
-          }}
           onFinish={this.onFinish}
           className={styles.company}
         >
-          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+          <Form.Item
+            name="name"
+            label="Name"
+            rules={[{ required: true }]}
+            initialValue={company ? company.name : ''}
+          >
             <Input />
           </Form.Item>
 
           <Form.Item
             name="address"
             label="Address"
+            initialValue={company ? company.address : ''}
             rules={[{ required: true }]}
           >
             <Input />
@@ -64,7 +74,7 @@ class formCompany extends React.Component<CompanyProps, any> {
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.2771920086598!2d107.5865213149806!3d16.46149613317805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3141a138544240a5%3A0x882ddf04d7146c9f!2zOSBOZ8O0IFF1eeG7gW4sIFbEqW5oIE5pbmgsIFRow6BuaCBwaOG7kSBIdeG6vywgVGjhu6thIFRoacOqbiBIdeG6vywgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1585213273943!5m2!1svi!2s"
               width={'100%'}
-              height={400}
+              height={424}
               frameBorder={0}
               style={{ border: 0 }}
               allowFullScreen
@@ -75,7 +85,7 @@ class formCompany extends React.Component<CompanyProps, any> {
 
           <Form.Item {...tailLayout}>
             <Button type="primary" htmlType="submit">
-              Create
+              {company ? 'Update' : 'Create'}
             </Button>
           </Form.Item>
 
@@ -88,4 +98,9 @@ class formCompany extends React.Component<CompanyProps, any> {
   }
 }
 
-export default formCompany;
+export default connect(
+  ({ Company, loading }: { Company: CompanyState; loading: Loading }) => ({
+    Company,
+    loading: loading.models.Company,
+  }),
+)(FormCompany);

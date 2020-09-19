@@ -33,6 +33,8 @@ class Staff extends React.Component<EmployeeProps, any> {
     const filters = lodash.merge(filter, newFilter);
     const query = lodash.pick(filters, ['page', 'name', 'active']);
     this.loadData(query);
+
+    console.log(query);
   };
 
   loadData = (payload: any) => {
@@ -95,7 +97,7 @@ class Staff extends React.Component<EmployeeProps, any> {
         <Row className={styles.header_content}>
           <Breadcrumb className={styles.breadcrumb}>
             <appIcon.ShopOutlined style={{ color: '#1890ff' }} />
-            COMPANY GARA
+            STAFFS
           </Breadcrumb>
           <Button type="primary" onClick={() => this.onToggleModal(true)}>
             New Staff

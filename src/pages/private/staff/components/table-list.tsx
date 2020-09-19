@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button, Checkbox } from 'antd';
+import { Table, Button, Checkbox, Popconfirm } from 'antd';
 import { IEmployee } from 'umi';
 import appIcon from '@/config/icons';
 
@@ -86,10 +86,14 @@ class TableList extends React.Component<Props> {
                 icon={<appIcon.EditOutlined />}
                 onClick={() => onUpdate(true, row)}
               />
-              <Button
-                icon={<appIcon.DeleteOutlined />}
-                onClick={() => onDelete(row)}
-              />
+              <Popconfirm
+                title="Are you sure？"
+                okText="Yes"
+                cancelText="No"
+                onConfirm={() => onDelete(row)}
+              >
+                <Button icon={<appIcon.DeleteOutlined />} />
+              </Popconfirm>
             </>
           );
         },

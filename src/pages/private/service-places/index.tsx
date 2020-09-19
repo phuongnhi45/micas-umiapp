@@ -1,6 +1,8 @@
 import React from 'react';
-import { connect, Loading, ConnectProps, Dispatch } from 'umi';
+import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { CompanyState } from './model';
+import lodash from 'lodash';
+
 import ListCompanies from './components/list-company';
 import SearchName from './components/search-company';
 
@@ -15,35 +17,50 @@ export interface PageProps extends ConnectProps {
 }
 
 class ServicePlace extends React.Component<PageProps, any> {
-  state = {
-    company: null,
-  };
-
-  onSearch = (value: any) => {
-    this.props.dispatch({
-      type: 'Company/searchCompanies',
-      payload: value,
-    });
-  };
-
   componentDidMount() {
-    this.props.dispatch({
-      type: 'Company/getCompanies',
-    });
+    this.onFilterChange({});
   }
 
-  onChangeStatus = (active: boolean, _id: string) => {
+  onFilterChange = (newFilter = {}) => {
+    const {
+      Company: { filter },
+    } = this.props;
+    const filters = lodash.merge(filter, newFilter);
+    const query = lodash.pick(filters, ['page', 'name', 'limit', 'active']);
+    this.loadData(query);
+  };
+
+  loadData = (payload: any) => {
     this.props.dispatch({
-      type: 'Company/changeStatusCompany',
-      payload: { active, _id },
+      type: 'Company/getCompanies',
+      payload,
     });
   };
 
-  onToggleForm = () => {};
+  onChangeStatus = (active: any, _id: string) => {
+    this.props.dispatch({
+      type: 'Company/changeStatusCompany',
+      payload: { _id, active },
+    });
+  };
+
+  onTableChange = (pagination: any) => {
+    const { current } = pagination;
+    this.onFilterChange({ page: current - 1 });
+  };
+
+  onDelete = (_id: string) => {
+    this.props.dispatch({
+      type: 'Company/getRemoveCompany',
+      payload: _id,
+    });
+  };
 
   render() {
-    const { loading } = this.props;
-    const { company } = this.state;
+    const {
+      Company: { companies, filter },
+      loading,
+    } = this.props;
     return (
       <>
         <Row className={styles.row}>
@@ -51,21 +68,30 @@ class ServicePlace extends React.Component<PageProps, any> {
             <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CÔNG TY GARA,
             CỨU HỘ
           </Breadcrumb>
-          <Button type="primary" onClick={() => this.onToggleForm}>
-            New Company
+          <Button type="primary">
+            <Link to="/update-company">New Company</Link>
           </Button>
         </Row>
 
         <Row>
           <Col span={4}>
-            <SearchName onSearch={this.onSearch} />
+            <SearchName
+              onSearch={(name: string) =>
+                this.onFilterChange({ name, page: 0 })
+              }
+            />
           </Col>
 
           <Col className={styles.list_company} span={20}>
             <ListCompanies
-              onUpdate={this.onToggleForm}
-              companies={this.props.Company}
+              onChangeStatus={this.onChangeStatus}
+              companies={companies}
               loading={loading}
+              pageSize={filter.limit}
+              total={filter.total}
+              current={filter.page}
+              onDelete={this.onDelete}
+              onChange={this.onTableChange}
             />
           </Col>
         </Row>
