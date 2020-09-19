@@ -96,7 +96,9 @@ class Staff extends React.Component<EmployeeProps, any> {
       <>
         <Row className={styles.header_content}>
           <Breadcrumb className={styles.breadcrumb}>
-            <appIcon.ShopOutlined style={{ color: '#1890ff' }} />
+            <appIcon.ShopOutlined
+              style={{ color: '#1890ff', marginRight: '10px' }}
+            />
             STAFFS
           </Breadcrumb>
           <Button type="primary" onClick={() => this.onToggleModal(true)}>

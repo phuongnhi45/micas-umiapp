@@ -66,6 +66,7 @@ const deleteEmployee = (payload: any) => {
   });
   return res;
 };
+
 export default {
   postEmployee,
   getEmployees,

@@ -65,8 +65,8 @@ class ServicePlace extends React.Component<PageProps, any> {
       <>
         <Row className={styles.row}>
           <Breadcrumb className={styles.breadcrumb}>
-            <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CÔNG TY GARA,
-            CỨU HỘ
+            <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> SERVICE
+            COMPANIES
           </Breadcrumb>
           <Button type="primary">
             <Link to="/update-company">New Company</Link>

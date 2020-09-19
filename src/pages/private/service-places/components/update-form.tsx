@@ -41,8 +41,10 @@ class FormCompany extends React.Component<CompanyProps, any> {
     const { company } = this.props; //null->create, else ->update
     return (
       <>
-        <Breadcrumb style={{ margin: '20px 20px 20px 0px' }}>
-          <appIcon.ShopOutlined style={{ color: '#1890ff' }} />
+        <Breadcrumb style={{ margin: '20px 0px' }}>
+          <appIcon.ShopOutlined
+            style={{ color: '#1890ff', marginRight: '10px' }}
+          />
           SERVICE COMPANIES/ {company ? 'EDIT' : 'NEW'}
         </Breadcrumb>
         <Form

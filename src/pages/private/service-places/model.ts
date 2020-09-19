@@ -56,6 +56,12 @@ const CompanyModel: CompanyModelType = {
   effects: {
     *getCompanies({ payload }, { call, put }) {
       const response = yield call(service.fetchCompanies, payload);
+      if (!response.data) {
+        notification.error('No result!');
+        return yield put({
+          type: 'getCompanies',
+        });
+      }
       const { list, page, limit, total } = response.data.data;
       yield put({
         type: 'updateState',
@@ -76,7 +82,7 @@ const CompanyModel: CompanyModelType = {
         return notification.error('Create company failed');
       } else {
         notification.success('Created success');
-        yield put(history.push('/service-places'));
+        history.push('/service-places');
       }
       yield put({
         type: 'getCompanies',
@@ -101,7 +107,7 @@ const CompanyModel: CompanyModelType = {
         return notification.error('Update error');
       } else {
         notification.success('Updated success');
-        yield put(history.push('/service-places'));
+        history.push('/service-places');
       }
       yield put({
         type: 'getCompanies',

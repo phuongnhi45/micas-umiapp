@@ -21,7 +21,6 @@ type IActiveFilterValue = 'active' | 'inactive';
 
 class ListCompanies extends React.Component<Props> {
   state = {
-    searchText: '',
     active: false,
   };
 
