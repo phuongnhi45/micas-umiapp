@@ -74,10 +74,8 @@ const EmployeeModel: EmployeeModelType = {
         });
       }
       if (response.err && response.err !== 'empty list') {
-        notification.error('Error server');
-        return yield put({
-          type: 'getEmployees',
-        });
+        console.log('Error server');
+        return;
       }
       const { list, page, total, limit } = response.data.data;
       yield put({

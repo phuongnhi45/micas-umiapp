@@ -15,7 +15,6 @@ const CollectionForm = ({ visible, onSubmit, onCancel, staff }: Props) => {
     form.resetFields();
     onCancel(false, null);
   };
-  console.log(staff, 'staff');
   if (staff) {
     staff.password = '123456';
   }

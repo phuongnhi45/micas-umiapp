@@ -43,10 +43,10 @@ export class Sidebar extends React.Component {
             title="Customer"
           >
             <Menu.Item key="3">
-              <Link to="/service-places">Service-places</Link>
+              <Link to="/service-places">Service places</Link>
             </Menu.Item>
             <Menu.Item key="4">
-              <Link to="/booking">Booking</Link>
+              <Link to="/car-owners">Car owners</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu
