@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Breadcrumb } from 'antd';
 import { connect, Loading, Dispatch, Link } from 'umi';
 import { CustomerState } from '../../models/index';
-import './index.css';
+import './index.less';
 import appIcon from '@/config/icons';
 
 const layout = {
@@ -73,13 +73,15 @@ class FormCustomer extends React.Component<CustomerProps, any> {
             <Input type="password" />
           </Form.Item>
           <Form.Item {...tailLayout}>
-            <Button type="ghost" style={{ color: '#1890ff' }}>
-              <Link to="/car-owners">Cancel</Link>
-            </Button>
+            <div className="btn-choose">
+              <Button type="ghost" style={{ color: '#1890ff' }}>
+                <Link to="/car-owners">Cancel</Link>
+              </Button>
 
-            <Button type="primary" htmlType="submit">
-              {customer ? 'Update' : 'Create'}
-            </Button>
+              <Button type="primary" htmlType="submit">
+                {customer ? 'Update' : 'Create'}
+              </Button>
+            </div>
           </Form.Item>
         </Form>
       </>
