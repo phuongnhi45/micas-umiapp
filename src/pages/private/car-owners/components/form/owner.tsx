@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Breadcrumb } from 'antd';
 import { connect, Loading, Dispatch, Link } from 'umi';
 import { CustomerState } from '../../models/index';
-
+import './index.css';
 import appIcon from '@/config/icons';
 
 const layout = {
@@ -42,7 +42,7 @@ class FormCustomer extends React.Component<CustomerProps, any> {
     console.log(customer); //null->create, else ->update
     return (
       <>
-        <Breadcrumb style={{ margin: '20px 20px 20px 0px' }}>
+        <Breadcrumb style={{ margin: '20px 40px 40px 0px' }}>
           <appIcon.ShopOutlined style={{ color: '#1890ff' }} />
           CUSTOMER/ {customer ? 'EDIT' : 'NEW'}
         </Breadcrumb>
@@ -73,13 +73,14 @@ class FormCustomer extends React.Component<CustomerProps, any> {
             <Input type="password" />
           </Form.Item>
           <Form.Item {...tailLayout}>
+            <Button type="ghost" style={{ color: '#1890ff' }}>
+              <Link to="/car-owners">Cancel</Link>
+            </Button>
+
             <Button type="primary" htmlType="submit">
               {customer ? 'Update' : 'Create'}
             </Button>
           </Form.Item>
-          <Button type="ghost">
-            <Link to="/car-owners">Cancel</Link>
-          </Button>
         </Form>
       </>
     );
