@@ -27,6 +27,10 @@ export default defineConfig({
           path: '/service-places/:id/edit',
           component: 'private/service-places/[id]/edit',
         },
+        {
+          path: '/detail-company/:id',
+          component: 'private/detail-company/[id]/index',
+        },
         { path: '/booking', component: 'private/booking/index' },
         { path: '/staff', component: 'private/staff/index' },
         {

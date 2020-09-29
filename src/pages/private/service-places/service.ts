@@ -17,6 +17,7 @@ const fetchCompanies = async (payload: any) => {
 
 const postCompany = async (payload: any) => {
   const api = APIConst.createCompany.postCompany();
+  console.log('payload', payload);
   const response = await request
     .call(api.url, {
       method: api.method,

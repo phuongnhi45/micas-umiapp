@@ -77,8 +77,8 @@ const CompanyModel: CompanyModelType = {
     },
 
     *createCompany({ payload }, { call, put }) {
-      yield call(service.postCompany, payload);
-      if (!payload) {
+      const response = yield call(service.postCompany, payload);
+      if (!response.data) {
         return notification.error('Create company failed');
       } else {
         notification.success('Created success');
@@ -95,7 +95,7 @@ const CompanyModel: CompanyModelType = {
       if (!data) {
         return notification.error(message);
       }
-      notification.success(message);
+      notification.success('Success');
       yield put({
         type: 'getCompanies',
       });
