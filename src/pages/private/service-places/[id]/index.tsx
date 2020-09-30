@@ -1,14 +1,9 @@
-import { ReactElement } from 'react'
 import React from 'react'
 
-interface PageProps { }
-
-function ServicePlaceDetail(props: PageProps): ReactElement {
+export default function index() {
   return (
-    <>
-      Page detail
-    </>
+    <div>
+      <p>nothing here</p>
+    </div>
   )
 }
-
-export default ServicePlaceDetail
