@@ -24,11 +24,11 @@ class ListCompanies extends React.Component<Props> {
   };
 
   goToEdit = (company: ICompany) => {
-    history.push(`/service-places/${company._id}/edit`);
+    history.push(`/companies/${company._id}/edit`);
   };
 
   goToDetailCompany = (company: ICompany) => {
-    history.push(`/detail-company/${company._id}`);
+    history.push(`/companies/${company._id}`);
   };
 
   render() {

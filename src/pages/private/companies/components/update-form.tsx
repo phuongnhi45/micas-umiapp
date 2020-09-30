@@ -106,7 +106,7 @@ class FormCompany extends React.Component<CompanyProps, any> {
               {company ? 'Update' : 'Create'}
             </Button>
             <Button type="ghost">
-              <Link to="/service-places">Cancel</Link>
+              <Link to="/companies">Cancel</Link>
             </Button>
           </Form.Item>
         </Form>

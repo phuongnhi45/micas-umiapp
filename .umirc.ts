@@ -22,21 +22,21 @@ export default defineConfig({
       path: '/',
       component: 'private/index',
       routes: [
-        { path: '/service-places', component: 'private/service-places/index' },
-        {
-          path: '/service-places/:id/edit',
-          component: 'private/service-places/[id]/edit',
-        },
+        { path: '/companies', component: 'private/companies/index' },
         // companys
         {
-          path: '/update-company',
-          component: 'private/service-places/components/update-form',
+          path: '/companies/:id/edit',
+          component: 'private/companies/[id]/edit',
         },
         {
-          path: '/detail-company/:id',
-          component: 'private/detail-company/[id]/index',
+          path: '/update-company',
+          component: 'private/companies/components/update-form',
         },
-        { path: '/booking', component: 'private/booking/index' },
+        //detail-company
+        {
+          path: '/companies/:id',
+          component: 'private/companies/[id]/index',
+        },
         // car-owners
         { path: '/car-owners', component: 'private/car-owners/index' },
         {

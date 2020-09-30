@@ -82,7 +82,7 @@ const CompanyModel: CompanyModelType = {
         return notification.error('Create company failed');
       } else {
         notification.success('Created success');
-        history.push('/service-places');
+        history.push('/companies');
       }
       yield put({
         type: 'getCompanies',
@@ -107,7 +107,7 @@ const CompanyModel: CompanyModelType = {
         return notification.error('Update error');
       } else {
         notification.success('Updated success');
-        history.push('/service-places');
+        history.push('/companies');
       }
       yield put({
         type: 'getCompanies',
