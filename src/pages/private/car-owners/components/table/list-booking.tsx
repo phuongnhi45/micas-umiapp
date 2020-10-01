@@ -1,12 +1,11 @@
 import React from 'react';
 import { Table, Button, Checkbox, Popconfirm } from 'antd';
-import { IEmployee } from 'umi';
+import { ICustomer, Link, history } from 'umi';
 import appIcon from '@/config/icons';
-
 interface Props {
   onUpdate: (isVisible: boolean, data: any) => void;
   onDelete: any;
-  employees: IEmployee[];
+  customers: ICustomer[];
   loading: boolean;
   onChangeStatus: (value: string, e: any) => void;
   onChange: (pagination: any, filters: any, sorter: any) => void;
@@ -15,16 +14,20 @@ interface Props {
   current: number;
 }
 
-class TableList extends React.Component<Props> {
+class ListBooking extends React.Component<Props> {
   state = {
+    searchText: '',
+    searchedColumn: '',
     active: false,
+  };
+  goToEdit = (customer: ICustomer) => {
+    history.push(`/car-owners/${customer._id}/edit`);
   };
 
   render() {
     const { active } = this.state;
     const {
-      employees,
-      onUpdate,
+      customers,
       onDelete,
       loading,
       onChange,
@@ -38,7 +41,7 @@ class TableList extends React.Component<Props> {
       {
         key: '_id',
         title: '#',
-        render: (value: any, record: IEmployee, index: number) => index + 1,
+        render: (value: any, record: ICustomer, index: number) => index + 1,
         align: 'center',
       },
       {
@@ -46,6 +49,13 @@ class TableList extends React.Component<Props> {
         dataIndex: 'name',
         key: 'name',
         align: 'center',
+        render: (record: ICustomer, row: ICustomer) => {
+          return (
+            <div style={{ margin: 'auto', textAlign: 'center' }}>
+              <Link to={{ pathname: `/car-owners/${row._id}` }}>{record}</Link>
+            </div>
+          );
+        },
       },
       {
         title: 'Phone',
@@ -56,8 +66,9 @@ class TableList extends React.Component<Props> {
       {
         title: 'Active',
         dataIndex: '_id',
+        key: 'phone',
         align: 'center',
-        render: (value: any, row: IEmployee) => {
+        render: (value: any, row: ICustomer) => {
           if (row.active) {
             return (
               <Checkbox
@@ -77,16 +88,15 @@ class TableList extends React.Component<Props> {
       },
       {
         title: 'Action',
-        dataIndex: '_id',
-        key: '_id',
+        key: 'action',
         align: 'center',
-        render: (value: any, row: IEmployee) => {
+        render: (row: ICustomer) => {
           return (
             <div style={{ margin: 'auto', textAlign: 'center' }}>
               <span style={{ paddingRight: '10px' }}>
                 <Button
                   icon={<appIcon.EditOutlined />}
-                  onClick={() => onUpdate(true, row)}
+                  onClick={() => this.goToEdit(row)}
                 />
               </span>
               <Popconfirm
@@ -106,7 +116,7 @@ class TableList extends React.Component<Props> {
     return (
       <Table
         columns={columns}
-        dataSource={employees}
+        dataSource={customers}
         rowKey="_id"
         size="large"
         loading={loading}
@@ -117,4 +127,4 @@ class TableList extends React.Component<Props> {
   }
 }
 
-export default TableList;
+export default ListBooking;

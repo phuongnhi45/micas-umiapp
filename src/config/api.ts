@@ -82,4 +82,41 @@ export default {
       method: methods.remove,
     }),
   },
+
+  // customer
+
+  submitCustomer: {
+    postCustomer: () => ({
+      url: '/customer-register',
+      method: methods.post,
+    }),
+  },
+  getCustomers: {
+    fetchCustomers: () => ({
+      url: '/admin/customers',
+      method: methods.get,
+    }),
+    fetchCustomerDetail: (id: string) => ({
+      url: `/admin/customers/${id}`,
+      method: methods.get,
+    }),
+  },
+  updateStatusCustomer: {
+    postChangeStatus: (payload: any) => ({
+      url: `/admin/customers/${payload._id}?active=${payload.active}`,
+      method: methods.patch,
+    }),
+  },
+  editCustomer: {
+    editCustomer: (_id: any) => ({
+      url: `/admin/customers/${_id}`,
+      method: methods.patch,
+    }),
+  },
+  deleteCustomer: {
+    deleteCustomer: (_id: any) => ({
+      url: `/admin/customers/${_id}`,
+      method: methods.remove,
+    }),
+  },
 };

@@ -27,8 +27,23 @@ export default defineConfig({
           path: '/service-places/:id/edit',
           component: 'private/service-places/[id]/edit',
         },
-        { path: '/booking', component: 'private/booking/index' },
+        // car-owners
+        { path: '/car-owners', component: 'private/car-owners/index' },
+        {
+          path: '/car-owners/:id/edit',
+          component: 'private/car-owners/[id]/edit',
+        },
+        {
+          path: '/car-owners/:id',
+          component: 'private/car-owners/[id]/index',
+        },
+        {
+          path: '/create-customer',
+          component: 'private/car-owners/components/form/owner',
+        },
+        // staffs
         { path: '/staff', component: 'private/staff/index' },
+        // companys
         {
           path: '/update-company',
           component: 'private/service-places/components/update-form',
