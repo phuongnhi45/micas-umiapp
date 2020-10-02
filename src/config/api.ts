@@ -8,13 +8,14 @@ const methods = {
 
 export default {
   methods,
-  // submitlogin
+  //submitlogin
   submitlogin: {
     postLogin: () => ({
       url: '/employee-login',
       method: methods.post,
     }),
   },
+
   //employee
   submitEmployee: {
     postEmployee: () => ({
@@ -84,7 +85,6 @@ export default {
   },
 
   // customer
-
   submitCustomer: {
     postCustomer: () => ({
       url: '/customer-register',
@@ -116,6 +116,17 @@ export default {
   deleteCustomer: {
     deleteCustomer: (_id: any) => ({
       url: `/admin/customers/${_id}`,
+      method: methods.remove,
+    }),
+  },
+  //service
+  getServiceByCompany: {
+    fetchService: (id: string) => ({
+      url: `/admin/services?companyid=${id}`,
+      method: methods.get,
+    }),
+    removeService: (id: string) => ({
+      url: `/admin/services/${id}`,
       method: methods.remove,
     }),
   },

@@ -3,6 +3,7 @@ import { APIConst } from '@/config';
 
 const token = localStorage.getItem('accessToken');
 
+//company
 const fetchCompanies = async (payload: any) => {
   const api = APIConst.getCompanies.fetchCompanies();
   const response = await request.call(api.url, {
@@ -81,6 +82,29 @@ const removeCompany = async (payload: any) => {
   return response;
 };
 
+//service-places
+const fetchService = async (id: string) => {
+  const api = APIConst.getServiceByCompany.fetchService(id);
+  const response = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+const removeService = async (payload: any) => {
+  const api = APIConst.getServiceByCompany.removeService(payload);
+  const response = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
 export default {
   fetchCompanies,
   postCompany,
@@ -88,4 +112,6 @@ export default {
   editCompany,
   removeCompany,
   fetchCompanyDetail,
+  fetchService,
+  removeService,
 };

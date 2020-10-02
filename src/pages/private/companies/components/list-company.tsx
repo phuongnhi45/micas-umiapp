@@ -19,10 +19,6 @@ interface Props {
 type IActiveFilterValue = 'active' | 'inactive';
 
 class ListCompanies extends React.Component<Props> {
-  state = {
-    active: false,
-  };
-
   goToEdit = (company: ICompany) => {
     history.push(`/companies/${company._id}/edit`);
   };
