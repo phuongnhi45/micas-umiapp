@@ -6,6 +6,8 @@ export interface CompanyState {
   companies: ICompany[];
   filter: IFilter;
   company: any;
+  services: IService[];
+  service: any;
 }
 
 export interface IFilter {
@@ -18,9 +20,22 @@ export interface IFilter {
 export interface ICompany {
   address: string;
   name: string;
+  phone: string;
+  email: string;
   active: boolean;
   location: string;
   _id: string;
+}
+
+export interface IService {
+  address: string;
+  name: string;
+  active: boolean;
+  location: string;
+  email: string;
+  phone: string;
+  _id: string;
+  description: string;
 }
 
 interface CompanyModelType {
@@ -32,7 +47,9 @@ interface CompanyModelType {
     updateCompany: Effect;
     changeStatusCompany: Effect;
     getRemoveCompany: Effect;
-    getServicePlaceDetail: Effect;
+    getCompanyDetail: Effect;
+    getServiceByCompany: Effect;
+    getRemoveService: Effect;
   };
   reducers: {
     updateState: Reducer<CompanyState>;
@@ -44,10 +61,12 @@ const initialState: CompanyState = {
   filter: {
     page: 0,
     total: 0,
-    limit: 20,
+    limit: 10,
     name: '',
   },
   company: null,
+  services: [],
+  service: null,
 };
 
 const CompanyModel: CompanyModelType = {
@@ -57,10 +76,11 @@ const CompanyModel: CompanyModelType = {
     *getCompanies({ payload }, { call, put }) {
       const response = yield call(service.fetchCompanies, payload);
       if (!response.data) {
-        notification.error('No result!');
-        return yield put({
-          type: 'getCompanies',
-        });
+        notification.error('Error!');
+        console.log(response);
+        // return yield put({
+        //   type: 'getCompanies',
+        // });
       }
       const { list, page, limit, total } = response.data.data;
       yield put({
@@ -114,7 +134,7 @@ const CompanyModel: CompanyModelType = {
       });
     },
 
-    *getServicePlaceDetail({ id }: any, { call, put }: any) {
+    *getCompanyDetail({ id }: any, { call, put }: any) {
       const response = yield call(service.fetchCompanyDetail, id);
       const { data } = response.data;
       yield put({
@@ -130,6 +150,31 @@ const CompanyModel: CompanyModelType = {
       notification.success('Deleted success');
       yield put({
         type: 'getCompanies',
+      });
+    },
+
+    *getServiceByCompany({ id }: any, { call, put }: any) {
+      const response = yield call(service.fetchService, id);
+      if (!response.data) {
+        notification.error('No service!');
+        return;
+      } else {
+        const { list } = response.data.data;
+        yield put({
+          type: 'updateState',
+          payload: {
+            services: list,
+          },
+        });
+      }
+      return;
+    },
+
+    *getRemoveService({ payload }: any, { call, put }: any) {
+      yield call(service.removeService, payload);
+      notification.success('Deleted success');
+      yield put({
+        type: 'getServiceByCompany',
       });
     },
   },

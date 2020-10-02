@@ -1,43 +1,100 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect } from 'react'
+import { useParams, connect, CompanyState, Loading, Dispatch } from 'umi'
 
 import { Card, Row, Col, Breadcrumb, Button, Typography } from 'antd';
 import appIcon from '@/config/icons';
 import styles from '../../index.less'
 
-const { Title } = Typography;
+import ListService from './list-service';
 
-interface PageProps { }
+interface PageProps {
+  dispatch: Dispatch
+  Company: CompanyState
+  loading: boolean
+}
 
-function ServicePlaceDetail(props: PageProps): ReactElement {
+interface IParam {
+  id: string
+}
+
+function CompanyDetail(props: PageProps): ReactElement {
+  const { dispatch, Company: { company, services }, loading } = props
+  const params = useParams<IParam>()
+
+  useEffect(() => {
+    getCompanyDetail(params.id);
+    getServiceByCompany(params.id)
+  }, [])
+
+  const getCompanyDetail = (id: string) => {
+    dispatch({
+      type: 'Company/getCompanyDetail',
+      id,
+    })
+  }
+
+  const getServiceByCompany = (id: string) => {
+    dispatch({
+      type: 'Company/getServiceByCompany',
+      id,
+    })
+  }
+
+  const onDelete = (id: string) => {
+    dispatch({
+      type: 'Company/getRemoveService',
+      payload: id,
+    })
+  }
+
+  const { Text, Title } = Typography;
+
   return (
     <>
       <Row className={styles.row}>
         <Breadcrumb className={styles.breadcrumb}>
           <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> SERVICE
-          COMPANIES/ 
+          COMPANIES/ {(company) && company.name}
         </Breadcrumb>
       </Row>
 
       <Card>
-        <Title level={4}>Ant Design</Title> 
+        <Title level={4}>{(company) && company.name}</Title> 
         <Row>
           <Col md={{ span: 5 }} lg={{ span: 6}}>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil maxime eius ipsum quod distinctio ea nisi voluptates eveniet suscipit eligendi excepturi, labore similique atque officia asperiores culpa, optio mollitia temporibus!
+            <Text className={styles.title}>Phone:</Text>
+            <Text className={styles.content} type="secondary">{(company) && company.phone}</Text>
           </Col>
           <Col md={{ span: 11, offset: 1 }} lg={{ span: 6, offset: 2 }}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus nihil nesciunt quidem fuga vel aliquam inventore harum illum nulla commodi ex reiciendis blanditiis aspernatur, maxime quae laudantium vitae. Sint, deleniti.
+            <Text className={styles.title}>Email:</Text>
+            <Text className={styles.content} type="secondary">{(company) && company.email}</Text>
           </Col>
           <Col md={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, omnis doloribus. Quo id nihil nemo voluptatum vitae modi quae est eius suscipit animi nesciunt blanditiis, tempore sed hic commodi autem.
+            <Text className={styles.title}>Address:</Text>
+            <Text className={styles.content} type="secondary">{(company) && company.address}</Text>
           </Col>
         </Row>
       </Card>
 
       <Row className={styles.row} style={{backgroundColor: "white"}}>
-        <Button type="primary">Create</Button>
+        {
+          (services) && 
+            <ListService
+              loading={loading}
+              onDelete={onDelete}
+              // onChangeStatus={this.onChangeStatus}
+              services={services}
+
+            />
+        }
       </Row>
     </>
   )
 }
 
-export default ServicePlaceDetail
+export default connect(
+  ({ Company, loading }: { Company: CompanyState; loading: Loading }) => ({
+    Company,
+    loading: loading.models.Company,
+  }),
+)(CompanyDetail);
