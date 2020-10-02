@@ -14,7 +14,7 @@ interface Props {
   current: number;
 }
 
-class TableList extends React.Component<Props> {
+class ListCar extends React.Component<Props> {
   state = {
     searchText: '',
     searchedColumn: '',
@@ -127,4 +127,4 @@ class TableList extends React.Component<Props> {
   }
 }
 
-export default TableList;
+export default ListCar;

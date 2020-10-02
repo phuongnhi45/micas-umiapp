@@ -92,7 +92,7 @@ class Customer extends React.Component<CustomerProps, any> {
         <Row className={styles.header_content}>
           <Breadcrumb className={styles.breadcrumb}>
             <appIcon.ShopOutlined style={{ color: '#1890ff' }} />
-            CUSTOMERS
+            CAR OWNERS
           </Breadcrumb>
           <Button type="primary">
             <Link to="/create-customer">New Customer</Link>
