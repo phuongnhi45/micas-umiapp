@@ -119,4 +119,10 @@ export default {
       method: methods.remove,
     }),
   },
+  postAvatar: {
+    postAvatar: (_id: any) => ({
+      url: `/resources/img/resources/img/${_id}.png`,
+      method: methods.get,
+    }),
+  },
 };

@@ -29,10 +29,6 @@ class ListCompanies extends React.Component<Props> {
     history.push(`/service-places/${company._id}/edit`);
   };
 
-  onPaginationChange(pagination: number) {
-    console.log(pagination);
-  }
-
   render() {
     const {
       companies,

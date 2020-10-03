@@ -43,6 +43,7 @@ export default class App extends React.Component {
               required: true,
               message: 'Please input your password!',
             },
+            { len: 6, message: 'Password must be 6 characters.' },
           ]}
         >
           <Input.Password />

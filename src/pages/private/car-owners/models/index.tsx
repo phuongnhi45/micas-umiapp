@@ -18,6 +18,7 @@ export interface IFilter {
 export interface ICustomer {
   name: string;
   phone: string;
+  address: string;
   password: string;
   active: boolean;
   _id: string;
@@ -33,6 +34,7 @@ export interface CustomerModelType {
     editCustomer: Effect;
     deleteCustomer: Effect;
     getCustomerDetail: Effect;
+    postAvatar: Effect;
   };
   reducers: {
     save: Reducer<CustomerState>;
@@ -68,12 +70,9 @@ const CustomerModel: CustomerModelType = {
 
     *getCustomers({ payload }, { call, put }) {
       const response = yield call(service.getCustomers, payload);
-      console.log(response, 'response');
       if (response.err === 'empty list') {
         notification.error('No result!');
-        return yield put({
-          type: 'getCustomers',
-        });
+        return;
       }
       if (response.err && response.err !== 'empty list') {
         console.error('Error server');
@@ -102,7 +101,6 @@ const CustomerModel: CustomerModelType = {
 
     *editCustomer({ payload }: any, { call, put }: any) {
       const data = yield call(service.editCustomer, payload);
-      console.log(data, 'data edit');
       if (data.data) {
         notification.success('Edit customer success');
         history.push('/car-owners');
@@ -132,6 +130,26 @@ const CustomerModel: CustomerModelType = {
         type: 'save',
         payload: {
           customer: data,
+        },
+      });
+    },
+    //hàm này thực hiện tại page customer
+    *postAvatar({ payload }, { call, put }) {
+      const response = yield call(service.postAvatar, payload);
+      console.log(response, 'response');
+      if (response.err === 'empty list') {
+        notification.error('No result!');
+        return;
+      }
+      if (response.err && response.err !== 'empty list') {
+        console.error('Error server');
+        return;
+      }
+      const { a } = response.data;
+      yield put({
+        type: 'save',
+        payload: {
+          a,
         },
       });
     },

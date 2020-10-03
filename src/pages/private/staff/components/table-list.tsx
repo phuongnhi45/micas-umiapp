@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Button, Checkbox, Popconfirm } from 'antd';
-import { IEmployee } from 'umi';
+import { IEmployee, Link } from 'umi';
 import appIcon from '@/config/icons';
 
 interface Props {
@@ -34,29 +34,35 @@ class TableList extends React.Component<Props> {
       onChangeStatus,
     } = this.props;
 
-    const columns = [
+    const columns: any = [
       {
         key: '_id',
         title: '#',
         render: (value: any, record: IEmployee, index: number) => index + 1,
         align: 'center',
+        width: 200,
       },
       {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        align: 'center',
+        width: 200,
+        render: (record: IEmployee) => {
+          return <Link to="">{record}</Link>;
+        },
       },
       {
         title: 'Phone',
         dataIndex: 'phone',
         key: 'phone',
         align: 'center',
+        width: 200,
       },
       {
         title: 'Active',
         dataIndex: '_id',
         align: 'center',
+        width: 150,
         render: (value: any, row: IEmployee) => {
           if (row.active) {
             return (
@@ -80,10 +86,11 @@ class TableList extends React.Component<Props> {
         dataIndex: '_id',
         key: '_id',
         align: 'center',
+        width: 200,
         render: (value: any, row: IEmployee) => {
           return (
             <div style={{ margin: 'auto', textAlign: 'center' }}>
-              <span style={{ paddingRight: '10px' }}>
+              <span style={{ paddingRight: '5px' }}>
                 <Button
                   icon={<appIcon.EditOutlined />}
                   onClick={() => onUpdate(true, row)}

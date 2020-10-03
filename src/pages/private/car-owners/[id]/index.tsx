@@ -1,12 +1,12 @@
-import { ReactElement, useEffect } from 'react'
-import React from 'react'
+import React,{useState, ReactElement, useEffect } from 'react'
 import { useParams, connect, CustomerState, Loading, Dispatch } from 'umi'
 import { Spin, Breadcrumb , Row, Col, Tabs,Select} from 'antd'
 import appIcon from '../../../../config/icons';
 import ListBooking from '../components/table/list-booking'
 import ListCar from '../components/table/list-car'
 import './index.less'
-
+import Avatar from '../components/avatar/index'
+import 'antd/dist/antd.css';
 
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -33,9 +33,8 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
     dispatch({
       type: 'Customer/getCustomerDetail',
       id,
-    })
+    });
   }
-
   if (!customer) return <Spin />
   return (
   <>
@@ -45,7 +44,9 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
     </Breadcrumb>
     <Row justify="space-between">
       <Col span={6} style={{backgroundColor:"white",paddingTop:'40px', margin:'0 10px 24px 10px', textAlign:'center',  border: '1px solid #e8e8e8'}} className='part-infor-cus' >
-        <div ><img src="http://t1.gstatic.com/images?q=tbn:ANd9GcQMEl5NG_dB4rJTA2I2GWv6pjqW8LIXv5ZzJISfF7zdloY54sZ2cj5qxIT0FC5RrM20xSRgNickxvMk0Rno4h4" width='55%' style={{borderRadius:'50%'}} /></div>
+        <div >
+      <Avatar  cus={customer}/>
+         </div>
           <h2 className='name'>{customer.name}</h2>
 
         <div className='info-cus'>
@@ -106,3 +107,5 @@ export default connect(
     loading: loading.models.Customer,
   }),
 )(ServicePlaceEdit);
+
+// /https://codesandbox.io/s/muddy-voice-6wjpo

@@ -30,8 +30,6 @@ class Customer extends React.Component<CustomerProps, any> {
     const filters = lodash.merge(filter, newFilter);
     const query = lodash.pick(filters, ['page', 'name', 'active']);
     this.loadData(query);
-
-    console.log(query);
   };
 
   loadData = (payload: any) => {
