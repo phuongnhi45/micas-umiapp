@@ -79,6 +79,7 @@ const CustomerModel: CustomerModelType = {
         return;
       }
       const { list, page, total, limit } = response.data.data;
+      console.log(response), 'res';
       yield put({
         type: 'save',
         payload: {

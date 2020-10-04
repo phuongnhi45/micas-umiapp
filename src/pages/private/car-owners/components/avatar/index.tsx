@@ -1,13 +1,13 @@
 import React from 'react';
-import 'antd/dist/antd.css';
 import { Upload, message } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import { connect, CustomerState, Loading, Dispatch } from 'umi';
-
+import '../../../index.less';
 function getBase64(img: any, callback: any) {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
   reader.readAsDataURL(img);
+  console.log(img, 'img');
 }
 
 function beforeUpload(file: any) {
@@ -41,14 +41,14 @@ class Avatar extends React.Component<PageProps, any> {
     if (info.file.status === 'done') {
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, (imageUrl: any) => {
+        const file = info.file.originFileObj;
         this.setState({
           imageUrl,
           loading: false,
         });
-
         this.props.dispatch({
           type: 'Customer/postAvatar',
-          payload: imageUrl,
+          payload: file,
         });
       });
     }
@@ -66,6 +66,7 @@ class Avatar extends React.Component<PageProps, any> {
       <div>
         {' '}
         <img
+          className="cus-avatar"
           src={`http://micasvn.ddns.net:9999/resources/img/${customer.largeimage}`}
           width="100%"
           style={{ borderRadius: '50%' }}
@@ -89,6 +90,7 @@ class Avatar extends React.Component<PageProps, any> {
               <img
                 src={imageUrl}
                 alt="avatar"
+                className="cus-avatar"
                 style={{ borderRadius: '50%', width: '100%' }}
               />
             </div>

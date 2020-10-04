@@ -1,12 +1,11 @@
 import React,{useState, ReactElement, useEffect } from 'react'
 import { useParams, connect, CustomerState, Loading, Dispatch } from 'umi'
-import { Spin, Breadcrumb , Row, Col, Tabs,Select} from 'antd'
+import { Spin, Breadcrumb , Row, Col, Tabs,Select, Button} from 'antd'
+import ModalForm from '../components/form/booking';
 import appIcon from '../../../../config/icons';
-import ListBooking from '../components/table/list-booking'
 import ListCar from '../components/table/list-car'
-import './index.less'
 import Avatar from '../components/avatar/index'
-import 'antd/dist/antd.css';
+import './index.less'
 
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -27,7 +26,7 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
   useEffect(() => {
     getCustomerDetail(params.id)
   }, [])
-
+  const [isVisible, setIsVisible] = useState(false);
   const getCustomerDetail = (id: string) => {
     // Goi api company detail , kết quả lưu vào state model
     dispatch({
@@ -35,6 +34,21 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
       id,
     });
   }
+  
+  const onSubmit = (values: any) => {
+    
+      // props.dispatch({
+      //   type: 'Employee/submitEmployee',
+      //   payload: values,
+      // });
+      console.log(values,'values nef')
+    onToggleModal();
+  };
+
+ const  onToggleModal = () => {
+  setIsVisible(!isVisible)
+  };
+
   if (!customer) return <Spin />
   return (
   <>
@@ -74,7 +88,15 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
         <div className="card-container" >
           <Tabs type="card">
             <TabPane tab="Car" key="1">
+            <Button type="primary" onClick={() =>onToggleModal()}>
+            New Staff
+            </Button>              
               <ListCar/>
+              <ModalForm
+          visible={isVisible}
+          onSubmit={onSubmit}
+          onCancel={onToggleModal}
+        />
             </TabPane>
             <TabPane tab="Booking" key="2">
               <h4>Status</h4>
@@ -85,7 +107,6 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
                 <Option value="Completed">Completed</Option>
                 <Option value="All">All</Option>                
               </Select>              
-              <ListBooking/>
             </TabPane>
             <TabPane tab="Booking histories" key="3">
               <h4> Chọn xe</h4>

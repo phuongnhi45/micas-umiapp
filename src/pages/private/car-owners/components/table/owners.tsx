@@ -3,6 +3,7 @@ import Ellipsis from 'ant-design-pro/lib/Ellipsis';
 import { Table, Button, Checkbox, Popconfirm, Tag } from 'antd';
 import { ICustomer, Link, history } from 'umi';
 import appIcon from '@/config/icons';
+import './index.less';
 interface Props {
   onUpdate: (isVisible: boolean, data: any) => void;
   onDelete: any;

@@ -1,41 +1,41 @@
 import React, { Component } from 'react';
-import 'antd/dist/antd.css';
-import { Table } from 'antd';
 
+import { Table } from 'antd';
+import './index.less';
 const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
+    title: ' VIN',
+    dataIndex: 'vin',
+    key: 'vin',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
+    title: 'DEVICE MAC ADDRESS',
+    dataIndex: 'mac',
+    key: 'mac',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
+    title: 'BRAND',
+    dataIndex: 'brand',
+    key: 'brand',
+  },
+  {
+    title: 'MODEL',
+    dataIndex: 'model',
+    key: 'model',
+  },
+  {
+    title: 'RELEASE YEAR',
+    dataIndex: 'release',
+    key: 'release',
   },
 ];
 const data: any = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-  },
+  { vin: '1', mac: 'Qqq', brand: 'Vin', model: 'WWE', release: '2019' },
+  { vin: '2', mac: 'Qqq', brand: 'Vi', model: 'WWEa', release: '2020' },
+  { vin: '3', mac: 'Qqq', brand: 'Vin', model: 'WDWE', release: '2020' },
+  { vin: '4', mac: 'Qqq', brand: 'Vin', model: 'WWEF', release: '2020' },
 ];
+
 class ListCar extends React.Component<any> {
   render() {
     return <Table columns={columns} dataSource={data} />;

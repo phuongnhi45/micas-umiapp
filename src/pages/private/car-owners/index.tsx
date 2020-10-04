@@ -1,6 +1,7 @@
 import React from 'react';
 import TableList from './components/table/owners';
 import SearchInput from './components/input/search-owner';
+import ListCar from './components/table/list-car';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { CustomerState } from './models/index';
 import { Button, Row, Col, Breadcrumb } from 'antd';

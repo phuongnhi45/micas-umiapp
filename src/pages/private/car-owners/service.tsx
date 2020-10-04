@@ -80,10 +80,14 @@ const fetchCustomerDetail = async (id: string) => {
 };
 
 const postAvatar = async (payload: any) => {
-  const api = APIConst.postAvatar.postAvatar(payload);
-
+  const api = APIConst.postAvatar.postAvatar();
+  const formData = new FormData();
+  formData.append('file', payload);
+  console.log(payload);
   const response = await request.call(api.url, {
     method: api.method,
+    body: formData,
+    requestType: 'form',
   });
   return response;
 };

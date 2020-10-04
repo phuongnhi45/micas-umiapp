@@ -120,9 +120,9 @@ export default {
     }),
   },
   postAvatar: {
-    postAvatar: (_id: any) => ({
-      url: `/resources/img/resources/img/${_id}.png`,
-      method: methods.get,
+    postAvatar: () => ({
+      url: `/resources/upload`,
+      method: methods.post,
     }),
   },
 };
