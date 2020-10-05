@@ -38,6 +38,7 @@ class SignIn extends React.Component<SignInProps, any> {
                   required: true,
                   message: 'Please input your Phone!',
                 },
+                { len: 10, message: 'Phone must be 10 characters.' },
               ]}
               name="phone"
             >
@@ -49,6 +50,7 @@ class SignIn extends React.Component<SignInProps, any> {
                   required: true,
                   message: 'Please input your Password!',
                 },
+                { len: 6, message: 'Password must be 6 characters.' },
               ]}
               name="password"
             >

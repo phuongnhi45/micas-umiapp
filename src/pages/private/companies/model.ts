@@ -53,6 +53,7 @@ interface CompanyModelType {
     createService: Effect;
     getRemoveService: Effect;
     changeStatusService: Effect;
+    editService: Effect;
   };
   reducers: {
     updateState: Reducer<CompanyState>;
@@ -199,6 +200,19 @@ const CompanyModel: CompanyModelType = {
       yield put({
         type: 'getServiceByCompany',
         id: payload.id,
+      });
+    },
+
+    *editService({ payload }, { call, put }) {
+      const response = yield call(service.updateService, payload);
+      const { data, message } = response.data;
+      if (!data) {
+        return notification.error(message);
+      }
+      notification.success('Success');
+      yield put({
+        type: 'getServiceByCompany',
+        id: payload._id,
       });
     },
 

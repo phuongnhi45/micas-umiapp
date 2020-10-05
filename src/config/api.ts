@@ -137,5 +137,15 @@ export default {
       url: `/admin/services/${payload._id}?active=${payload.active}`,
       method: methods.patch,
     }),
+    updateService: (id: string) => ({
+      url: `/admin/services/${id}`,
+      method: methods.patch,
+    }),
+  },
+  postAvatar: {
+    postAvatar: () => ({
+      url: `/resources/upload`,
+      method: methods.post,
+    }),
   },
 };

@@ -135,6 +135,20 @@ const statusService = async (payload: any) => {
   return response;
 };
 
+const updateService = async (payload: any) => {
+  const active = { active: true };
+  const returnedTarget = Object.assign(payload.data, active);
+  const api = APIConst.getServiceByCompany.updateService(payload.id);
+  const response = await request.call(api.url, {
+    method: api.method,
+    data: returnedTarget,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
 export default {
   fetchCompanies,
   postCompany,
@@ -146,4 +160,5 @@ export default {
   removeService,
   statusService,
   postService,
+  updateService,
 };

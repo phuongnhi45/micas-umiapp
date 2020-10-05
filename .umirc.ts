@@ -44,6 +44,10 @@ export default defineConfig({
           component: 'private/car-owners/[id]/edit',
         },
         {
+          path: '/car-owners/:id',
+          component: 'private/car-owners/[id]/index',
+        },
+        {
           path: '/create-customer',
           component: 'private/car-owners/components/form/owner',
         },

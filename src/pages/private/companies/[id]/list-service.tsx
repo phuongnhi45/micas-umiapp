@@ -30,16 +30,18 @@ class ListService extends React.Component<Props> {
   };
 
   onSubmit = (data: any, service: any, company: any) => {
-    const values = Object.assign(data, { companyid: company._id });
     if (!service) {
+      const values = Object.assign(data, { companyid: company._id });
       this.props.dispatch({
         type: 'Company/createService',
         payload: values
       });
     } else {
+      const id = service._id
+      const _id = company._id
       this.props.dispatch({
-        type: 'Company/updateService',
-        payload: values
+        type: 'Company/editService',
+        payload: { data, id, _id }
       });
     }
     this.onToggleModal(false, null);

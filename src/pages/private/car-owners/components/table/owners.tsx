@@ -1,8 +1,9 @@
 import React from 'react';
-import { Table, Button, Checkbox, Popconfirm } from 'antd';
+import Ellipsis from 'ant-design-pro';
+import { Table, Button, Checkbox, Popconfirm, Tag } from 'antd';
 import { ICustomer, Link, history } from 'umi';
 import appIcon from '@/config/icons';
-import styles from '../../../index.less';
+import './index.less';
 interface Props {
   onUpdate: (isVisible: boolean, data: any) => void;
   onDelete: any;
@@ -44,16 +45,18 @@ class TableList extends React.Component<Props> {
         title: '#',
         render: (value: any, record: ICustomer, index: number) => index + 1,
         align: 'center',
+        width: 150,
       },
       {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        align: 'center',
-        render: (record: ICustomer) => {
+        width: 150,
+
+        render: (record: ICustomer, row: ICustomer) => {
           return (
-            <div style={{ margin: 'auto', textAlign: 'center' }}>
-              <Link to="">{record}</Link>
+            <div>
+              <Link to={{ pathname: `/car-owners/${row._id}` }}>{record}</Link>
             </div>
           );
         },
@@ -63,12 +66,31 @@ class TableList extends React.Component<Props> {
         dataIndex: 'phone',
         key: 'phone',
         align: 'center',
+        width: 150,
+      },
+      {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+        align: 'center',
+        width: 150,
+
+        render: (record: ICustomer, row: ICustomer) => {
+          return (
+            <Tag color="blue" style={{ width: '100px' }}>
+              {/* <Ellipsis length={10} tooltip>
+                {record}
+              </Ellipsis> */}
+            </Tag>
+          );
+        },
       },
       {
         title: 'Active',
         dataIndex: '_id',
         key: 'phone',
         align: 'center',
+        width: 50,
         render: (value: any, row: ICustomer) => {
           if (row.active) {
             return (
@@ -91,10 +113,11 @@ class TableList extends React.Component<Props> {
         title: 'Action',
         key: 'action',
         align: 'center',
+        width: 150,
         render: (row: ICustomer) => {
           return (
             <div style={{ margin: 'auto', textAlign: 'center' }}>
-              <span style={{ paddingRight: '10px' }}>
+              <span style={{ paddingRight: '5px' }}>
                 <Button
                   icon={<appIcon.EditOutlined />}
                   onClick={() => this.goToEdit(row)}

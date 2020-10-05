@@ -1,6 +1,7 @@
 import React from 'react';
 import TableList from './components/table/owners';
 import SearchInput from './components/input/search-owner';
+import ListCar from './components/table/list-car';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { CustomerState } from './models/index';
 import { Button, Row, Col, Breadcrumb } from 'antd';
@@ -30,8 +31,6 @@ class Customer extends React.Component<CustomerProps, any> {
     const filters = lodash.merge(filter, newFilter);
     const query = lodash.pick(filters, ['page', 'name', 'active']);
     this.loadData(query);
-
-    console.log(query);
   };
 
   loadData = (payload: any) => {
@@ -92,7 +91,7 @@ class Customer extends React.Component<CustomerProps, any> {
         <Row className={styles.header_content}>
           <Breadcrumb className={styles.breadcrumb}>
             <appIcon.ShopOutlined style={{ color: '#1890ff' }} />
-            CUSTOMERS
+            CAR OWNERS
           </Breadcrumb>
           <Button type="primary">
             <Link to="/create-customer">New Customer</Link>

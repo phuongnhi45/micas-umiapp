@@ -1,30 +1,24 @@
 import React from 'react';
 import { Modal, Form, Input } from 'antd';
-import styles from '../../index.less';
 
 interface Props {
   visible: boolean;
-  staff: any;
-  onSubmit: (data: any, staff: any) => void;
+  onSubmit: (data: any) => void;
   onCancel: (isVisible: boolean, data: any) => void;
 }
 
-const CollectionForm = ({ visible, onSubmit, onCancel, staff }: Props) => {
+const CollectionForm = ({ visible, onSubmit, onCancel }: Props) => {
   const [form] = Form.useForm();
   const cancelAndResetField = () => {
     form.resetFields();
     onCancel(false, null);
   };
-  if (staff) {
-    staff.password = '123456';
-  }
-
-  form.setFieldsValue(staff ? staff : {});
+  form.setFieldsValue({});
   return (
     <Modal
       visible={visible}
-      title={staff ? 'Edit employee' : 'Create employee'}
-      okText={staff ? 'Update' : 'Create'}
+      title={'Create booking'}
+      okText={'Create'}
       cancelText="Cancel"
       onCancel={cancelAndResetField}
       onOk={() => {
@@ -33,7 +27,7 @@ const CollectionForm = ({ visible, onSubmit, onCancel, staff }: Props) => {
           .then(values => {
             form.resetFields();
             {
-              staff ? onSubmit(values, staff) : onSubmit(values, staff);
+              onSubmit(values);
             }
           })
           .catch(info => {
@@ -94,14 +88,13 @@ const CollectionForm = ({ visible, onSubmit, onCancel, staff }: Props) => {
 
 class ModalForm extends React.Component<Props> {
   render() {
-    const { visible, onSubmit, onCancel, staff } = this.props;
+    const { visible, onSubmit, onCancel } = this.props;
     return (
-      <div className={styles.staff}>
+      <div>
         <CollectionForm
           visible={visible}
           onSubmit={onSubmit}
           onCancel={onCancel}
-          staff={staff}
         />
       </div>
     );

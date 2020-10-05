@@ -53,7 +53,7 @@ const editCustomer = async (payload: any) => {
     },
     data: returnedTarget,
   });
-  console.log(res, 'ewss');
+
   return res;
 };
 
@@ -78,6 +78,20 @@ const fetchCustomerDetail = async (id: string) => {
   });
   return response;
 };
+
+const postAvatar = async (payload: any) => {
+  const api = APIConst.postAvatar.postAvatar();
+  const formData = new FormData();
+  formData.append('file', payload);
+  console.log(payload);
+  const response = await request.call(api.url, {
+    method: api.method,
+    body: formData,
+    requestType: 'form',
+  });
+  return response;
+};
+
 export default {
   postCustomer,
   getCustomers,
@@ -85,4 +99,5 @@ export default {
   editCustomer,
   deleteCustomer,
   fetchCustomerDetail,
+  postAvatar,
 };
