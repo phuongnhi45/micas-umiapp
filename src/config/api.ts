@@ -125,9 +125,17 @@ export default {
       url: `/admin/services?companyid=${id}`,
       method: methods.get,
     }),
-    removeService: (id: string) => ({
-      url: `/admin/services/${id}`,
+    postService: () => ({
+      url: '/admin/services',
+      method: methods.post,
+    }),
+    removeService: (payload: any) => ({
+      url: `/admin/services/${payload._id}`,
       method: methods.remove,
+    }),
+    statusService: (payload: any) => ({
+      url: `/admin/services/${payload._id}?active=${payload.active}`,
+      method: methods.patch,
     }),
   },
 };

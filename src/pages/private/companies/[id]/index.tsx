@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect } from 'react'
 import { useParams, connect, CompanyState, Loading, Dispatch } from 'umi'
 
-import { Card, Row, Col, Breadcrumb, Button, Typography } from 'antd';
+import { Card, Row, Col, Breadcrumb, Typography } from 'antd';
 import appIcon from '@/config/icons';
 import styles from '../../index.less'
 
@@ -40,12 +40,22 @@ function CompanyDetail(props: PageProps): ReactElement {
     })
   }
 
-  const onDelete = (id: string) => {
+  const onDelete = (_id: string) => {
+    const id = company._id
     dispatch({
       type: 'Company/getRemoveService',
-      payload: id,
+      payload: { _id, id},
     })
   }
+
+  const onChangeStatusService = (_id: string, e: any) => {
+    const active = e.target.checked
+    const id = company._id
+    dispatch({
+      type: 'Company/changeStatusService',
+      payload: { _id, active, id},
+    });
+  };
 
   const { Text, Title } = Typography;
 
@@ -80,11 +90,10 @@ function CompanyDetail(props: PageProps): ReactElement {
         {
           (services) && 
             <ListService
-              loading={loading}
               onDelete={onDelete}
-              // onChangeStatus={this.onChangeStatus}
+              onChangeStatusService={onChangeStatusService}
               services={services}
-
+              company={company}
             />
         }
       </Row>

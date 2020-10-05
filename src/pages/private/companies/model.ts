@@ -1,6 +1,7 @@
 import service from './service';
 import { Effect, Reducer, history } from 'umi';
 import notification from '@/utils/notification';
+import lodash from 'lodash';
 
 export interface CompanyState {
   companies: ICompany[];
@@ -49,7 +50,9 @@ interface CompanyModelType {
     getRemoveCompany: Effect;
     getCompanyDetail: Effect;
     getServiceByCompany: Effect;
+    createService: Effect;
     getRemoveService: Effect;
+    changeStatusService: Effect;
   };
   reducers: {
     updateState: Reducer<CompanyState>;
@@ -157,7 +160,12 @@ const CompanyModel: CompanyModelType = {
       const response = yield call(service.fetchService, id);
       if (!response.data) {
         notification.error('No service!');
-        return;
+        yield put({
+          type: 'updateState',
+          payload: {
+            services: [],
+          },
+        });
       } else {
         const { list } = response.data.data;
         yield put({
@@ -167,7 +175,31 @@ const CompanyModel: CompanyModelType = {
           },
         });
       }
-      return;
+    },
+
+    *createService({ payload }, { call, put }) {
+      const response = yield call(service.postService, payload);
+      if (!response.data) {
+        return notification.error('Create service failed');
+      }
+      notification.success('Created success');
+      yield put({
+        type: 'getServiceByCompany',
+        id: payload.companyid,
+      });
+    },
+
+    *changeStatusService({ payload }, { call, put }) {
+      const response = yield call(service.statusService, payload);
+      const { data, message } = response.data;
+      if (!data) {
+        return notification.error(message);
+      }
+      notification.success('Success');
+      yield put({
+        type: 'getServiceByCompany',
+        id: payload.id,
+      });
     },
 
     *getRemoveService({ payload }: any, { call, put }: any) {
@@ -175,6 +207,7 @@ const CompanyModel: CompanyModelType = {
       notification.success('Deleted success');
       yield put({
         type: 'getServiceByCompany',
+        id: payload.id,
       });
     },
   },

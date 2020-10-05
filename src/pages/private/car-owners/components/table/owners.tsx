@@ -38,7 +38,7 @@ class TableList extends React.Component<Props> {
       onChangeStatus,
     } = this.props;
 
-    const columns = [
+    const columns: any = [
       {
         key: '_id',
         title: '#',
