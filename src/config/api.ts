@@ -141,6 +141,10 @@ export default {
       url: `/admin/services/${id}`,
       method: methods.patch,
     }),
+    fetchServiceDetail: (id: string) => ({
+      url: `/admin/services/${id}`,
+      method: methods.get,
+    }),
   },
   postAvatar: {
     postAvatar: () => ({

@@ -37,6 +37,11 @@ export default defineConfig({
           path: '/companies/:id',
           component: 'private/companies/[id]/index',
         },
+        //detai-service
+        {
+          path: '/services/:id',
+          component: 'private/companies/[id]/places/[id]',
+        },
         // car-owners
         { path: '/car-owners', component: 'private/car-owners/index' },
         {

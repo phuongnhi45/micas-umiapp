@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Tag, Button, Popconfirm, Checkbox } from 'antd';
-import { IService, Dispatch, connect, CompanyState, Loading } from 'umi';
+import { IService, Dispatch, connect, CompanyState, Loading, Link } from 'umi';
 
 import appIcon from '@/config/icons';
 import styles from '../../index.less';
@@ -61,6 +61,9 @@ class ListService extends React.Component<Props> {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
+        render: (value: string, row: IService) => {
+          return <Link to={{ pathname: `/services/${row._id}` }}>{value}</Link>
+        },
       },
       {
         title: 'Type',

@@ -1,6 +1,6 @@
 import React,{useState, ReactElement, useEffect } from 'react'
 import { useParams, connect, CustomerState, Loading, Dispatch } from 'umi'
-import { Spin, Breadcrumb , Row, Col, Tabs,Select, Button} from 'antd'
+import { Spin, Breadcrumb, Row, Col, Tabs, Select, Button} from 'antd'
 import ModalForm from '../components/form/booking';
 import appIcon from '../../../../config/icons';
 import ListCar from '../components/table/list-car'

@@ -54,6 +54,7 @@ interface CompanyModelType {
     getRemoveService: Effect;
     changeStatusService: Effect;
     editService: Effect;
+    getServiceDetail: Effect;
   };
   reducers: {
     updateState: Reducer<CompanyState>;
@@ -176,6 +177,18 @@ const CompanyModel: CompanyModelType = {
           },
         });
       }
+    },
+
+    *getServiceDetail({ id }: any, { call, put }: any) {
+      const response = yield call(service.fetchServiceDetail, id);
+      console.log(response, id);
+      const { data } = response.data;
+      yield put({
+        type: 'updateState',
+        payload: {
+          service: data,
+        },
+      });
     },
 
     *createService({ payload }, { call, put }) {

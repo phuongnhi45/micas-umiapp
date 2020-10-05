@@ -149,6 +149,17 @@ const updateService = async (payload: any) => {
   return response;
 };
 
+const fetchServiceDetail = async (id: string) => {
+  const api = APIConst.getServiceByCompany.fetchServiceDetail(id);
+  const response = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
 export default {
   fetchCompanies,
   postCompany,
@@ -161,4 +172,5 @@ export default {
   statusService,
   postService,
   updateService,
+  fetchServiceDetail,
 };
