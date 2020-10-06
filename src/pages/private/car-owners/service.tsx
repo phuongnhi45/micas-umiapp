@@ -43,7 +43,6 @@ const postUpdateStatus = (payload: any) => {
 };
 
 const editCustomer = async (payload: any) => {
-  console.log(payload, 'payload này có gì');
   let data = {
     name: payload.name,
     address: payload.address,
@@ -52,7 +51,6 @@ const editCustomer = async (payload: any) => {
   if (payload.resourceid) {
     data = Object.assign(data, { resourceid: payload.resourceid });
   }
-  console.log(data);
   const api = APIConst.editCustomer.editCustomer(payload._id);
   const res = await request.call(api.url, {
     method: api.method,
@@ -89,7 +87,7 @@ const fetchCustomerDetail = async (id: string) => {
 
 const postAvatar = async (payload: any) => {
   const api = APIConst.postAvatar.postAvatar();
-  console.log(payload, 'pa');
+
   const formData = new FormData();
   formData.append('file', payload);
   const response = await request.call(api.url, {
