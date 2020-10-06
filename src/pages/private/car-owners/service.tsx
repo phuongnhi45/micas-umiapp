@@ -43,25 +43,30 @@ const postUpdateStatus = (payload: any) => {
 };
 
 const editCustomer = async (payload: any) => {
-  const a = {
+  console.log(payload, 'payload này có gì');
+  let data = {
     name: payload.name,
     address: payload.address,
     password: payload.password,
   };
-  if (payload.file) {
-    console.log(payload.file);
+  if (payload.resourceid) {
+    data = {
+      name: payload.name,
+      address: payload.address,
+      password: payload.password,
+      resourceid: payload.resourceid,
+    };
   }
-  console.log(a, 'payload nè');
+  console.log(data);
   const api = APIConst.editCustomer.editCustomer(payload._id);
   const res = await request.call(api.url, {
     method: api.method,
     headers: {
       Authorization: `Bearer ${token}`,
     },
-
-    data: a,
+    data: data,
   });
-  console.log(res, 'loi chi');
+
   return res;
 };
 
@@ -89,6 +94,7 @@ const fetchCustomerDetail = async (id: string) => {
 
 const postAvatar = async (payload: any) => {
   const api = APIConst.postAvatar.postAvatar();
+  console.log(payload, 'pa');
   const formData = new FormData();
   formData.append('file', payload);
   const response = await request.call(api.url, {
@@ -98,16 +104,6 @@ const postAvatar = async (payload: any) => {
   });
   return response;
 };
-
-// const getAvatar = async (payload: any) => {
-//   const api = APIConst.getAvatar.postAvatar();
-
-//   console.log(payload);
-//   const response = await request.call(api.url, {
-//     method: api.method,
-//   });
-//   return response;
-// };
 
 const getBookings = async (payload: any) => {
   const id = payload.id;
@@ -141,7 +137,6 @@ const getServiceid = async (id: string) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log('cos gif naof', response);
   return response;
 };
 export default {

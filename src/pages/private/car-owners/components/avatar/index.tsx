@@ -7,7 +7,6 @@ function getBase64(img: any, callback: any) {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
   reader.readAsDataURL(img);
-  console.log(img, 'img');
 }
 
 function beforeUpload(file: any) {
@@ -48,7 +47,7 @@ class Avatar extends React.Component<PageProps, any> {
         });
         this.props.dispatch({
           type: 'Customer/postAvatar',
-          payload: file,
+          payload: { file: file, customer: this.props.cus },
         });
       });
     }

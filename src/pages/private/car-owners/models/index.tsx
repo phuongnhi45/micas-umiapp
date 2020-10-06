@@ -83,7 +83,7 @@ const CustomerModel: CustomerModelType = {
 
     *getCustomers({ payload }, { call, put }) {
       const response = yield call(service.getCustomers, payload);
-      console.log(response, 'res nè');
+
       if (response.err === 'empty list') {
         notification.error('No result!');
         return;
@@ -116,7 +116,7 @@ const CustomerModel: CustomerModelType = {
 
     *editCustomer({ payload }: any, { call, put }: any) {
       const data = yield call(service.editCustomer, payload);
-      console.log(data, 'dâtne');
+
       if (data.data) {
         notification.success('Edit customer success');
         history.push('/car-owners');
@@ -151,15 +151,18 @@ const CustomerModel: CustomerModelType = {
     },
 
     *postAvatar({ payload }, { call, put }) {
-      console.log(payload, 'payload');
       const response = yield call(service.postAvatar, payload.file);
       const idImg = response.data.data;
-      console.log(idImg, 'id ảnh nè');
-      const returnedTarget = Object.assign(payload.customer, {
+      console.log(payload.customer, 'hic');
+      const inforUpdate = {
+        _id: payload.customer._id,
+        name: payload.customer.name,
+        address: payload.customer.address,
+        password: payload.customer.password,
         resourceid: idImg,
-      });
-      console.log(returnedTarget, 'trc khi up ảnh');
-      const data = yield call(service.editCustomer, returnedTarget);
+      };
+
+      const data = yield call(service.editCustomer, inforUpdate);
       if (!data.data) {
         notification.error('Edit avatar failed!');
         yield put({
