@@ -3,3 +3,108 @@
 @font: -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC,
   Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial,
   sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: @primary;
+}
+
+.logo {
+  height: 32px;
+  margin: 16px;
+}
+
+.micas {
+  text-align: center;
+}
+
+.header {
+  background-color: @white;
+  display: flex;
+  padding: 0;
+  justify-content: space-between;
+}
+
+.intern {
+  border: none;
+  height: 100%;
+  padding: 0 10px;
+  font-size: 18px;
+}
+
+.intern:hover {
+  background-color: @white;
+  color: #595959;
+}
+
+.breadcrumb {
+  height: 100%;
+}
+
+.row {
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header_right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.logout {
+  height: 50%;
+  margin: 0 5px;
+}
+
+.company {
+  background-color: @white;
+  padding: 20px 40px;
+}
+
+.cancel {
+  position: absolute;
+  bottom: 6%;
+  right: 7%;
+}
+
+.header_content {
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.search {
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+.search_column {
+  padding: 5px;
+  background-color: @white;
+  margin-right: 10px;
+}
+
+.list_company {
+  padding: 10px;
+  background-color: @white;
+}
+
+.action {
+  display: flex;
+  justify-content: space-evenly;
+}
+th {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-family: @font;
+}

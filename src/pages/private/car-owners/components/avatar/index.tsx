@@ -36,20 +36,20 @@ class Avatar extends React.Component<PageProps, any> {
   handleChange = (info: any) => {
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
-      return;
     }
     if (info.file.status === 'done') {
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, (imageUrl: any) => {
-        const file = info.file.originFileObj;
         this.setState({
           imageUrl,
           loading: false,
         });
-        this.props.dispatch({
-          type: 'Customer/postAvatar',
-          payload: file,
-        });
+      });
+      const value = info.file.originFileObj;
+      console.log(value);
+      this.props.dispatch({
+        type: 'Customer/postAvatar',
+        payload: value,
       });
     }
   };
@@ -60,6 +60,7 @@ class Avatar extends React.Component<PageProps, any> {
       dispatch,
       Customer: { customer },
     } = this.props;
+    console.log(customer, 'cus');
 
     const { imageUrl }: any = this.state;
     const uploadButton = (

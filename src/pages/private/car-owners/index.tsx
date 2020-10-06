@@ -11,6 +11,7 @@ import styles from '../index.less';
 
 export interface CustomerProps extends ConnectProps {
   Customer: CustomerState;
+  Booking: CustomerState;
   dispatch: Dispatch;
   loading: boolean;
 }

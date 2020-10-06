@@ -125,4 +125,24 @@ export default {
       method: methods.post,
     }),
   },
+
+  //booking
+  getBookings: {
+    fetchBookings: () => ({
+      url: '/admin/bookings',
+      method: methods.get,
+    }),
+    fetchBookingDetail: (id: string) => ({
+      url: `/admin/bookings/${id}`,
+      method: methods.get,
+    }),
+  },
+
+  //
+  getServices: {
+    getServicesDetail: (id: string) => ({
+      url: `/admin/services/${id}`,
+      method: methods.get,
+    }),
+  },
 };

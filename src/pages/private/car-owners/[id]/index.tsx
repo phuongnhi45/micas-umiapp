@@ -1,34 +1,41 @@
 import React,{useState, ReactElement, useEffect } from 'react'
-import { useParams, connect, CustomerState, Loading, Dispatch } from 'umi'
+import { useParams, connect, CustomerState,Loading, Dispatch , IFilter} from 'umi'
 import { Spin, Breadcrumb , Row, Col, Tabs,Select, Button} from 'antd'
-import ModalForm from '../components/form/booking';
+import ModalForm from '../components/form/car';
 import appIcon from '../../../../config/icons';
-import ListCar from '../components/table/list-car'
-import Avatar from '../components/avatar/index'
-import './index.less'
+import ListCar from '../components/table/list-car';
+import ListBooking from '../components/table/list-booking';
+import Avatar from '../components/avatar/index';
+import './index.less';
 
 const { TabPane } = Tabs;
 const { Option } = Select;
 interface PageProps {
   dispatch: Dispatch
   Customer:CustomerState
+  Booking: CustomerState
   loading: boolean
-}
+ 
+
+} 
 
 interface IParam {
   id: string
 }
 
 function ServicePlaceEdit(props: PageProps): ReactElement {
-  const { dispatch, Customer: { customer }, loading } = props
+  const { dispatch, Customer: { customer,bookings, filter, nameService }, loading,} = props
   const params = useParams<IParam>()
 
   useEffect(() => {
-    getCustomerDetail(params.id)
+    getCustomerDetail(params.id);
+    dispatch({
+      type: 'Customer/getBookings',
+      payload:params
+    });
   }, [])
   const [isVisible, setIsVisible] = useState(false);
   const getCustomerDetail = (id: string) => {
-    // Goi api company detail , kết quả lưu vào state model
     dispatch({
       type: 'Customer/getCustomerDetail',
       id,
@@ -36,18 +43,17 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
   }
   
   const onSubmit = (values: any) => {
-    
-      // props.dispatch({
-      //   type: 'Employee/submitEmployee',
-      //   payload: values,
-      // });
-      console.log(values,'values nef')
     onToggleModal();
   };
 
  const  onToggleModal = () => {
   setIsVisible(!isVisible)
   };
+  if(bookings.length>0 &&nameService){
+  Object.assign(bookings[0],{nameService:nameService})
+console.log(bookings.length,'nwef bôking')
+  }
+
 
   if (!customer) return <Spin />
   return (
@@ -65,7 +71,7 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
 
         <div className='info-cus'>
           <h4>Phone:</h4>
-          <p>0968 609 858</p>
+          <p>{customer.phone}</p>
         </div>
         <div className='info-cus'>
           <h4>City:</h4>
@@ -88,8 +94,8 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
         <div className="card-container" >
           <Tabs type="card">
             <TabPane tab="Car" key="1">
-            <Button type="primary" onClick={() =>onToggleModal()}>
-            New Staff
+            <Button type="primary" onClick={() =>onToggleModal()} style={{marginBottom:20}}>
+            New Car
             </Button>              
               <ListCar/>
               <ModalForm
@@ -100,13 +106,21 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
             </TabPane>
             <TabPane tab="Booking" key="2">
               <h4>Status</h4>
-              <Select defaultValue="All" style={{ width: 220 }} >
+              <Select defaultValue="All" style={{ width: 220,marginBottom:40 }} >
                 <Option value="Pending">Pending</Option>
                 <Option value="Confirmed">Confirmed</Option>
                 <Option value="Canceled">Canceled</Option>
                 <Option value="Completed">Completed</Option>
-                <Option value="All">All</Option>                
-              </Select>              
+                <Option value="All">All</Option>    
+              </Select>  
+               
+              <ListBooking
+              loading={loading}
+              bookings={bookings}
+              pageSize={filter.limit}
+              total={filter.total}
+              current={filter.page}
+            />           
             </TabPane>
             <TabPane tab="Booking histories" key="3">
               <h4> Chọn xe</h4>

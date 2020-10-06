@@ -3,9 +3,11 @@ import { Effect, Reducer, history } from 'umi';
 import notification from '@/utils/notification';
 
 export interface CustomerState {
+  bookings: IBooking[];
   customers: ICustomer[];
   filter: IFilter;
   customer: any;
+  nameService: string;
 }
 
 export interface IFilter {
@@ -24,6 +26,16 @@ export interface ICustomer {
   _id: string;
 }
 
+export interface IBooking {
+  _id: string;
+  customerid: string;
+  serviceid: string;
+  status: string;
+  time: string;
+  createdAt: string;
+  note: string;
+}
+
 export interface CustomerModelType {
   namespace: string;
   state: CustomerState;
@@ -35,6 +47,7 @@ export interface CustomerModelType {
     deleteCustomer: Effect;
     getCustomerDetail: Effect;
     postAvatar: Effect;
+    getBookings: Effect;
   };
   reducers: {
     save: Reducer<CustomerState>;
@@ -43,6 +56,7 @@ export interface CustomerModelType {
 
 const initialState: CustomerState = {
   customers: [],
+  bookings: [],
   filter: {
     page: 0,
     total: 0,
@@ -50,6 +64,7 @@ const initialState: CustomerState = {
     name: '',
   },
   customer: null,
+  nameService: '',
 };
 
 const CustomerModel: CustomerModelType = {
@@ -70,6 +85,7 @@ const CustomerModel: CustomerModelType = {
 
     *getCustomers({ payload }, { call, put }) {
       const response = yield call(service.getCustomers, payload);
+      console.log(response, 'res nè');
       if (response.err === 'empty list') {
         notification.error('No result!');
         return;
@@ -102,6 +118,7 @@ const CustomerModel: CustomerModelType = {
 
     *editCustomer({ payload }: any, { call, put }: any) {
       const data = yield call(service.editCustomer, payload);
+      console.log(data, 'dâtne');
       if (data.data) {
         notification.success('Edit customer success');
         history.push('/car-owners');
@@ -134,23 +151,58 @@ const CustomerModel: CustomerModelType = {
         },
       });
     },
-    //hàm này thực hiện tại page customer
+
     *postAvatar({ payload }, { call, put }) {
-      const response = yield call(service.postAvatar, payload);
-      console.log(response, 'response');
+      console.log(payload, 'payload');
+      const response = yield call(service.postAvatar, payload.file);
+      const idImg = response.data.data;
+      console.log(idImg, 'id ảnh nè');
+      const returnedTarget = Object.assign(payload.customer, {
+        resourceid: idImg,
+      });
+      console.log(returnedTarget, 'trc khi up ảnh');
+      const data = yield call(service.editCustomer, returnedTarget);
+      if (!data.data) {
+        notification.error('Edit avatar failed!');
+        yield put({
+          type: 'getCustomers',
+        });
+      }
+      yield put({
+        type: 'getCustomer',
+      });
+    },
+    *getBookings({ payload }, { call, put }) {
+      console.log(payload);
+      const response = yield call(service.getBookings, payload);
       if (response.err === 'empty list') {
+        notification.error('No result!');
+        return yield put({
+          type: 'getBookings',
+        });
+      }
+      if (response.err) {
+        return;
+      }
+      const { list, page, total, limit } = response.data.data;
+      const serviceid = list[0].serviceid;
+      const serviceName = yield call(service.getServiceid, serviceid);
+
+      if (!serviceName.data.data) {
         notification.error('No result!');
         return;
       }
-      if (response.err && response.err !== 'empty list') {
-        console.error('Error server');
-        return;
-      }
-      const { a } = response.data;
+      const { name } = serviceName.data.data;
       yield put({
         type: 'save',
         payload: {
-          a,
+          bookings: list,
+          nameService: name,
+          filter: {
+            page: page,
+            total: total,
+            limit,
+          },
         },
       });
     },
