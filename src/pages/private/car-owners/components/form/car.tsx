@@ -17,7 +17,7 @@ const CollectionForm = ({ visible, onSubmit, onCancel }: Props) => {
   return (
     <Modal
       visible={visible}
-      title={'Create booking'}
+      title={'Create car'}
       okText={'Create'}
       cancelText="Cancel"
       onCancel={cancelAndResetField}
@@ -54,32 +54,6 @@ const CollectionForm = ({ visible, onSubmit, onCancel }: Props) => {
           ]}
         >
           <Input />
-        </Form.Item>
-        <Form.Item
-          name="phone"
-          label="Phone"
-          rules={[
-            {
-              required: true,
-              message: 'Please input the phone of collection!',
-            },
-            { len: 10, message: 'Phone must be 10 characters.' },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          label="Password"
-          rules={[
-            {
-              required: true,
-              message: 'Please input the password of collection!',
-            },
-            { len: 6, message: 'Password must be 6 characters.' },
-          ]}
-        >
-          <Input type="password" />
         </Form.Item>
       </Form>
     </Modal>

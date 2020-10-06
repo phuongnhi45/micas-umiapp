@@ -38,6 +38,7 @@
     "react-avatar-editor": "^11.0.7",
     "react-dom": "^16.12.0",
     "react-highlight-words": "^0.16.0",
+    "react-moment": "^1.0.0",
     "umi": "^3.2.16",
     "yorkie": "^2.0.0"
   },

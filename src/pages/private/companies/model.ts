@@ -250,7 +250,6 @@ const CompanyModel: CompanyModelType = {
 
     *getBookingByService({ id }: any, { call, put }: any) {
       const response = yield call(service.fetchBookings, id);
-      console.log(response.data.data.list);
       if (!response.data) {
         yield put({
           type: 'updateState',

@@ -23,11 +23,11 @@ class FormCustomer extends React.Component<CustomerProps, any> {
   onFinish = async (values: any) => {
     const { customer, dispatch } = this.props;
     if (customer) {
-      const id = customer._id;
-
+      const _id = customer._id;
+      const payload = Object.assign(values, { _id: _id });
       dispatch({
         type: 'Customer/editCustomer',
-        payload: { values, id },
+        payload: payload,
       });
     } else {
       dispatch({

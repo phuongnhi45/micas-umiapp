@@ -17,7 +17,6 @@ export default defineConfig({
   },
   routes: [
     { path: '/login', component: '@/pages/auth/login/index' },
-    { path: '/register', component: '@/pages/auth/register/index' },
     {
       path: '/',
       component: 'private/index',

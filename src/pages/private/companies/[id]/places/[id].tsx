@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect } from 'react'
 import { useParams, connect, CompanyState, Loading, Dispatch } from 'umi'
-import { Spin, Row, Col, Breadcrumb, Tabs, Descriptions } from 'antd'
+import { Spin, Row, Col, Breadcrumb, Tabs, Descriptions, Button } from 'antd'
 import ListBooking from './list-booking';
 
 import appIcon from '@/config/icons';
@@ -31,6 +31,28 @@ function DetailService(props: PageProps): ReactElement {
       type: 'Company/getServiceDetail',
       id,
     })
+  }
+  
+  const removeService = (id: string) => {
+    dispatch({
+      type: 'aa',
+      id,
+    })
+    console.log(id)
+  }
+
+  const editService = (id: string) => {
+    dispatch({
+      type: 'aa',
+      id,
+    })
+    console.log(id)
+  }
+
+  if (bookings.length > 0 && service) {
+    bookings.map((item,index)=>
+      Object.assign(bookings[index], { phoneService: service.phone })
+    )
   }
 
   const getBookingByService = (id: string) => {
@@ -76,11 +98,14 @@ function DetailService(props: PageProps): ReactElement {
           />
         </Col>
         <Col className={styles.booking} span={16}>
-          <Tabs style={{margin: 0}} type="card">
+          <Tabs type="card">
             <TabPane className={styles.tab_booking} tab="Booking" key="1">
+              <Button type="primary" style={{marginBottom: '10px'}}>Add new</Button>
               <ListBooking
                 bookings={bookings}
                 loading={loading}
+                onEdit={editService}
+                onDelete={removeService}
               />
             </TabPane>
           </Tabs>

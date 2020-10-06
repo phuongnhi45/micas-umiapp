@@ -7,16 +7,15 @@ import appIcon from '@/config/icons';
 import styles from '../../../index.less'
 
 interface Props {
-  // onChangeStatus: (active: boolean, _id: string) => void;
+  onEdit: (_id: string) => void;
   loading: boolean;
-  bookings: IBooking[];
-  
-  // onDelete: (_id: string) => void;
+  bookings: any;
+  onDelete: (_id: string) => void;
 }
 
 class ListBooking extends React.Component<Props> {
   render() {
-    const { bookings, loading } = this.props
+    const { bookings, loading, onEdit, onDelete } = this.props
     const columns: any = [
       {
         title: '#',
@@ -25,8 +24,7 @@ class ListBooking extends React.Component<Props> {
       },
       {
         title: 'Phone',
-        dataIndex: 'phone',
-        key: 'phone',
+        dataIndex: 'phoneService',
       },
       {
         title: 'Created Date',
@@ -59,13 +57,13 @@ class ListBooking extends React.Component<Props> {
             <div className={styles.action}>
               <Button
                 icon={<appIcon.EditOutlined />}
-                // onClick={() => this.goToEdit(row)}
+                onClick={() => onEdit(row._id)}
               />
               <Popconfirm
                 title="Are you sure？"
                 okText="Yes"
                 cancelText="No"
-                // onConfirm={() => onDelete(row._id)}
+                onConfirm={() => onDelete(row._id)}
               >
                 <Button icon={<appIcon.DeleteOutlined />} />
               </Popconfirm>
