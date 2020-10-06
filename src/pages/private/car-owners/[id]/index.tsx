@@ -49,14 +49,6 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
   setIsVisible(!isVisible)
   };
 
-  if (bookings.length>0 && customer) {
-    bookings.map((item, index) =>
-    Object.assign(bookings[index], {nameCustomer: customer.name})  
-    )
-    console.log(bookings)
-  }
-
-
   if (!customer) return <Spin />
   return (
   <>

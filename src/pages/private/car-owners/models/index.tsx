@@ -1,6 +1,7 @@
 import service from '../service';
 import { Effect, Reducer, history } from 'umi';
 import notification from '@/utils/notification';
+import { message } from 'antd';
 
 export interface CustomerState {
   bookings: IBooking[];
@@ -33,6 +34,7 @@ export interface IBooking {
   time: string;
   createdAt: string;
   note: string;
+  servicename: string;
 }
 
 export interface CustomerModelType {
@@ -89,11 +91,10 @@ const CustomerModel: CustomerModelType = {
         return;
       }
       if (response.err && response.err !== 'empty list') {
-        console.error('Error server');
+        notification.error('Error server');
         return;
       }
       const { list, page, total, limit } = response.data.data;
-      console.log(response), 'res';
       yield put({
         type: 'save',
         payload: {
@@ -153,7 +154,6 @@ const CustomerModel: CustomerModelType = {
     *postAvatar({ payload }, { call, put }) {
       const response = yield call(service.postAvatar, payload.file);
       const idImg = response.data.data;
-      console.log(payload.customer, 'hic');
       const inforUpdate = {
         _id: payload.customer._id,
         name: payload.customer.name,
@@ -176,17 +176,46 @@ const CustomerModel: CustomerModelType = {
     *getBookings({ payload }, { call, put }) {
       const response = yield call(service.getBookings, payload);
       const { list } = response.data.data;
-      if (response.err === 'empty list') {
+      if (response.err) {
+        notification.error('Error get bookings');
+        return;
+      }
+      const resServices = yield call(service.getServices);
+      if (resServices.err === 'empty list') {
         notification.error('No result!');
         return;
       }
-      if (response.err) {
+      if (resServices.err && resServices.err !== 'empty list') {
+        notification.error('Error get bookings');
         return;
       }
+      const listServices = resServices.data.data.list;
+
+      const users = [payload];
+      const getData = () => {
+        let result = list.map((booking: any) => {
+          let servic = listServices.find(
+            (service: any) => service._id === booking.serviceid,
+          );
+          let user = users.find(user => user.id === booking.customerid);
+          if (!user) {
+            return [];
+          }
+          return {
+            _id: booking._id,
+            servicename: servic.name,
+            status: booking.status,
+            time: booking.time,
+            note: booking.note,
+            createrAt: booking.createdAt,
+          };
+        });
+        return result;
+      };
       yield put({
         type: 'save',
         payload: {
-          bookings: list,
+          bookings: getData(),
         },
       });
     },

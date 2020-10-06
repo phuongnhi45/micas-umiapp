@@ -140,8 +140,8 @@ export default {
 
   //
   getServices: {
-    getServicesDetail: (id: string) => ({
-      url: `/admin/services/${id}`,
+    getServices: () => ({
+      url: `/admin/services`,
       method: methods.get,
     }),
   },

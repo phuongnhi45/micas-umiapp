@@ -18,7 +18,7 @@ class ListBooking extends React.Component<Props> {
     const { bookings, loading } = this.props;
     const columns: any = [
       {
-        key: '_id',
+        key: 'id',
         title: '#',
         render: (value: any, record: IBooking, index: number) => index + 1,
         align: 'center',
@@ -26,7 +26,7 @@ class ListBooking extends React.Component<Props> {
       },
       {
         title: 'Name service',
-        dataIndex: 'nameCustomer',
+        dataIndex: 'servicename',
         width: 200,
       },
       {
@@ -62,14 +62,7 @@ class ListBooking extends React.Component<Props> {
       },
     ];
 
-    return (
-      <Table
-        columns={columns}
-        dataSource={bookings}
-        rowKey="_id"
-        loading={loading}
-      />
-    );
+    return <Table columns={columns} dataSource={bookings} rowKey="_id" />;
   }
 }
 

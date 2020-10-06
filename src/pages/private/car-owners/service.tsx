@@ -50,12 +50,7 @@ const editCustomer = async (payload: any) => {
     password: payload.password,
   };
   if (payload.resourceid) {
-    data = {
-      name: payload.name,
-      address: payload.address,
-      password: payload.password,
-      resourceid: payload.resourceid,
-    };
+    data = Object.assign(data, { resourceid: payload.resourceid });
   }
   console.log(data);
   const api = APIConst.editCustomer.editCustomer(payload._id);
@@ -129,8 +124,8 @@ const fetchBookingDetail = async (id: string) => {
   });
   return response;
 };
-const getServiceid = async (id: string) => {
-  const api = APIConst.getServices.getServicesDetail(id);
+const getServices = async () => {
+  const api = APIConst.getServices.getServices();
   const response = await request.call(api.url, {
     method: api.method,
     headers: {
@@ -149,5 +144,5 @@ export default {
   postAvatar,
   getBookings,
   fetchBookingDetail,
-  getServiceid,
+  getServices,
 };
