@@ -58,11 +58,10 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
     </Breadcrumb>
     <Row justify="space-between">
       <Col span={6} style={{backgroundColor:"white",paddingTop:'40px', margin:'0 10px 24px 10px', textAlign:'center',  border: '1px solid #e8e8e8'}} className='part-infor-cus' >
-        <div >
-      <Avatar  cus={customer}/>
-         </div>
-          <h2 className='name'>{customer.name}</h2>
-
+        <div>
+          <Avatar cus={customer}/>
+        </div>
+        <h2 className='name'>{customer.name}</h2>
         <div className='info-cus'>
           <h4>Phone:</h4>
           <p>0968 609 858</p>
@@ -71,32 +70,32 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
           <h4>City:</h4>
           <p>Đà Nẵng</p>
         </div>
-        <div  className='info-cus'>
-        <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.2771920086598!2d107.5865213149806!3d16.46149613317805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3141a138544240a5%3A0x882ddf04d7146c9f!2zOSBOZ8O0IFF1eeG7gW4sIFbEqW5oIE5pbmgsIFRow6BuaCBwaOG7kSBIdeG6vywgVGjhu6thIFRoacOqbiBIdeG6vywgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1585213273943!5m2!1svi!2s"
-              width={'100%'}
-              height={424}
-              frameBorder={0}
-              style={{ border: 0 }}
-              allowFullScreen
-              aria-hidden="false"
-              tabIndex={0}
-            />
+        <div className='info-cus'>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.2771920086598!2d107.5865213149806!3d16.46149613317805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3141a138544240a5%3A0x882ddf04d7146c9f!2zOSBOZ8O0IFF1eeG7gW4sIFbEqW5oIE5pbmgsIFRow6BuaCBwaOG7kSBIdeG6vywgVGjhu6thIFRoacOqbiBIdeG6vywgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1585213273943!5m2!1svi!2s"
+            width={'100%'}
+            height={424}
+            frameBorder={0}
+            style={{ border: 0 }}
+            allowFullScreen
+            aria-hidden="false"
+            tabIndex={0}
+          />
         </div>
       </Col>
-      <Col span={17}  style={{margin:'0 10px'}}>
+      <Col span={17} style={{margin:'0 10px'}}>
         <div className="card-container" >
           <Tabs type="card">
             <TabPane tab="Car" key="1">
             <Button type="primary" onClick={() =>onToggleModal()}>
             New Staff
             </Button>              
-              <ListCar/>
-              <ModalForm
-          visible={isVisible}
-          onSubmit={onSubmit}
-          onCancel={onToggleModal}
-        />
+            <ListCar/>
+            <ModalForm
+              visible={isVisible}
+              onSubmit={onSubmit}
+              onCancel={onToggleModal}
+            />
             </TabPane>
             <TabPane tab="Booking" key="2">
               <h4>Status</h4>

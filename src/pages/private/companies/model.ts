@@ -1,7 +1,6 @@
 import service from './service';
 import { Effect, Reducer, history } from 'umi';
 import notification from '@/utils/notification';
-import lodash from 'lodash';
 
 export interface CompanyState {
   companies: ICompany[];
@@ -9,6 +8,15 @@ export interface CompanyState {
   company: any;
   services: IService[];
   service: any;
+  bookings: IBooking[];
+  booking: any;
+}
+
+export interface IBooking {
+  phone: string;
+  email: string;
+  _id: string;
+  time: string;
 }
 
 export interface IFilter {
@@ -55,6 +63,7 @@ interface CompanyModelType {
     changeStatusService: Effect;
     editService: Effect;
     getServiceDetail: Effect;
+    getBookingByService: Effect;
   };
   reducers: {
     updateState: Reducer<CompanyState>;
@@ -72,6 +81,8 @@ const initialState: CompanyState = {
   company: null,
   services: [],
   service: null,
+  bookings: [],
+  booking: null,
 };
 
 const CompanyModel: CompanyModelType = {
@@ -181,7 +192,6 @@ const CompanyModel: CompanyModelType = {
 
     *getServiceDetail({ id }: any, { call, put }: any) {
       const response = yield call(service.fetchServiceDetail, id);
-      console.log(response, id);
       const { data } = response.data;
       yield put({
         type: 'updateState',
@@ -236,6 +246,27 @@ const CompanyModel: CompanyModelType = {
         type: 'getServiceByCompany',
         id: payload.id,
       });
+    },
+
+    *getBookingByService({ id }: any, { call, put }: any) {
+      const response = yield call(service.fetchBookings, id);
+      console.log(response.data.data.list);
+      if (!response.data) {
+        yield put({
+          type: 'updateState',
+          payload: {
+            bookings: [],
+          },
+        });
+      } else {
+        const { list } = response.data.data;
+        yield put({
+          type: 'updateState',
+          payload: {
+            bookings: list,
+          },
+        });
+      }
     },
   },
 

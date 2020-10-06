@@ -13,6 +13,7 @@ import {
   SearchOutlined,
   DeleteFilled,
   DeleteOutlined,
+  PlusSquareOutlined,
 } from '@ant-design/icons';
 
 export default {
@@ -30,4 +31,5 @@ export default {
   SearchOutlined,
   DeleteFilled,
   DeleteOutlined,
+  PlusSquareOutlined,
 };

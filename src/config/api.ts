@@ -146,6 +146,21 @@ export default {
       method: methods.get,
     }),
   },
+  //booking
+  getBookingByService: {
+    fetchBookings: (id: string) => ({
+      url: `/admin/bookings?serviceid=${id}`,
+      method: methods.get,
+    }),
+    postBooking: () => ({
+      url: '/admin/bookings',
+      method: methods.post,
+    }),
+    removeBooking: (payload: any) => ({
+      url: `/admin/bookings/${payload._id}`,
+      method: methods.remove,
+    }),
+  },
   postAvatar: {
     postAvatar: () => ({
       url: `/resources/upload`,

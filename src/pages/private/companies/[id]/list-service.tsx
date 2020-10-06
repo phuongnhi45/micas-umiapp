@@ -62,7 +62,7 @@ class ListService extends React.Component<Props> {
         dataIndex: 'name',
         key: 'name',
         render: (value: string, row: IService) => {
-          return <Link to={{ pathname: `/services/${row._id}` }}>{value}</Link>
+          return <Link style={{textTransform: 'capitalize'}} to={{ pathname: `/services/${row._id}` }}>{value}</Link>
         },
       },
       {

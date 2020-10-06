@@ -160,6 +160,18 @@ const fetchServiceDetail = async (id: string) => {
   return response;
 };
 
+//bookings
+const fetchBookings = async (id: string) => {
+  const api = APIConst.getBookingByService.fetchBookings(id);
+  const response = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
 export default {
   fetchCompanies,
   postCompany,
@@ -173,4 +185,5 @@ export default {
   postService,
   updateService,
   fetchServiceDetail,
+  fetchBookings,
 };

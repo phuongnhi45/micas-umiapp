@@ -87,15 +87,12 @@ function CompanyDetail(props: PageProps): ReactElement {
       </Card>
 
       <Row className={styles.row} style={{backgroundColor: "white"}}>
-        {
-          (services) && 
-            <ListService
-              onDelete={onDelete}
-              onChangeStatusService={onChangeStatusService}
-              services={services}
-              company={company}
-            />
-        }
+        <ListService
+          onDelete={onDelete}
+          onChangeStatusService={onChangeStatusService}
+          services={services}
+          company={company}
+        />
       </Row>
     </>
   )
