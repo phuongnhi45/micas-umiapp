@@ -7,7 +7,6 @@ export interface CustomerState {
   customers: ICustomer[];
   filter: IFilter;
   customer: any;
-  nameService: string;
 }
 
 export interface IFilter {
@@ -64,7 +63,6 @@ const initialState: CustomerState = {
     name: '',
   },
   customer: null,
-  nameService: '',
 };
 
 const CustomerModel: CustomerModelType = {
@@ -173,36 +171,19 @@ const CustomerModel: CustomerModelType = {
       });
     },
     *getBookings({ payload }, { call, put }) {
-      console.log(payload);
       const response = yield call(service.getBookings, payload);
+      const { list } = response.data.data;
       if (response.err === 'empty list') {
         notification.error('No result!');
-        return yield put({
-          type: 'getBookings',
-        });
+        return;
       }
       if (response.err) {
         return;
       }
-      const { list, page, total, limit } = response.data.data;
-      const serviceid = list[0].serviceid;
-      const serviceName = yield call(service.getServiceid, serviceid);
-
-      if (!serviceName.data.data) {
-        notification.error('No result!');
-        return;
-      }
-      const { name } = serviceName.data.data;
       yield put({
         type: 'save',
         payload: {
           bookings: list,
-          nameService: name,
-          filter: {
-            page: page,
-            total: total,
-            limit,
-          },
         },
       });
     },

@@ -7,9 +7,6 @@ import Moment from 'react-moment';
 interface Props {
   bookings: IBooking[];
   loading: boolean;
-  pageSize: number;
-  total: number;
-  current: number;
 }
 
 class ListBooking extends React.Component<Props> {
@@ -18,8 +15,7 @@ class ListBooking extends React.Component<Props> {
   };
 
   render() {
-    const { active } = this.state;
-    const { bookings, loading, pageSize, total, current } = this.props;
+    const { bookings, loading } = this.props;
     const columns: any = [
       {
         key: '_id',
@@ -30,11 +26,8 @@ class ListBooking extends React.Component<Props> {
       },
       {
         title: 'Name service',
-        dataIndex: 'nameService',
+        dataIndex: 'nameCustomer',
         width: 200,
-        render: (record: IBooking) => {
-          return <p>{record}</p>;
-        },
       },
       {
         title: 'Status',
@@ -74,9 +67,7 @@ class ListBooking extends React.Component<Props> {
         columns={columns}
         dataSource={bookings}
         rowKey="_id"
-        size="large"
         loading={loading}
-        pagination={{ pageSize, total, current: current + 1 }}
       />
     );
   }

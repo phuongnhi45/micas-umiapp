@@ -13,9 +13,9 @@ const { Option } = Select;
 interface PageProps {
   dispatch: Dispatch
   Customer:CustomerState
-  Booking: CustomerState
+  bookings: CustomerState
   loading: boolean
- 
+
 
 } 
 
@@ -24,9 +24,8 @@ interface IParam {
 }
 
 function ServicePlaceEdit(props: PageProps): ReactElement {
-  const { dispatch, Customer: { customer,bookings, filter, nameService }, loading,} = props
+  const { dispatch, Customer: { customer, bookings,  }, loading } = props
   const params = useParams<IParam>()
-
   useEffect(() => {
     getCustomerDetail(params.id);
     dispatch({
@@ -49,9 +48,12 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
  const  onToggleModal = () => {
   setIsVisible(!isVisible)
   };
-  if(bookings.length>0 &&nameService){
-  Object.assign(bookings[0],{nameService:nameService})
-console.log(bookings.length,'nwef bôking')
+
+  if (bookings.length>0 && customer) {
+    bookings.map((item, index) =>
+    Object.assign(bookings[index], {nameCustomer: customer.name})  
+    )
+    console.log(bookings)
   }
 
 
@@ -115,12 +117,9 @@ console.log(bookings.length,'nwef bôking')
               </Select>  
                
               <ListBooking
-              loading={loading}
-              bookings={bookings}
-              pageSize={filter.limit}
-              total={filter.total}
-              current={filter.page}
-            />           
+                loading={loading}
+                bookings={bookings}
+              />           
             </TabPane>
             <TabPane tab="Booking histories" key="3">
               <h4> Chọn xe</h4>
