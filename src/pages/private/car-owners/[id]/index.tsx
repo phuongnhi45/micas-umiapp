@@ -46,7 +46,6 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
  const  onToggleModal = () => {
   setIsVisible(!isVisible)
   };
-  
 
   if (!customer) return <Spin />
   return (
@@ -68,7 +67,7 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
         </div>
         <div className='info-cus'>
           <h4>City:</h4>
-          <p>Đà Nẵng</p>
+           <p>___</p>
         </div>
         <div  className='info-cus'>
         <iframe

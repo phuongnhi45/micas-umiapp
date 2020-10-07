@@ -27,10 +27,10 @@ class ListBooking extends React.Component<Props> {
       },
       {
         title: 'Name service',
-        dataIndex: 'servicename',
+        dataIndex: 'service',
         width: 200,
-        render: (record: IBooking) => {
-          return <Link to="/service-places">{record}</Link>;
+        render: (row: IBooking) => {
+          return <Link to="/service-places">{row.name}</Link>;
         },
       },
       {

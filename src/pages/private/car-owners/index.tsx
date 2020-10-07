@@ -46,7 +46,7 @@ class Customer extends React.Component<CustomerProps, any> {
       const id = customer._id;
       this.props.dispatch({
         type: 'Customer/editCustomer',
-        payload: { values, id },
+        payload: { values: values, customer: customer },
       });
     } else {
       this.props.dispatch({

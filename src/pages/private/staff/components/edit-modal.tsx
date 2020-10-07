@@ -15,9 +15,6 @@ const CollectionForm = ({ visible, onSubmit, onCancel, staff }: Props) => {
     form.resetFields();
     onCancel(false, null);
   };
-  if (staff) {
-    staff.password = '123456';
-  }
   form.setFieldsValue(staff ? staff : {});
   return (
     <Modal
@@ -81,7 +78,7 @@ const CollectionForm = ({ visible, onSubmit, onCancel, staff }: Props) => {
               required: true,
               message: 'Please input the password of collection!',
             },
-            { len: 6, message: 'Password must be 6 characters.' },
+            { min: 6, message: 'Password must be 6 characters.' },
           ]}
         >
           <Input type="password" />

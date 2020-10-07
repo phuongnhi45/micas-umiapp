@@ -113,6 +113,7 @@ const CustomerModel: CustomerModelType = {
     },
 
     *editCustomer({ payload }: any, { call, put }: any) {
+      console.log({ payload }, 'payload KO CÓ CHI HÉT HUHU');
       const data = yield call(service.editCustomer, payload);
 
       if (data.data) {
@@ -158,7 +159,6 @@ const CustomerModel: CustomerModelType = {
         password: payload.customer.password,
         resourceid: idImg,
       };
-
       const data = yield call(service.editCustomer, inforUpdate);
       if (!data.data) {
         notification.error('Edit avatar failed!');
@@ -173,44 +173,13 @@ const CustomerModel: CustomerModelType = {
     *getBookings({ payload }, { call, put }) {
       const response = yield call(service.getBookings, payload);
       if (response.err) {
-        notification.error('Error get bookings');
-      }
-      const resServices = yield call(service.getServices);
-      if (resServices.err === 'empty list') {
-        notification.error('No result!');
-      }
-      if (resServices.err && resServices.err !== 'empty list') {
-        notification.error('Error get bookings');
+        return notification.error('Error get bookings');
       }
       const { list } = response.data.data;
-      const listServices = resServices.data.data.list;
-
-      const users = [payload];
-      const getData = () => {
-        let result = list.map((booking: any) => {
-          let servic = listServices.find(
-            (service: any) => service._id === booking.serviceid,
-          );
-          let user = users.find(user => user.id === booking.customerid);
-          if (!user) {
-            return [];
-          }
-          return {
-            _id: booking._id,
-            servicename: servic.name,
-            status: booking.status,
-            time: booking.time,
-            note: booking.note,
-            createrAt: booking.createdAt,
-          };
-        });
-        return result;
-      };
       yield put({
         type: 'save',
         payload: {
-          bookings: getData(),
-          customers: [payload],
+          bookings: list,
         },
       });
     },

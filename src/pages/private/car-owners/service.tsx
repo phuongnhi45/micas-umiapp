@@ -47,10 +47,9 @@ const editCustomer = async (payload: any) => {
     name: payload.name,
     address: payload.address,
     password: payload.password,
+    resourceid: payload.resourceid,
   };
-  if (payload.resourceid) {
-    data = Object.assign(data, { resourceid: payload.resourceid });
-  }
+  console.log(data, 'hú hù');
   const api = APIConst.editCustomer.editCustomer(payload._id);
   const res = await request.call(api.url, {
     method: api.method,

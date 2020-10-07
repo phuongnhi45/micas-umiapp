@@ -8,19 +8,6 @@ function getBase64(img: any, callback: any) {
   reader.addEventListener('load', () => callback(reader.result));
   reader.readAsDataURL(img);
 }
-
-function beforeUpload(file: any) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-}
-
 interface PageProps {
   cus: any;
   dispatch: Dispatch;
@@ -31,7 +18,23 @@ class Avatar extends React.Component<PageProps, any> {
   state = {
     loading: false,
   };
+  beforeUpload = (file: any) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      return message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      return message.error('Image must smaller than 2MB!');
+    }
 
+    if (isJpgOrPng && isLt2M) {
+      this.props.dispatch({
+        type: 'Customer/postAvatar',
+        payload: { file: file, customer: this.props.cus },
+      });
+    }
+  };
   handleChange = (info: any) => {
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
@@ -44,10 +47,6 @@ class Avatar extends React.Component<PageProps, any> {
         this.setState({
           imageUrl,
           loading: false,
-        });
-        this.props.dispatch({
-          type: 'Customer/postAvatar',
-          payload: { file: file, customer: this.props.cus },
         });
       });
     }
@@ -73,14 +72,13 @@ class Avatar extends React.Component<PageProps, any> {
       </div>
     );
     return (
-      <ImgCrop>
+      <ImgCrop grid>
         <Upload
+          beforeUpload={this.beforeUpload}
           name="avatar"
           listType="picture-card"
           className="avatar-uploader"
           showUploadList={false}
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          beforeUpload={beforeUpload}
           onChange={this.handleChange}
         >
           {imageUrl ? (
