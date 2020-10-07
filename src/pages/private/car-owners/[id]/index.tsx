@@ -64,7 +64,7 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
         <div>
           <Avatar cus={customer}/>
         </div>
-        <h2 style={{textAlign: 'center', marginBottom: '20px'}}>{customer.name}</h2>
+        <h2 className={styles.title_service}>{customer.name}</h2>
         <div className='info-cus'>
           <h4>Phone:</h4>
           <p>{customer.phone}</p>

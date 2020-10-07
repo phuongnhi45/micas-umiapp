@@ -17,7 +17,7 @@ interface IParam {
 }
 
 function DetailService(props: PageProps): ReactElement {
-  const { dispatch, Company: { service, bookings }, loading } = props
+  const { dispatch, Company: { service, bookings, services }, loading } = props
   const params = useParams<IParam>()
   const { TabPane } = Tabs;
 
@@ -66,7 +66,7 @@ function DetailService(props: PageProps): ReactElement {
         </Breadcrumb>
       </Row>
       <Row>
-        <Col className={styles.service_detail} span={8}>
+        <Col className={styles.service_detail} span={7}>
           <h2 className={styles.title_service}>{service && service.name}</h2>
           <Descriptions>
             <Descriptions.Item label="Address">{service && service.address}</Descriptions.Item>
@@ -91,7 +91,7 @@ function DetailService(props: PageProps): ReactElement {
             tabIndex={0}
           />
         </Col>
-        <Col className={styles.booking} span={16}>
+        <Col className={styles.booking} span={17}>
           <Tabs type="card">
             <TabPane className={styles.tab_booking} tab="Booking" key="1">
               <Button type="primary" style={{marginBottom: '10px'}}>Add new</Button>
@@ -100,6 +100,7 @@ function DetailService(props: PageProps): ReactElement {
                 loading={loading}
                 onEdit={editService}
                 onDelete={removeService}
+                services={services}
               />
             </TabPane>
           </Tabs>

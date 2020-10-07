@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Tag } from 'antd';
-import { IBooking } from 'umi';
+import { IBooking, IService } from 'umi';
 import moment from 'moment';
 
 import './index.less';
@@ -10,11 +10,11 @@ interface Props {
   loading: boolean;
 }
 
-class ListBooking extends React.Component<Props> {
-  state = {
-    active: false,
-  };
+interface PageService {
+  services: IService[];
+}
 
+class ListBooking extends React.Component<Props, PageService> {
   render() {
     const { bookings, loading } = this.props;
     const columns: any = [
@@ -27,7 +27,7 @@ class ListBooking extends React.Component<Props> {
       {
         title: 'Name service',
         dataIndex: 'service',
-        render: (row: IBooking) => {
+        render: (row: IService) => {
           return <b>{row.name}</b>;
         },
       },

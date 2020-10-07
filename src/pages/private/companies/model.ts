@@ -131,7 +131,11 @@ const CompanyModel: CompanyModelType = {
       if (!data) {
         return notification.error(message);
       }
-      notification.success('Success');
+      if (!payload.active) {
+        notification.success('Active Success');
+      } else {
+        notification.success('Inactive Success');
+      }
       yield put({
         type: 'getCompanies',
       });
@@ -219,7 +223,11 @@ const CompanyModel: CompanyModelType = {
       if (!data) {
         return notification.error(message);
       }
-      notification.success('Success');
+      if (payload.active) {
+        notification.success('Active Success');
+      } else {
+        notification.success('Inactive Success');
+      }
       yield put({
         type: 'getServiceByCompany',
         id: payload.id,
@@ -259,6 +267,7 @@ const CompanyModel: CompanyModelType = {
         });
       } else {
         const { list } = response.data.data;
+        console.log(list);
         yield put({
           type: 'updateState',
           payload: {

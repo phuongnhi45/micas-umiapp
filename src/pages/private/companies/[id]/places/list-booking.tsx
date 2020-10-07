@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Tag, Button, Popconfirm } from 'antd';
-import { IBooking } from 'umi';
+import { IBooking, IService } from 'umi';
 import moment from 'moment';
 
 import appIcon from '@/config/icons';
@@ -10,6 +10,7 @@ interface Props {
   onEdit: (_id: string) => void;
   loading: boolean;
   bookings: any;
+  services: IService[]
   onDelete: (_id: string) => void;
 }
 
@@ -24,7 +25,10 @@ class ListBooking extends React.Component<Props> {
       },
       {
         title: 'Phone',
-        dataIndex: 'phoneService',
+        dataIndex: 'service',
+        render: (row: IService) => {
+          return <p>{row.phone}</p>;
+        },
       },
       {
         title: 'Created Date',

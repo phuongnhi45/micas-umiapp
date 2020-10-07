@@ -42,10 +42,8 @@ class FormCompany extends React.Component<CompanyProps, any> {
     return (
       <>
         <Breadcrumb style={{ margin: '20px 0px' }}>
-          <appIcon.ShopOutlined
-            style={{ color: '#1890ff', marginRight: '10px' }}
-          />
-          SERVICE COMPANIES/ {company ? 'EDIT' : 'NEW'}
+          <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> SERVICE
+          COMPANIES/ {company ? 'EDIT' : 'NEW'}
         </Breadcrumb>
         <Form
           {...layout}

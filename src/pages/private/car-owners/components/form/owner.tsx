@@ -45,7 +45,7 @@ class FormCustomer extends React.Component<CustomerProps, any> {
     const { customer } = this.props;
     return (
       <>
-        <Breadcrumb style={{ margin: '20px 40px 40px 0px' }}>
+        <Breadcrumb style={{ margin: '20px 0px' }}>
           <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CUSTOMER/{' '}
           {customer ? 'EDIT' : 'NEW'}
         </Breadcrumb>
