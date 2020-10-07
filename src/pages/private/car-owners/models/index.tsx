@@ -1,7 +1,6 @@
 import service from '../service';
 import { Effect, Reducer, history } from 'umi';
 import notification from '@/utils/notification';
-import { message } from 'antd';
 
 export interface CustomerState {
   bookings: IBooking[];
@@ -87,12 +86,10 @@ const CustomerModel: CustomerModelType = {
       const response = yield call(service.getCustomers, payload);
 
       if (response.err === 'empty list') {
-        notification.error('No result!');
-        return;
+        return notification.error('No result!');
       }
       if (response.err && response.err !== 'empty list') {
-        notification.error('Error server');
-        return;
+        return notification.error('Error server');
       }
       const { list, page, total, limit } = response.data.data;
       yield put({
@@ -175,20 +172,17 @@ const CustomerModel: CustomerModelType = {
     },
     *getBookings({ payload }, { call, put }) {
       const response = yield call(service.getBookings, payload);
-      const { list } = response.data.data;
       if (response.err) {
         notification.error('Error get bookings');
-        return;
       }
       const resServices = yield call(service.getServices);
       if (resServices.err === 'empty list') {
         notification.error('No result!');
-        return;
       }
       if (resServices.err && resServices.err !== 'empty list') {
         notification.error('Error get bookings');
-        return;
       }
+      const { list } = response.data.data;
       const listServices = resServices.data.data.list;
 
       const users = [payload];
@@ -216,6 +210,7 @@ const CustomerModel: CustomerModelType = {
         type: 'save',
         payload: {
           bookings: getData(),
+          customers: [payload],
         },
       });
     },
@@ -223,6 +218,7 @@ const CustomerModel: CustomerModelType = {
 
   reducers: {
     save(state, action) {
+      console.log({ ...state, ...action.payload });
       return {
         ...state,
         ...action.payload,

@@ -15,8 +15,6 @@ interface PageProps {
   Customer:CustomerState
   bookings: CustomerState
   loading: boolean
-
-
 } 
 
 interface IParam {
@@ -24,7 +22,7 @@ interface IParam {
 }
 
 function ServicePlaceEdit(props: PageProps): ReactElement {
-  const { dispatch, Customer: { customer, bookings,  }, loading } = props
+  const { dispatch, Customer: { customer, bookings }, loading } = props
   const params = useParams<IParam>()
   useEffect(() => {
     getCustomerDetail(params.id);
@@ -48,6 +46,7 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
  const  onToggleModal = () => {
   setIsVisible(!isVisible)
   };
+  
 
   if (!customer) return <Spin />
   return (

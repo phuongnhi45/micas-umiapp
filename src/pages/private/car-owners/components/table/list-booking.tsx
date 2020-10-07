@@ -1,6 +1,6 @@
 import React from 'react';
-import { Table } from 'antd';
-import { IBooking } from 'umi';
+import { Table, Tag } from 'antd';
+import { IBooking, Link } from 'umi';
 import './index.less';
 import Moment from 'react-moment';
 
@@ -16,6 +16,7 @@ class ListBooking extends React.Component<Props> {
 
   render() {
     const { bookings, loading } = this.props;
+    console.log(loading, 'ol');
     const columns: any = [
       {
         key: 'id',
@@ -28,6 +29,9 @@ class ListBooking extends React.Component<Props> {
         title: 'Name service',
         dataIndex: 'servicename',
         width: 200,
+        render: (record: IBooking) => {
+          return <Link to="/service-places">{record}</Link>;
+        },
       },
       {
         title: 'Status',
@@ -62,7 +66,14 @@ class ListBooking extends React.Component<Props> {
       },
     ];
 
-    return <Table columns={columns} dataSource={bookings} rowKey="_id" />;
+    return (
+      <Table
+        loading={loading}
+        columns={columns}
+        dataSource={bookings}
+        rowKey="_id"
+      />
+    );
   }
 }
 
