@@ -1,25 +1,55 @@
 import React from 'react';
 import { Table, Tag, Button, Popconfirm, Checkbox } from 'antd';
-import { IService, history } from 'umi';
+import { IService, Dispatch, connect, CompanyState, Loading, Link } from 'umi';
 
 import appIcon from '@/config/icons';
 import styles from '../../index.less';
+import ServiceModal from './places/service-modal';
 
 interface Props {
-  // onChangeStatus: (active: boolean, _id: string) => void;
+  onChangeStatusService: (value: string, e: any) => void;
   services: IService[];
   loading: boolean;
+  company: any
+  dispatch: Dispatch;
   onDelete: (_id: string) => void;
 }
 
 class ListService extends React.Component<Props> {
   state = {
     active: false,
+    isVisible: false,
+    service: null,
   };
+
+  onToggleModal = (isVisible: boolean, service: any = null) => {
+    this.setState({
+      isVisible,
+      service,
+    });
+  };
+
+  onSubmit = (data: any, service: any, company: any) => {
+    if (!service) {
+      const values = Object.assign(data, { companyid: company._id });
+      this.props.dispatch({
+        type: 'Company/createService',
+        payload: values
+      });
+    } else {
+      const id = service._id
+      const _id = company._id
+      this.props.dispatch({
+        type: 'Company/editService',
+        payload: { data, id, _id }
+      });
+    }
+    this.onToggleModal(false, null);
+  }
   
   render() {
-    const { active } = this.state;
-    const { services, loading, onDelete, } = this.props;
+    const { active, isVisible, service } = this.state;
+    const { services, loading, onDelete, onChangeStatusService, company } = this.props;
 
     const columns: any = [
       {
@@ -31,6 +61,9 @@ class ListService extends React.Component<Props> {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
+        render: (value: string, row: IService) => {
+          return <Link style={{textTransform: 'capitalize'}} to={{ pathname: `/services/${row._id}` }}>{value}</Link>
+        },
       },
       {
         title: 'Type',
@@ -52,14 +85,14 @@ class ListService extends React.Component<Props> {
             return (
               <Checkbox
                 checked={!active}
-                // onChange={e => onChangeStatus(value, e)}
+                onChange={e => onChangeStatusService(value, e)}
               />
             );
           } else {
             return (
               <Checkbox
                 checked={active}
-                // onChange={e => onChangeStatus(value, e)}
+                onChange={e => onChangeStatusService(value, e)}
               />
             );
           }
@@ -73,7 +106,7 @@ class ListService extends React.Component<Props> {
             <div className={styles.action}>
               <Button
                 icon={<appIcon.EditOutlined />}
-                // onClick={() => this.goToEdit(row)}
+                onClick={() => this.onToggleModal(true, row)}
               />
               <Popconfirm
                 title="Are you sure？"
@@ -91,19 +124,35 @@ class ListService extends React.Component<Props> {
 
     return (
     <div className={styles.list_services}>
-      <Button type="primary" style={{marginBottom: '10px'}}>Create</Button>
+      <Button type="primary" 
+        style={{marginBottom: '10px'}} 
+        onClick={() => this.onToggleModal(true)}
+      >
+        Create
+      </Button>
       <Table
         columns={columns}
         dataSource={services}
-        // onChangeStatus={this.onChangeStatus}
         rowKey="_id"
         size="large"
         loading={loading}
-        style={{borderTop: '1px solid #cccccc'}}
+        bordered
+      />
+      <ServiceModal
+        visible={isVisible}
+        service={service}
+        onSubmit={this.onSubmit}
+        onCancel={this.onToggleModal}
+        company={company}
       />
     </div>
     )
   }
 }
 
-export default ListService;
+export default connect(
+  ({ Company, loading }: { Company: CompanyState; loading: Loading }) => ({
+    Company,
+    loading: loading.models.Company,
+  }),
+)(ListService);

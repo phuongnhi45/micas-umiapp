@@ -1,6 +1,7 @@
 import React from 'react';
 import TableList from './components/table/owners';
 import SearchInput from './components/input/search-owner';
+import ListCar from './components/table/list-car';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { CustomerState } from './models/index';
 import { Button, Row, Col, Breadcrumb } from 'antd';
@@ -10,6 +11,7 @@ import styles from '../index.less';
 
 export interface CustomerProps extends ConnectProps {
   Customer: CustomerState;
+  Booking: CustomerState;
   dispatch: Dispatch;
   loading: boolean;
 }
@@ -30,8 +32,6 @@ class Customer extends React.Component<CustomerProps, any> {
     const filters = lodash.merge(filter, newFilter);
     const query = lodash.pick(filters, ['page', 'name', 'active']);
     this.loadData(query);
-
-    console.log(query);
   };
 
   loadData = (payload: any) => {

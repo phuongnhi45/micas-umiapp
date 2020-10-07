@@ -125,9 +125,66 @@ export default {
       url: `/admin/services?companyid=${id}`,
       method: methods.get,
     }),
-    removeService: (id: string) => ({
-      url: `/admin/services/${id}`,
+    postService: () => ({
+      url: '/admin/services',
+      method: methods.post,
+    }),
+    removeService: (payload: any) => ({
+      url: `/admin/services/${payload._id}`,
       method: methods.remove,
+    }),
+    statusService: (payload: any) => ({
+      url: `/admin/services/${payload._id}?active=${payload.active}`,
+      method: methods.patch,
+    }),
+    updateService: (id: string) => ({
+      url: `/admin/services/${id}`,
+      method: methods.patch,
+    }),
+    fetchServiceDetail: (id: string) => ({
+      url: `/admin/services/${id}`,
+      method: methods.get,
+    }),
+  },
+  //booking
+  getBookingByService: {
+    fetchBookings: (id: string) => ({
+      url: `/admin/bookings?serviceid=${id}`,
+      method: methods.get,
+    }),
+    postBooking: () => ({
+      url: '/admin/bookings',
+      method: methods.post,
+    }),
+    removeBooking: (payload: any) => ({
+      url: `/admin/bookings/${payload._id}`,
+      method: methods.remove,
+    }),
+  },
+  postAvatar: {
+    postAvatar: () => ({
+      url: `/resources/upload`,
+      method: methods.post,
+    }),
+  },
+
+  //booking
+  getBookings: {
+    fetchBookings: () => ({
+      url: '/admin/bookings',
+      method: methods.get,
+    }),
+    fetchBookingDetail: (id: string) => ({
+      url: `/admin/bookings/${id}`,
+      method: methods.get,
+    }),
+  },
+
+  //
+  getServices: {
+    getServicesDetail: (id: string) => ({
+      url: `/admin/services/${id}`,
+      method: methods.get,
     }),
   },
 };

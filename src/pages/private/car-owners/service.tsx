@@ -43,17 +43,25 @@ const postUpdateStatus = (payload: any) => {
 };
 
 const editCustomer = async (payload: any) => {
-  const act = { active: true };
-  const returnedTarget = Object.assign(payload.values, act);
-  const api = APIConst.editCustomer.editCustomer(payload.id);
+  const a = {
+    name: payload.name,
+    address: payload.address,
+    password: payload.password,
+  };
+  if (payload.file) {
+    console.log(payload.file);
+  }
+  console.log(a, 'payload nè');
+  const api = APIConst.editCustomer.editCustomer(payload._id);
   const res = await request.call(api.url, {
     method: api.method,
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    data: returnedTarget,
+
+    data: a,
   });
-  console.log(res, 'ewss');
+  console.log(res, 'loi chi');
   return res;
 };
 
@@ -78,6 +86,64 @@ const fetchCustomerDetail = async (id: string) => {
   });
   return response;
 };
+
+const postAvatar = async (payload: any) => {
+  const api = APIConst.postAvatar.postAvatar();
+  const formData = new FormData();
+  formData.append('file', payload);
+  const response = await request.call(api.url, {
+    method: api.method,
+    body: formData,
+    requestType: 'form',
+  });
+  return response;
+};
+
+// const getAvatar = async (payload: any) => {
+//   const api = APIConst.getAvatar.postAvatar();
+
+//   console.log(payload);
+//   const response = await request.call(api.url, {
+//     method: api.method,
+//   });
+//   return response;
+// };
+
+const getBookings = async (payload: any) => {
+  const id = payload.id;
+
+  const api = APIConst.getBookings.fetchBookings();
+  const response = await request.call(api.url, {
+    method: api.method,
+    query: { customerid: id },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+const fetchBookingDetail = async (id: string) => {
+  const api = APIConst.getBookings.fetchBookingDetail(id);
+  const response = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+const getServiceid = async (id: string) => {
+  const api = APIConst.getServices.getServicesDetail(id);
+  const response = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log('cos gif naof', response);
+  return response;
+};
 export default {
   postCustomer,
   getCustomers,
@@ -85,4 +151,8 @@ export default {
   editCustomer,
   deleteCustomer,
   fetchCustomerDetail,
+  postAvatar,
+  getBookings,
+  fetchBookingDetail,
+  getServiceid,
 };

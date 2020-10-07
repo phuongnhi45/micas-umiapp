@@ -94,8 +94,75 @@ const fetchService = async (id: string) => {
   return response;
 };
 
+const postService = async (payload: any) => {
+  const api = APIConst.getServiceByCompany.postService();
+  const response = await request
+    .call(api.url, {
+      method: api.method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: payload,
+    })
+    .then(function(res) {
+      return res.data;
+    })
+    .catch(function(error) {
+      return error;
+    });
+  return response;
+};
+
 const removeService = async (payload: any) => {
   const api = APIConst.getServiceByCompany.removeService(payload);
+  const response = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+const statusService = async (payload: any) => {
+  const api = APIConst.getServiceByCompany.statusService(payload);
+  const response = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+const updateService = async (payload: any) => {
+  const active = { active: true };
+  const returnedTarget = Object.assign(payload.data, active);
+  const api = APIConst.getServiceByCompany.updateService(payload.id);
+  const response = await request.call(api.url, {
+    method: api.method,
+    data: returnedTarget,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+const fetchServiceDetail = async (id: string) => {
+  const api = APIConst.getServiceByCompany.fetchServiceDetail(id);
+  const response = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+//bookings
+const fetchBookings = async (id: string) => {
+  const api = APIConst.getBookingByService.fetchBookings(id);
   const response = await request.call(api.url, {
     method: api.method,
     headers: {
@@ -114,4 +181,9 @@ export default {
   fetchCompanyDetail,
   fetchService,
   removeService,
+  statusService,
+  postService,
+  updateService,
+  fetchServiceDetail,
+  fetchBookings,
 };

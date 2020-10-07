@@ -39,7 +39,7 @@ class UserStaff extends React.Component<any, any> {
 
         <Layout>
           <Header className={styles.header}>
-            <div className={styles.trigger}>
+            <div>
               {React.createElement(
                 this.state.collapsed
                   ? appIcon.MenuUnfoldOutlined

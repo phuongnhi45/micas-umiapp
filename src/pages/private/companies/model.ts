@@ -8,6 +8,15 @@ export interface CompanyState {
   company: any;
   services: IService[];
   service: any;
+  bookings: IBooking[];
+  booking: any;
+}
+
+export interface IBooking {
+  phone: string;
+  email: string;
+  _id: string;
+  time: string;
 }
 
 export interface IFilter {
@@ -49,7 +58,12 @@ interface CompanyModelType {
     getRemoveCompany: Effect;
     getCompanyDetail: Effect;
     getServiceByCompany: Effect;
+    createService: Effect;
     getRemoveService: Effect;
+    changeStatusService: Effect;
+    editService: Effect;
+    getServiceDetail: Effect;
+    getBookingByService: Effect;
   };
   reducers: {
     updateState: Reducer<CompanyState>;
@@ -67,6 +81,8 @@ const initialState: CompanyState = {
   company: null,
   services: [],
   service: null,
+  bookings: [],
+  booking: null,
 };
 
 const CompanyModel: CompanyModelType = {
@@ -157,7 +173,12 @@ const CompanyModel: CompanyModelType = {
       const response = yield call(service.fetchService, id);
       if (!response.data) {
         notification.error('No service!');
-        return;
+        yield put({
+          type: 'updateState',
+          payload: {
+            services: [],
+          },
+        });
       } else {
         const { list } = response.data.data;
         yield put({
@@ -167,7 +188,55 @@ const CompanyModel: CompanyModelType = {
           },
         });
       }
-      return;
+    },
+
+    *getServiceDetail({ id }: any, { call, put }: any) {
+      const response = yield call(service.fetchServiceDetail, id);
+      const { data } = response.data;
+      yield put({
+        type: 'updateState',
+        payload: {
+          service: data,
+        },
+      });
+    },
+
+    *createService({ payload }, { call, put }) {
+      const response = yield call(service.postService, payload);
+      if (!response.data) {
+        return notification.error('Create service failed');
+      }
+      notification.success('Created success');
+      yield put({
+        type: 'getServiceByCompany',
+        id: payload.companyid,
+      });
+    },
+
+    *changeStatusService({ payload }, { call, put }) {
+      const response = yield call(service.statusService, payload);
+      const { data, message } = response.data;
+      if (!data) {
+        return notification.error(message);
+      }
+      notification.success('Success');
+      yield put({
+        type: 'getServiceByCompany',
+        id: payload.id,
+      });
+    },
+
+    *editService({ payload }, { call, put }) {
+      const response = yield call(service.updateService, payload);
+      const { data, message } = response.data;
+      if (!data) {
+        return notification.error(message);
+      }
+      notification.success('Success');
+      yield put({
+        type: 'getServiceByCompany',
+        id: payload._id,
+      });
     },
 
     *getRemoveService({ payload }: any, { call, put }: any) {
@@ -175,7 +244,28 @@ const CompanyModel: CompanyModelType = {
       notification.success('Deleted success');
       yield put({
         type: 'getServiceByCompany',
+        id: payload.id,
       });
+    },
+
+    *getBookingByService({ id }: any, { call, put }: any) {
+      const response = yield call(service.fetchBookings, id);
+      if (!response.data) {
+        yield put({
+          type: 'updateState',
+          payload: {
+            bookings: [],
+          },
+        });
+      } else {
+        const { list } = response.data.data;
+        yield put({
+          type: 'updateState',
+          payload: {
+            bookings: list,
+          },
+        });
+      }
     },
   },
 

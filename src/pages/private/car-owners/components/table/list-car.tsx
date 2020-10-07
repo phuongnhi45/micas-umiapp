@@ -1,130 +1,44 @@
 import React from 'react';
-import { Table, Button, Checkbox, Popconfirm } from 'antd';
-import { ICustomer, Link, history } from 'umi';
-import appIcon from '@/config/icons';
-interface Props {
-  onUpdate: (isVisible: boolean, data: any) => void;
-  onDelete: any;
-  customers: ICustomer[];
-  loading: boolean;
-  onChangeStatus: (value: string, e: any) => void;
-  onChange: (pagination: any, filters: any, sorter: any) => void;
-  pageSize: number;
-  total: number;
-  current: number;
-}
 
-class ListCar extends React.Component<Props> {
-  state = {
-    searchText: '',
-    searchedColumn: '',
-    active: false,
-  };
-  goToEdit = (customer: ICustomer) => {
-    history.push(`/car-owners/${customer._id}/edit`);
-  };
+import { Table } from 'antd';
+import './index.less';
+const columns = [
+  {
+    title: ' VIN',
+    dataIndex: 'vin',
+    key: 'vin',
+  },
+  {
+    title: 'DEVICE MAC ADDRESS',
+    dataIndex: 'mac',
+    key: 'mac',
+  },
+  {
+    title: 'BRAND',
+    dataIndex: 'brand',
+    key: 'brand',
+  },
+  {
+    title: 'MODEL',
+    dataIndex: 'model',
+    key: 'model',
+  },
+  {
+    title: 'RELEASE YEAR',
+    dataIndex: 'release',
+    key: 'release',
+  },
+];
+const data: any = [
+  { vin: '1', mac: 'Qqq', brand: 'Vin', model: 'WWE', release: '2019' },
+  { vin: '2', mac: 'Qqq', brand: 'Vi', model: 'WWEa', release: '2020' },
+  { vin: '3', mac: 'Qqq', brand: 'Vin', model: 'WDWE', release: '2020' },
+  { vin: '4', mac: 'Qqq', brand: 'Vin', model: 'WWEF', release: '2020' },
+];
 
+class ListCar extends React.Component<any> {
   render() {
-    const { active } = this.state;
-    const {
-      customers,
-      onDelete,
-      loading,
-      onChange,
-      pageSize,
-      total,
-      current,
-      onChangeStatus,
-    } = this.props;
-
-    const columns = [
-      {
-        key: '_id',
-        title: '#',
-        render: (value: any, record: ICustomer, index: number) => index + 1,
-        align: 'center',
-      },
-      {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        align: 'center',
-        render: (record: ICustomer, row: ICustomer) => {
-          return (
-            <div style={{ margin: 'auto', textAlign: 'center' }}>
-              <Link to={{ pathname: `/car-owners/${row._id}` }}>{record}</Link>
-            </div>
-          );
-        },
-      },
-      {
-        title: 'Phone',
-        dataIndex: 'phone',
-        key: 'phone',
-        align: 'center',
-      },
-      {
-        title: 'Active',
-        dataIndex: '_id',
-        key: 'phone',
-        align: 'center',
-        render: (value: any, row: ICustomer) => {
-          if (row.active) {
-            return (
-              <Checkbox
-                checked={!active}
-                onChange={e => onChangeStatus(value, e)}
-              />
-            );
-          } else {
-            return (
-              <Checkbox
-                checked={active}
-                onChange={e => onChangeStatus(value, e)}
-              />
-            );
-          }
-        },
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        align: 'center',
-        render: (row: ICustomer) => {
-          return (
-            <div style={{ margin: 'auto', textAlign: 'center' }}>
-              <span style={{ paddingRight: '10px' }}>
-                <Button
-                  icon={<appIcon.EditOutlined />}
-                  onClick={() => this.goToEdit(row)}
-                />
-              </span>
-              <Popconfirm
-                title="Are you sure？"
-                okText="Yes"
-                cancelText="No"
-                onConfirm={() => onDelete(row)}
-              >
-                <Button icon={<appIcon.DeleteOutlined />} />
-              </Popconfirm>
-            </div>
-          );
-        },
-      },
-    ];
-
-    return (
-      <Table
-        columns={columns}
-        dataSource={customers}
-        rowKey="_id"
-        size="large"
-        loading={loading}
-        onChange={onChange}
-        pagination={{ pageSize, total, current: current + 1 }}
-      />
-    );
+    return <Table columns={columns} dataSource={data} />;
   }
 }
-
 export default ListCar;

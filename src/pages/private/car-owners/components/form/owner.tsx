@@ -23,11 +23,11 @@ class FormCustomer extends React.Component<CustomerProps, any> {
   onFinish = async (values: any) => {
     const { customer, dispatch } = this.props;
     if (customer) {
-      const id = customer._id;
-      console.log(values, 'value nè');
+      const _id = customer._id;
+      const payload = Object.assign(values, { _id: _id });
       dispatch({
         type: 'Customer/editCustomer',
-        payload: { values, id },
+        payload: payload,
       });
     } else {
       dispatch({
@@ -39,7 +39,6 @@ class FormCustomer extends React.Component<CustomerProps, any> {
 
   render() {
     const { customer } = this.props;
-    console.log(customer); //null->create, else ->update
     return (
       <>
         <Breadcrumb style={{ margin: '20px 40px 40px 0px' }}>
@@ -60,6 +59,17 @@ class FormCustomer extends React.Component<CustomerProps, any> {
             name="phone"
             label="Phone"
             initialValue={customer ? customer.phone : ''}
+            rules={[
+              { required: true },
+              { len: 10, message: 'Phone must be 10 characters.' },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="address"
+            label="Address"
+            initialValue={customer ? customer.address : ''}
             rules={[{ required: true }]}
           >
             <Input />
@@ -68,7 +78,10 @@ class FormCustomer extends React.Component<CustomerProps, any> {
             name="password"
             label="Password"
             initialValue={customer ? customer.password : ''}
-            rules={[{ required: true }]}
+            rules={[
+              { required: true },
+              { len: 6, message: 'Password must be 6 characters.' },
+            ]}
           >
             <Input type="password" />
           </Form.Item>

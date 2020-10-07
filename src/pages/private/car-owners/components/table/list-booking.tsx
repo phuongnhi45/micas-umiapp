@@ -1,14 +1,12 @@
 import React from 'react';
-import { Table, Button, Checkbox, Popconfirm } from 'antd';
-import { ICustomer, Link, history } from 'umi';
-import appIcon from '@/config/icons';
+import { Table } from 'antd';
+import { IBooking } from 'umi';
+import moment from 'moment';
+import './index.less';
+
 interface Props {
-  onUpdate: (isVisible: boolean, data: any) => void;
-  onDelete: any;
-  customers: ICustomer[];
+  bookings: IBooking[];
   loading: boolean;
-  onChangeStatus: (value: string, e: any) => void;
-  onChange: (pagination: any, filters: any, sorter: any) => void;
   pageSize: number;
   total: number;
   current: number;
@@ -16,111 +14,62 @@ interface Props {
 
 class ListBooking extends React.Component<Props> {
   state = {
-    searchText: '',
-    searchedColumn: '',
     active: false,
-  };
-  goToEdit = (customer: ICustomer) => {
-    history.push(`/car-owners/${customer._id}/edit`);
   };
 
   render() {
-    const { active } = this.state;
-    const {
-      customers,
-      onDelete,
-      loading,
-      onChange,
-      pageSize,
-      total,
-      current,
-      onChangeStatus,
-    } = this.props;
-
-    const columns = [
+    const { bookings, loading, pageSize, total, current } = this.props;
+    const columns: any = [
       {
         key: '_id',
         title: '#',
-        render: (value: any, record: ICustomer, index: number) => index + 1,
+        render: (value: any, record: IBooking, index: number) => index + 1,
         align: 'center',
       },
       {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        align: 'center',
-        render: (record: ICustomer, row: ICustomer) => {
-          return (
-            <div style={{ margin: 'auto', textAlign: 'center' }}>
-              <Link to={{ pathname: `/car-owners/${row._id}` }}>{record}</Link>
-            </div>
-          );
+        title: 'Name service',
+        dataIndex: 'nameService',
+        width: 200,
+        render: (record: IBooking) => {
+          return <p>{record}</p>;
         },
       },
       {
-        title: 'Phone',
-        dataIndex: 'phone',
-        key: 'phone',
+        title: 'Status',
+        dataIndex: 'status',
         align: 'center',
+        width: 200,
       },
       {
-        title: 'Active',
-        dataIndex: '_id',
-        key: 'phone',
+        title: 'Time',
+        dataIndex: 'time',
         align: 'center',
-        render: (value: any, row: ICustomer) => {
-          if (row.active) {
-            return (
-              <Checkbox
-                checked={!active}
-                onChange={e => onChangeStatus(value, e)}
-              />
-            );
-          } else {
-            return (
-              <Checkbox
-                checked={active}
-                onChange={e => onChangeStatus(value, e)}
-              />
-            );
-          }
-        },
+        width: 200,
+        render: (value: string) => moment(value).format('DD/MM/YYYY, HH:mm'),
       },
       {
-        title: 'Action',
-        key: 'action',
+        title: 'CreatedAt',
+        dataIndex: 'createdAt',
         align: 'center',
-        render: (row: ICustomer) => {
-          return (
-            <div style={{ margin: 'auto', textAlign: 'center' }}>
-              <span style={{ paddingRight: '10px' }}>
-                <Button
-                  icon={<appIcon.EditOutlined />}
-                  onClick={() => this.goToEdit(row)}
-                />
-              </span>
-              <Popconfirm
-                title="Are you sure？"
-                okText="Yes"
-                cancelText="No"
-                onConfirm={() => onDelete(row)}
-              >
-                <Button icon={<appIcon.DeleteOutlined />} />
-              </Popconfirm>
-            </div>
-          );
-        },
+        width: 200,
+        render: (value: string) => moment(value).format('DD/MM/YYYY, HH:mm'),
+      },
+
+      {
+        title: 'Note',
+        dataIndex: 'note',
+        align: 'center',
+        width: 200,
       },
     ];
 
     return (
       <Table
         columns={columns}
-        dataSource={customers}
+        dataSource={bookings}
         rowKey="_id"
         size="large"
         loading={loading}
-        onChange={onChange}
         pagination={{ pageSize, total, current: current + 1 }}
       />
     );

@@ -73,7 +73,6 @@ const EmployeeModel: EmployeeModelType = {
         });
       }
       if (response.err && response.err !== 'empty list') {
-        console.log('Error server');
         return;
       }
       const { list, page, total, limit } = response.data.data;

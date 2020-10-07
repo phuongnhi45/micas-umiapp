@@ -1,39 +1,36 @@
 import React from 'react';
 import { Modal, Form, Input } from 'antd';
-import styles from '../../index.less';
 
 interface Props {
   visible: boolean;
-  staff: any;
-  onSubmit: (data: any, staff: any) => void;
+  service: any;
+  company: any;
+  onSubmit: (data: any, service: any, company: any) => void;
   onCancel: (isVisible: boolean, data: any) => void;
 }
 
-const CollectionForm = ({ visible, onSubmit, onCancel, staff }: Props) => {
+const CollectionForm = ({ visible, onSubmit, onCancel, service, company }: Props) => {
   const [form] = Form.useForm();
   const cancelAndResetField = () => {
     form.resetFields();
     onCancel(false, null);
   };
-  if (staff) {
-    staff.password = '123456';
-  }
 
-  form.setFieldsValue(staff ? staff : {});
+  form.setFieldsValue(service ? service : {});
   return (
     <Modal
       visible={visible}
-      title={staff ? 'Edit employee' : 'Create employee'}
-      okText={staff ? 'Update' : 'Create'}
+      title={service ? 'Edit service' : 'Create service'}
+      okText={service ? 'Update' : 'Create'}
       cancelText="Cancel"
       onCancel={cancelAndResetField}
       onOk={() => {
         form
           .validateFields()
-          .then(values => {
+          .then(data => {
             form.resetFields();
             {
-              staff ? onSubmit(values, staff) : onSubmit(values, staff);
+              service ? onSubmit(data, service, company) : onSubmit(data, service, company)
             }
           })
           .catch(info => {
@@ -69,43 +66,54 @@ const CollectionForm = ({ visible, onSubmit, onCancel, staff }: Props) => {
               required: true,
               message: 'Please input the phone of collection!',
             },
-            { len: 10, message: 'Phone must be 10 characters.' },
           ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name="password"
-          label="Password"
+          name="address"
+          label="Address"
           rules={[
             {
               required: true,
-              message: 'Please input the password of collection!',
+              message: 'Please input the address of collection!',
             },
-            { len: 6, message: 'Password must be 6 characters.' },
           ]}
         >
-          <Input type="password" />
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          name="email"
+          label="Email"
+        >
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          name="description"
+          label="Description"
+        >
+          <Input/>
         </Form.Item>
       </Form>
     </Modal>
   );
 };
 
-class ModalForm extends React.Component<Props> {
+class ServiceModal extends React.Component<Props> {
   render() {
-    const { visible, onSubmit, onCancel, staff } = this.props;
+    const { visible, onSubmit, onCancel, service, company } = this.props;
     return (
-      <div className={styles.staff}>
+      <div >
         <CollectionForm
           visible={visible}
           onSubmit={onSubmit}
           onCancel={onCancel}
-          staff={staff}
+          service={service}
+          company={company}
         />
       </div>
     );
   }
 }
 
-export default ModalForm;
+export default ServiceModal;
