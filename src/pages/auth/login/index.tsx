@@ -69,7 +69,6 @@ class SignIn extends React.Component<SignInProps, any> {
                 Sign In
               </Button>
             </Form.Item>
-            <Link to="/register">Create new account</Link>
           </Form>
         </div>
       );
