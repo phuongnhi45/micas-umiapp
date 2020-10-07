@@ -113,9 +113,7 @@ const CustomerModel: CustomerModelType = {
     },
 
     *editCustomer({ payload }: any, { call, put }: any) {
-      console.log({ payload }, 'payload KO CÓ CHI HÉT HUHU');
       const data = yield call(service.editCustomer, payload);
-
       if (data.data) {
         notification.success('Edit customer success');
         history.push('/car-owners');
@@ -132,12 +130,13 @@ const CustomerModel: CustomerModelType = {
     },
 
     *deleteCustomer({ payload }: any, { call, put }: any) {
-      const data = yield call(service.deleteCustomer, payload);
+      yield call(service.deleteCustomer, payload);
       notification.success('Deleted customer success');
       yield put({
         type: 'getCustomers',
       });
     },
+
     *getCustomerDetail({ id }: any, { call, put }: any) {
       const response = yield call(service.fetchCustomerDetail, id);
       const { data } = response.data;
@@ -170,6 +169,7 @@ const CustomerModel: CustomerModelType = {
         type: 'getCustomer',
       });
     },
+
     *getBookings({ payload }, { call, put }) {
       const response = yield call(service.getBookings, payload);
       if (response.err) {
@@ -187,7 +187,6 @@ const CustomerModel: CustomerModelType = {
 
   reducers: {
     save(state, action) {
-      console.log({ ...state, ...action.payload });
       return {
         ...state,
         ...action.payload,

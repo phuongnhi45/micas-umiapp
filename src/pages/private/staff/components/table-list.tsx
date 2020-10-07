@@ -40,29 +40,22 @@ class TableList extends React.Component<Props> {
         title: '#',
         render: (value: any, record: IEmployee, index: number) => index + 1,
         align: 'center',
-        width: 200,
       },
       {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        width: 200,
-        render: (record: IEmployee) => {
-          return <Link to="">{record}</Link>;
-        },
       },
       {
         title: 'Phone',
         dataIndex: 'phone',
         key: 'phone',
         align: 'center',
-        width: 200,
       },
       {
         title: 'Active',
         dataIndex: '_id',
         align: 'center',
-        width: 150,
         render: (value: any, row: IEmployee) => {
           if (row.active) {
             return (
@@ -86,7 +79,6 @@ class TableList extends React.Component<Props> {
         dataIndex: '_id',
         key: '_id',
         align: 'center',
-        width: 200,
         render: (value: any, row: IEmployee) => {
           return (
             <div style={{ margin: 'auto', textAlign: 'center' }}>

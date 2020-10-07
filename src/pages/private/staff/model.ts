@@ -113,7 +113,7 @@ const EmployeeModel: EmployeeModelType = {
     },
 
     *deleteEmployee({ payload }: any, { call, put }: any) {
-      const data = yield call(service.deleteEmployee, payload);
+      yield call(service.deleteEmployee, payload);
       notification.success('Deleted employee success');
       yield put({
         type: 'getEmployees',

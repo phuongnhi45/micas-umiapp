@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { Table } from 'antd';
 import './index.less';
+
 const columns: any = [
   {
     title: ' VIN',
@@ -36,4 +37,5 @@ class ListCar extends React.Component<any> {
     return <Table columns={columns} dataSource={data} />;
   }
 }
+
 export default ListCar;
