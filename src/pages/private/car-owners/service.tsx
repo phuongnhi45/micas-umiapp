@@ -43,25 +43,20 @@ const postUpdateStatus = (payload: any) => {
 };
 
 const editCustomer = async (payload: any) => {
-  const a = {
+  let data = {
     name: payload.name,
     address: payload.address,
     password: payload.password,
+    resourceid: payload.resourceid,
   };
-  if (payload.file) {
-    console.log(payload.file);
-  }
-  console.log(a, 'payload nè');
   const api = APIConst.editCustomer.editCustomer(payload._id);
   const res = await request.call(api.url, {
     method: api.method,
     headers: {
       Authorization: `Bearer ${token}`,
     },
-
-    data: a,
+    data: data,
   });
-  console.log(res, 'loi chi');
   return res;
 };
 
@@ -99,19 +94,8 @@ const postAvatar = async (payload: any) => {
   return response;
 };
 
-// const getAvatar = async (payload: any) => {
-//   const api = APIConst.getAvatar.postAvatar();
-
-//   console.log(payload);
-//   const response = await request.call(api.url, {
-//     method: api.method,
-//   });
-//   return response;
-// };
-
 const getBookings = async (payload: any) => {
   const id = payload.id;
-
   const api = APIConst.getBookings.fetchBookings();
   const response = await request.call(api.url, {
     method: api.method,
@@ -133,17 +117,18 @@ const fetchBookingDetail = async (id: string) => {
   });
   return response;
 };
-const getServiceid = async (id: string) => {
-  const api = APIConst.getServices.getServicesDetail(id);
+
+const getServices = async () => {
+  const api = APIConst.getServices.getServices();
   const response = await request.call(api.url, {
     method: api.method,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log('cos gif naof', response);
   return response;
 };
+
 export default {
   postCustomer,
   getCustomers,
@@ -154,5 +139,5 @@ export default {
   postAvatar,
   getBookings,
   fetchBookingDetail,
-  getServiceid,
+  getServices,
 };

@@ -1,9 +1,11 @@
 import React from 'react';
+import { ICustomer, Link, history } from 'umi';
 import Ellipsis from 'ant-design-pro';
 import { Table, Button, Checkbox, Popconfirm, Tag } from 'antd';
-import { ICustomer, Link, history } from 'umi';
+
 import appIcon from '@/config/icons';
 import './index.less';
+
 interface Props {
   onUpdate: (isVisible: boolean, data: any) => void;
   onDelete: any;
@@ -45,14 +47,11 @@ class TableList extends React.Component<Props> {
         title: '#',
         render: (value: any, record: ICustomer, index: number) => index + 1,
         align: 'center',
-        width: 150,
       },
       {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        width: 150,
-
         render: (record: ICustomer, row: ICustomer) => {
           return (
             <div>
@@ -66,15 +65,12 @@ class TableList extends React.Component<Props> {
         dataIndex: 'phone',
         key: 'phone',
         align: 'center',
-        width: 150,
       },
       {
         title: 'Address',
         dataIndex: 'address',
         key: 'address',
         align: 'center',
-        width: 150,
-
         render: (record: ICustomer, row: ICustomer) => {
           return (
             <Tag color="blue" style={{ width: '100px' }}>
@@ -88,9 +84,7 @@ class TableList extends React.Component<Props> {
       {
         title: 'Active',
         dataIndex: '_id',
-        key: 'phone',
         align: 'center',
-        width: 50,
         render: (value: any, row: ICustomer) => {
           if (row.active) {
             return (
@@ -111,9 +105,7 @@ class TableList extends React.Component<Props> {
       },
       {
         title: 'Action',
-        key: 'action',
         align: 'center',
-        width: 150,
         render: (row: ICustomer) => {
           return (
             <div style={{ margin: 'auto', textAlign: 'center' }}>

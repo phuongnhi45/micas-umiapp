@@ -120,6 +120,12 @@ export default {
     }),
   },
   //service
+  getServices: {
+    getServices: () => ({
+      url: `/admin/services`,
+      method: methods.get,
+    }),
+  },
   getServiceByCompany: {
     fetchService: (id: string) => ({
       url: `/admin/services?companyid=${id}`,
@@ -176,14 +182,6 @@ export default {
     }),
     fetchBookingDetail: (id: string) => ({
       url: `/admin/bookings/${id}`,
-      method: methods.get,
-    }),
-  },
-
-  //
-  getServices: {
-    getServicesDetail: (id: string) => ({
-      url: `/admin/services/${id}`,
       method: methods.get,
     }),
   },

@@ -2,8 +2,10 @@ import React from 'react';
 import { Form, Input, Button, Breadcrumb } from 'antd';
 import { connect, Loading, Dispatch, Link } from 'umi';
 import { CustomerState } from '../../models/index';
+
 import './index.less';
 import appIcon from '@/config/icons';
+import styles from '../../../index.less';
 
 const layout = {
   labelCol: { span: 3 },
@@ -23,8 +25,10 @@ class FormCustomer extends React.Component<CustomerProps, any> {
   onFinish = async (values: any) => {
     const { customer, dispatch } = this.props;
     if (customer) {
-      const _id = customer._id;
-      const payload = Object.assign(values, { _id: _id });
+      const payload = Object.assign(values, {
+        _id: customer._id,
+        resourceid: customer.resourceid,
+      });
       dispatch({
         type: 'Customer/editCustomer',
         payload: payload,
@@ -42,10 +46,15 @@ class FormCustomer extends React.Component<CustomerProps, any> {
     return (
       <>
         <Breadcrumb style={{ margin: '20px 40px 40px 0px' }}>
-          <appIcon.ShopOutlined style={{ color: '#1890ff' }} />
-          CUSTOMER/ {customer ? 'EDIT' : 'NEW'}
+          <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CUSTOMER/{' '}
+          {customer ? 'EDIT' : 'NEW'}
         </Breadcrumb>
-        <Form {...layout} name="basic" onFinish={this.onFinish}>
+        <Form
+          {...layout}
+          className={styles.company}
+          name="basic"
+          onFinish={this.onFinish}
+        >
           <Form.Item
             name="name"
             label="Name"
@@ -54,7 +63,6 @@ class FormCustomer extends React.Component<CustomerProps, any> {
           >
             <Input />
           </Form.Item>
-
           <Form.Item
             name="phone"
             label="Phone"

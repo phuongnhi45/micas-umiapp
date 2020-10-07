@@ -5,6 +5,7 @@ import SearchInput from './components/search-input';
 
 import { connect, Loading, ConnectProps, Dispatch } from 'umi';
 import { EmployeeState } from './model';
+
 import { Button, Row, Col, Breadcrumb } from 'antd';
 import lodash from 'lodash';
 import appIcon from '@/config/icons';
@@ -84,34 +85,33 @@ class Staff extends React.Component<EmployeeProps, any> {
     const { current } = pagination;
     this.onFilterChange({ page: current - 1 });
   };
+
   render() {
     const { isVisible, staff } = this.state;
     const {
       loading,
       Employee: { employees, filter },
     } = this.props;
+
     return (
       <>
         <Row className={styles.header_content}>
           <Breadcrumb className={styles.breadcrumb}>
-            <appIcon.ShopOutlined
-              style={{ color: '#1890ff', marginRight: '10px' }}
-            />
-            STAFFS
+            <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> STAFFS
           </Breadcrumb>
           <Button type="primary" onClick={() => this.onToggleModal(true)}>
             New Staff
           </Button>
         </Row>
         <Row>
-          <Col span={4}>
+          <Col span={5}>
             <SearchInput
               onSearch={(name: string) =>
                 this.onFilterChange({ name, page: 0 })
               }
             />
           </Col>
-          <Col span={20}>
+          <Col span={19}>
             <TableList
               onUpdate={this.onToggleModal}
               onDelete={this.onDelete}

@@ -2,7 +2,8 @@ import React from 'react';
 
 import { Table } from 'antd';
 import './index.less';
-const columns = [
+
+const columns: any = [
   {
     title: ' VIN',
     dataIndex: 'vin',
@@ -29,16 +30,12 @@ const columns = [
     key: 'release',
   },
 ];
-const data: any = [
-  { vin: '1', mac: 'Qqq', brand: 'Vin', model: 'WWE', release: '2019' },
-  { vin: '2', mac: 'Qqq', brand: 'Vi', model: 'WWEa', release: '2020' },
-  { vin: '3', mac: 'Qqq', brand: 'Vin', model: 'WDWE', release: '2020' },
-  { vin: '4', mac: 'Qqq', brand: 'Vin', model: 'WWEF', release: '2020' },
-];
+const data: any = [];
 
 class ListCar extends React.Component<any> {
   render() {
     return <Table columns={columns} dataSource={data} />;
   }
 }
+
 export default ListCar;

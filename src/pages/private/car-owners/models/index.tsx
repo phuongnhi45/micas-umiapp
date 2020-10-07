@@ -7,7 +7,6 @@ export interface CustomerState {
   customers: ICustomer[];
   filter: IFilter;
   customer: any;
-  nameService: string;
 }
 
 export interface IFilter {
@@ -34,6 +33,7 @@ export interface IBooking {
   time: string;
   createdAt: string;
   note: string;
+  servicename: string;
 }
 
 export interface CustomerModelType {
@@ -64,7 +64,6 @@ const initialState: CustomerState = {
     name: '',
   },
   customer: null,
-  nameService: '',
 };
 
 const CustomerModel: CustomerModelType = {
@@ -85,17 +84,14 @@ const CustomerModel: CustomerModelType = {
 
     *getCustomers({ payload }, { call, put }) {
       const response = yield call(service.getCustomers, payload);
-      console.log(response, 'res nè');
+
       if (response.err === 'empty list') {
-        notification.error('No result!');
-        return;
+        return notification.error('No result!');
       }
       if (response.err && response.err !== 'empty list') {
-        console.error('Error server');
-        return;
+        return notification.error('Error server');
       }
       const { list, page, total, limit } = response.data.data;
-      console.log(response), 'res';
       yield put({
         type: 'save',
         payload: {
@@ -118,7 +114,6 @@ const CustomerModel: CustomerModelType = {
 
     *editCustomer({ payload }: any, { call, put }: any) {
       const data = yield call(service.editCustomer, payload);
-      console.log(data, 'dâtne');
       if (data.data) {
         notification.success('Edit customer success');
         history.push('/car-owners');
@@ -135,12 +130,13 @@ const CustomerModel: CustomerModelType = {
     },
 
     *deleteCustomer({ payload }: any, { call, put }: any) {
-      const data = yield call(service.deleteCustomer, payload);
+      yield call(service.deleteCustomer, payload);
       notification.success('Deleted customer success');
       yield put({
         type: 'getCustomers',
       });
     },
+
     *getCustomerDetail({ id }: any, { call, put }: any) {
       const response = yield call(service.fetchCustomerDetail, id);
       const { data } = response.data;
@@ -153,15 +149,16 @@ const CustomerModel: CustomerModelType = {
     },
 
     *postAvatar({ payload }, { call, put }) {
-      console.log(payload, 'payload');
       const response = yield call(service.postAvatar, payload.file);
       const idImg = response.data.data;
-      console.log(idImg, 'id ảnh nè');
-      const returnedTarget = Object.assign(payload.customer, {
+      const inforUpdate = {
+        _id: payload.customer._id,
+        name: payload.customer.name,
+        address: payload.customer.address,
+        password: payload.customer.password,
         resourceid: idImg,
-      });
-      console.log(returnedTarget, 'trc khi up ảnh');
-      const data = yield call(service.editCustomer, returnedTarget);
+      };
+      const data = yield call(service.editCustomer, inforUpdate);
       if (!data.data) {
         notification.error('Edit avatar failed!');
         yield put({
@@ -172,37 +169,17 @@ const CustomerModel: CustomerModelType = {
         type: 'getCustomer',
       });
     },
-    *getBookings({ payload }, { call, put }) {
-      console.log(payload);
-      const response = yield call(service.getBookings, payload);
-      if (response.err === 'empty list') {
-        notification.error('No result!');
-        return yield put({
-          type: 'getBookings',
-        });
-      }
-      if (response.err) {
-        return;
-      }
-      const { list, page, total, limit } = response.data.data;
-      const serviceid = list[0].serviceid;
-      const serviceName = yield call(service.getServiceid, serviceid);
 
-      if (!serviceName.data.data) {
-        notification.error('No result!');
-        return;
+    *getBookings({ payload }, { call, put }) {
+      const response = yield call(service.getBookings, payload);
+      if (response.err) {
+        return notification.error('Error get bookings');
       }
-      const { name } = serviceName.data.data;
+      const { list } = response.data.data;
       yield put({
         type: 'save',
         payload: {
           bookings: list,
-          nameService: name,
-          filter: {
-            page: page,
-            total: total,
-            limit,
-          },
         },
       });
     },

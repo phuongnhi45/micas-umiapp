@@ -123,29 +123,29 @@ class ListService extends React.Component<Props> {
     ]
 
     return (
-    <div className={styles.list_services}>
-      <Button type="primary" 
-        style={{marginBottom: '10px'}} 
-        onClick={() => this.onToggleModal(true)}
-      >
-        Create
-      </Button>
-      <Table
-        columns={columns}
-        dataSource={services}
-        rowKey="_id"
-        size="large"
-        loading={loading}
-        bordered
-      />
-      <ServiceModal
-        visible={isVisible}
-        service={service}
-        onSubmit={this.onSubmit}
-        onCancel={this.onToggleModal}
-        company={company}
-      />
-    </div>
+      <div className={styles.list_services}>
+        <Button type="primary" 
+          style={{marginBottom: '10px'}} 
+          onClick={() => this.onToggleModal(true)}
+        >
+          Create
+        </Button>
+        <Table
+          columns={columns}
+          dataSource={services}
+          rowKey="_id"
+          size="large"
+          loading={loading}
+          bordered
+        />
+        <ServiceModal
+          visible={isVisible}
+          service={service}
+          onSubmit={this.onSubmit}
+          onCancel={this.onToggleModal}
+          company={company}
+        />
+      </div>
     )
   }
 }

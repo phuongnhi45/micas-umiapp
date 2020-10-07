@@ -49,12 +49,6 @@ function DetailService(props: PageProps): ReactElement {
     console.log(id)
   }
 
-  if (bookings.length > 0 && service) {
-    bookings.map((item,index)=>
-      Object.assign(bookings[index], { phoneService: service.phone })
-    )
-  }
-
   const getBookingByService = (id: string) => {
     dispatch({
       type: 'Company/getBookingByService',
