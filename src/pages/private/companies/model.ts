@@ -93,10 +93,6 @@ const CompanyModel: CompanyModelType = {
       const response = yield call(service.fetchCompanies, payload);
       if (!response.data) {
         notification.error('Error!');
-        console.log(response);
-        // return yield put({
-        //   type: 'getCompanies',
-        // });
       }
       const { list, page, limit, total } = response.data.data;
       yield put({
@@ -267,7 +263,7 @@ const CompanyModel: CompanyModelType = {
         });
       } else {
         const { list } = response.data.data;
-        console.log(list);
+
         yield put({
           type: 'updateState',
           payload: {

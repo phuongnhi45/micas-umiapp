@@ -38,7 +38,6 @@ function DetailService(props: PageProps): ReactElement {
       type: 'aa',
       id,
     })
-    console.log(id)
   }
 
   const editService = (id: string) => {
@@ -46,7 +45,7 @@ function DetailService(props: PageProps): ReactElement {
       type: 'aa',
       id,
     })
-    console.log(id)
+
   }
 
   const getBookingByService = (id: string) => {

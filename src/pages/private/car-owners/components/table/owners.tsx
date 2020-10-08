@@ -23,7 +23,7 @@ class TableList extends React.Component<Props> {
     active: false,
   };
   goToEdit = (customer: ICustomer) => {
-    history.push(`/car-owners/${customer._id}/edit`);
+    history.push(`/customers/${customer._id}/edit`);
   };
 
   render() {
@@ -56,7 +56,7 @@ class TableList extends React.Component<Props> {
         render: (record: ICustomer, row: ICustomer) => {
           return (
             <div>
-              <Link to={{ pathname: `/car-owners/${row._id}` }}>{record}</Link>
+              <Link to={{ pathname: `/customers/${row._id}` }}>{record}</Link>
             </div>
           );
         },

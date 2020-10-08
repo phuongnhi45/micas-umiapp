@@ -32,21 +32,21 @@ export class Sidebar extends React.Component {
           theme="dark"
           inlineCollapsed={this.state.collapsed}
         >
-          <SubMenu key="sub2" icon={<appIcon.UserOutlined />} title="Member">
-            <Menu.Item key="5">
-              <Link to="/staff">Account</Link>
+          <SubMenu key="sub1" icon={<appIcon.UserOutlined />} title="Account">
+            <Menu.Item key="1">
+              <Link to="/staffs">Staffs</Link>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Link to="/customers">Customers</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu
-            key="sub1"
+            key="sub2"
             icon={<appIcon.CustomerServiceOutlined />}
-            title="Customer"
+            title="Work bay"
           >
             <Menu.Item key="3">
               <Link to="/companies">Companies</Link>
-            </Menu.Item>
-            <Menu.Item key="4">
-              <Link to="/car-owners">Car owners</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu

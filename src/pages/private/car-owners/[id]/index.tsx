@@ -52,7 +52,7 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
   <>
     <Row className={styles.row}>
       <Breadcrumb className={styles.breadcrumb}>
-        <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CAR-OWNERS/  {customer ? `${customer.name}` : 'NEW'}
+        <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CUSTOMERS/  {customer ? `${customer.name}` : 'NEW'}
       </Breadcrumb>
     </Row>
 

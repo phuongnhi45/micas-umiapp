@@ -15,7 +15,6 @@ interface PageService {
 class ListBooking extends React.Component<Props, PageService> {
   render() {
     const { bookings, loading } = this.props;
-    console.log(loading, 'ol');
     const columns: any = [
       {
         key: 'id',

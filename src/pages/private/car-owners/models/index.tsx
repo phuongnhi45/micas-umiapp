@@ -86,7 +86,7 @@ const CustomerModel: CustomerModelType = {
         return notification.error('Create customer failed');
       }
       notification.success('Create customer success');
-      history.push('/car-owners');
+      history.push('/customers');
       yield put({
         type: 'getCustomers',
       });
@@ -126,7 +126,7 @@ const CustomerModel: CustomerModelType = {
       const data = yield call(service.editCustomer, payload);
       if (data.data) {
         notification.success('Edit customer success');
-        history.push('/car-owners');
+        history.push('/customers');
         yield put({
           type: 'getCustomers',
         });

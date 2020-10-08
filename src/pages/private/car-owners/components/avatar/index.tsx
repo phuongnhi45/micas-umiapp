@@ -44,7 +44,7 @@ class Avatar extends React.Component<PageProps, any> {
     }
     if (info.file.status === 'done') {
       getBase64(info.file.originFileObj, (imageUrl: any) => {
-        console.log(imageUrl, 'anhr nef huhu');
+
         const file = info.file.originFileObj;
         this.setState({
           imageUrl,
@@ -58,7 +58,7 @@ class Avatar extends React.Component<PageProps, any> {
     const {
       Customer: { customer },
     } = this.props;
-    console.log(this.props, 'this.props');
+
     const { imageUrl, fileList }: any = this.state;
     const uploadButton = (
       <img
