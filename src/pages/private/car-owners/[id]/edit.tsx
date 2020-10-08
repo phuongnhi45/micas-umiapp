@@ -1,5 +1,4 @@
-import { ReactElement, useEffect } from 'react'
-import React from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { useParams, connect, CustomerState, Loading, Dispatch } from 'umi'
 import ModalForm from "../components/form/owner"
 import { Spin } from 'antd'
@@ -23,7 +22,6 @@ function ServicePlaceEdit(props: PageProps): ReactElement {
   }, [])
 
   const getCustomerDetail = (id: string) => {
-    // Goi api company detail , kết quả lưu vào state model
     dispatch({
       type: 'Customer/getCustomerDetail',
       id,

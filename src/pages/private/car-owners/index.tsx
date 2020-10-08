@@ -1,11 +1,13 @@
 import React from 'react';
 import TableList from './components/table/owners';
 import SearchInput from './components/input/search-owner';
-import ListCar from './components/table/list-car';
+// import ListCar from './components/table/list-car';
 import { connect, Loading, ConnectProps, Dispatch, Link } from 'umi';
 import { CustomerState } from './models/index';
+
 import { Button, Row, Col, Breadcrumb } from 'antd';
 import lodash from 'lodash';
+
 import appIcon from '@/config/icons';
 import styles from '../index.less';
 
@@ -43,7 +45,7 @@ class Customer extends React.Component<CustomerProps, any> {
 
   onSubmit = (values: any, customer: any) => {
     if (customer) {
-      const id = customer._id;
+      // const id = customer._id;
       this.props.dispatch({
         type: 'Customer/editCustomer',
         payload: { values: values, customer: customer },
@@ -91,8 +93,7 @@ class Customer extends React.Component<CustomerProps, any> {
       <>
         <Row className={styles.header_content}>
           <Breadcrumb className={styles.breadcrumb}>
-            <appIcon.ShopOutlined style={{ color: '#1890ff' }} />
-            CAR OWNERS
+            <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CAR OWNERS
           </Breadcrumb>
           <Button type="primary">
             <Link to="/create-customer">New Customer</Link>

@@ -17,15 +17,29 @@ export default defineConfig({
   },
   routes: [
     { path: '/login', component: '@/pages/auth/login/index' },
-    { path: '/register', component: '@/pages/auth/register/index' },
     {
       path: '/',
       component: 'private/index',
       routes: [
-        { path: '/service-places', component: 'private/service-places/index' },
+        { path: '/companies', component: 'private/companies/index' },
+        // companys
         {
-          path: '/service-places/:id/edit',
-          component: 'private/service-places/[id]/edit',
+          path: '/companies/:id/edit',
+          component: 'private/companies/[id]/edit',
+        },
+        {
+          path: '/update-company',
+          component: 'private/companies/components/update-form',
+        },
+        //detail-company
+        {
+          path: '/companies/:id',
+          component: 'private/companies/[id]/index',
+        },
+        //detai-service
+        {
+          path: '/services/:id',
+          component: 'private/companies/[id]/places/[id]',
         },
         // car-owners
         { path: '/car-owners', component: 'private/car-owners/index' },
@@ -43,11 +57,6 @@ export default defineConfig({
         },
         // staffs
         { path: '/staff', component: 'private/staff/index' },
-        // companys
-        {
-          path: '/update-company',
-          component: 'private/service-places/components/update-form',
-        },
       ],
     },
   ],

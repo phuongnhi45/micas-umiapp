@@ -1,9 +1,8 @@
 import React from 'react';
 import { Table, Tag, Button, Popconfirm } from 'antd';
-import { Link, ICompany, history } from 'umi';
+import { ICompany, history } from 'umi';
 
 import appIcon from '@/config/icons';
-import format from '@/utils/format';
 import styles from '../../index.less';
 
 interface Props {
@@ -20,13 +19,12 @@ interface Props {
 type IActiveFilterValue = 'active' | 'inactive';
 
 class ListCompanies extends React.Component<Props> {
-  state = {
-    searchText: '',
-    active: false,
+  goToEdit = (company: ICompany) => {
+    history.push(`/companies/${company._id}/edit`);
   };
 
-  goToEdit = (company: ICompany) => {
-    history.push(`/service-places/${company._id}/edit`);
+  goToDetailCompany = (company: ICompany) => {
+    history.push(`/companies/${company._id}`);
   };
 
   render() {
@@ -49,20 +47,34 @@ class ListCompanies extends React.Component<Props> {
       {
         title: 'Name',
         dataIndex: 'name',
-        render: (value: string) => {
-          return <Link to="">{value}</Link>;
+        render: (value: string, row: ICompany) => {
+          return (
+            <button
+              className={styles.name_company}
+              onClick={() => this.goToDetailCompany(row)}
+            >
+              {value}
+            </button>
+          );
         },
       },
       {
-        title: 'City',
+        title: 'Email',
+        dataIndex: 'email',
+        align: 'center',
+        key: 'email',
+      },
+      {
+        title: 'Phone',
+        dataIndex: 'phone',
+        align: 'center',
+        key: 'phone',
+      },
+      {
+        title: 'Address',
         dataIndex: 'address',
         align: 'center',
         render: (value: any) => <Tag color="blue">{value}</Tag>,
-      },
-      {
-        title: 'Created Date',
-        align: 'center',
-        render: (value: string) => format.date(new Date().toISOString()),
       },
       {
         title: 'Active',

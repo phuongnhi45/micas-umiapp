@@ -56,22 +56,16 @@ class Avatar extends React.Component<PageProps, any> {
 
   render() {
     const {
-      cus,
-      dispatch,
       Customer: { customer },
     } = this.props;
     console.log(this.props, 'this.props');
     const { imageUrl, fileList }: any = this.state;
     const uploadButton = (
-      <div>
-        {' '}
-        <img
-          className="cus-avatar"
-          src={`http://micasvn.ddns.net:9999/resources/img/${customer.largeimage}`}
-          width="100%"
-          style={{ borderRadius: '50%' }}
-        />
-      </div>
+      <img
+        className="cus-avatar"
+        src={`http://micasvn.ddns.net:9999/resources/img/${customer.largeimage}`}
+        style={{ borderRadius: '50%' }}
+      />
     );
     return (
       <ImgCrop grid>
@@ -83,19 +77,18 @@ class Avatar extends React.Component<PageProps, any> {
           showUploadList={false}
           onChange={this.handleChange}
         >
-          {imageUrl ? (
-            <div>
-              {' '}
+          <div style={{ width: '200px' }}>
+            {imageUrl ? (
               <img
                 src={imageUrl}
                 alt="avatar"
                 className="cus-avatar"
-                style={{ borderRadius: '50%', width: '100%' }}
+                style={{ borderRadius: '50%' }}
               />
-            </div>
-          ) : (
-            uploadButton
-          )}
+            ) : (
+              uploadButton
+            )}
+          </div>
         </Upload>
       </ImgCrop>
     );

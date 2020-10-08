@@ -49,7 +49,6 @@ const editCustomer = async (payload: any) => {
     password: payload.password,
     resourceid: payload.resourceid,
   };
-  console.log(data, 'hú hù');
   const api = APIConst.editCustomer.editCustomer(payload._id);
   const res = await request.call(api.url, {
     method: api.method,
@@ -58,7 +57,6 @@ const editCustomer = async (payload: any) => {
     },
     data: data,
   });
-
   return res;
 };
 
@@ -86,7 +84,6 @@ const fetchCustomerDetail = async (id: string) => {
 
 const postAvatar = async (payload: any) => {
   const api = APIConst.postAvatar.postAvatar();
-
   const formData = new FormData();
   formData.append('file', payload);
   const response = await request.call(api.url, {
@@ -99,7 +96,6 @@ const postAvatar = async (payload: any) => {
 
 const getBookings = async (payload: any) => {
   const id = payload.id;
-
   const api = APIConst.getBookings.fetchBookings();
   const response = await request.call(api.url, {
     method: api.method,
@@ -121,6 +117,7 @@ const fetchBookingDetail = async (id: string) => {
   });
   return response;
 };
+
 const getServices = async () => {
   const api = APIConst.getServices.getServices();
   const response = await request.call(api.url, {
@@ -131,6 +128,7 @@ const getServices = async () => {
   });
   return response;
 };
+
 export default {
   postCustomer,
   getCustomers,

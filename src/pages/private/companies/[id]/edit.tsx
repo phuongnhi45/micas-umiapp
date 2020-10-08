@@ -14,18 +14,18 @@ interface IParam {
   id: string
 }
 
-function ServicePlaceEdit(props: PageProps): ReactElement {
+function CompanyEdit(props: PageProps): ReactElement {
   const { dispatch, Company: { company }, loading } = props
   const params = useParams<IParam>()
 
   useEffect(() => {
-    getServicePlaceDetail(params.id)
+    getCompanyDetail(params.id)
   }, [])
 
-  const getServicePlaceDetail = (id: string) => {
+  const getCompanyDetail = (id: string) => {
     // Goi api company detail , kết quả lưu vào state model
     dispatch({
-      type: 'Company/getServicePlaceDetail',
+      type: 'Company/getCompanyDetail',
       id,
     })
   }
@@ -45,4 +45,4 @@ export default connect(
     Company,
     loading: loading.models.Company,
   }),
-)(ServicePlaceEdit);
+)(CompanyEdit);

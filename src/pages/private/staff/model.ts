@@ -58,7 +58,7 @@ const EmployeeModel: EmployeeModelType = {
       if (!response || response.err) {
         return notification.error('Create employee failed');
       }
-      notification.success('Create employee success');
+      notification.success('Created employee success');
       yield put({
         type: 'getEmployees',
       });
@@ -99,7 +99,7 @@ const EmployeeModel: EmployeeModelType = {
     *editEmployee({ payload }: any, { call, put }: any) {
       const data = yield call(service.editEmployee, payload);
       if (data.data) {
-        notification.success('Edit employee success');
+        notification.success('Edited success');
         yield put({
           type: 'getEmployees',
         });
@@ -113,7 +113,7 @@ const EmployeeModel: EmployeeModelType = {
     },
 
     *deleteEmployee({ payload }: any, { call, put }: any) {
-      const data = yield call(service.deleteEmployee, payload);
+      yield call(service.deleteEmployee, payload);
       notification.success('Deleted employee success');
       yield put({
         type: 'getEmployees',

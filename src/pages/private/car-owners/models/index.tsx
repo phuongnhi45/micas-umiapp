@@ -140,12 +140,13 @@ const CustomerModel: CustomerModelType = {
     },
 
     *deleteCustomer({ payload }: any, { call, put }: any) {
-      const data = yield call(service.deleteCustomer, payload);
+      yield call(service.deleteCustomer, payload);
       notification.success('Deleted customer success');
       yield put({
         type: 'getCustomers',
       });
     },
+
     *getCustomerDetail({ id }: any, { call, put }: any) {
       const response = yield call(service.fetchCustomerDetail, id);
       const { data } = response.data;
@@ -176,10 +177,10 @@ const CustomerModel: CustomerModelType = {
       }
       notification.success('Edit avatar success!');
       yield put({
-        type: 'save',
-        payload: data,
+        type: 'getCustomers',
       });
     },
+
     *getBookings({ payload }, { call, put }) {
       const response = yield call(service.getBookings, payload);
       if (response.err) {
@@ -197,7 +198,6 @@ const CustomerModel: CustomerModelType = {
 
   reducers: {
     save(state, action) {
-      console.log({ ...state, ...action.payload });
       return {
         ...state,
         ...action.payload,

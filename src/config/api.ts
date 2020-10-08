@@ -8,13 +8,14 @@ const methods = {
 
 export default {
   methods,
-  // submitlogin
+  //submitlogin
   submitlogin: {
     postLogin: () => ({
       url: '/employee-login',
       method: methods.post,
     }),
   },
+
   //employee
   submitEmployee: {
     postEmployee: () => ({
@@ -84,7 +85,6 @@ export default {
   },
 
   // customer
-
   submitCustomer: {
     postCustomer: () => ({
       url: '/customer-register',
@@ -119,6 +119,54 @@ export default {
       method: methods.remove,
     }),
   },
+  //service
+  getServices: {
+    getServices: () => ({
+      url: `/admin/services`,
+      method: methods.get,
+    }),
+  },
+  getServiceByCompany: {
+    fetchService: (id: string) => ({
+      url: `/admin/services?companyid=${id}`,
+      method: methods.get,
+    }),
+    postService: () => ({
+      url: '/admin/services',
+      method: methods.post,
+    }),
+    removeService: (payload: any) => ({
+      url: `/admin/services/${payload._id}`,
+      method: methods.remove,
+    }),
+    statusService: (payload: any) => ({
+      url: `/admin/services/${payload._id}?active=${payload.active}`,
+      method: methods.patch,
+    }),
+    updateService: (id: string) => ({
+      url: `/admin/services/${id}`,
+      method: methods.patch,
+    }),
+    fetchServiceDetail: (id: string) => ({
+      url: `/admin/services/${id}`,
+      method: methods.get,
+    }),
+  },
+  //booking
+  getBookingByService: {
+    fetchBookings: (id: string) => ({
+      url: `/admin/bookings?serviceid=${id}`,
+      method: methods.get,
+    }),
+    postBooking: () => ({
+      url: '/admin/bookings',
+      method: methods.post,
+    }),
+    removeBooking: (payload: any) => ({
+      url: `/admin/bookings/${payload._id}`,
+      method: methods.remove,
+    }),
+  },
   postAvatar: {
     postAvatar: () => ({
       url: `/resources/upload`,
@@ -134,14 +182,6 @@ export default {
     }),
     fetchBookingDetail: (id: string) => ({
       url: `/admin/bookings/${id}`,
-      method: methods.get,
-    }),
-  },
-
-  //
-  getServices: {
-    getServices: () => ({
-      url: `/admin/services`,
       method: methods.get,
     }),
   },

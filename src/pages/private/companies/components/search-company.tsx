@@ -15,7 +15,7 @@ const SearchName = ({ onSearch }: Props) => {
       <h2 className={styles.search}>Search</h2>
       <Search
         style={{ padding: '8px 2px' }}
-        placeholder="input search name"
+        placeholder="Input search name"
         onSearch={value => onSearch(value)}
         enterButton
       />
