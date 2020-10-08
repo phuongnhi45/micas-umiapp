@@ -132,9 +132,9 @@ const CompanyModel: CompanyModelType = {
         return notification.error(message);
       }
       if (!payload.active) {
-        notification.success('Active Success');
+        notification.success('Activate Success');
       } else {
-        notification.success('Inactive Success');
+        notification.success('Deactivate Success');
       }
       yield put({
         type: 'getCompanies',
@@ -224,9 +224,9 @@ const CompanyModel: CompanyModelType = {
         return notification.error(message);
       }
       if (payload.active) {
-        notification.success('Active Success');
+        notification.success('Activate Success');
       } else {
-        notification.success('Inactive Success');
+        notification.success('Deactivate Success');
       }
       yield put({
         type: 'getServiceByCompany',

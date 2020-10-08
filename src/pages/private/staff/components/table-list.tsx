@@ -45,6 +45,7 @@ class TableList extends React.Component<Props> {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
+        render: (value: any) => <b>{value}</b>,
       },
       {
         title: 'Phone',

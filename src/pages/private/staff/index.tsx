@@ -95,7 +95,7 @@ class Staff extends React.Component<EmployeeProps, any> {
 
     return (
       <>
-        <Row className={styles.header_content}>
+        <Row className={styles.row}>
           <Breadcrumb className={styles.breadcrumb}>
             <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> STAFFS
           </Breadcrumb>

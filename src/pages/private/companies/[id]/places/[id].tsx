@@ -1,7 +1,8 @@
-import React, { ReactElement, useEffect } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useParams, connect, CompanyState, Loading, Dispatch } from 'umi'
 import { Spin, Row, Col, Breadcrumb, Tabs, Descriptions, Button } from 'antd'
 import ListBooking from './list-booking';
+import BookingModal from './booking-modal'
 
 import appIcon from '@/config/icons';
 import styles from '../../../index.less'
@@ -17,9 +18,11 @@ interface IParam {
 }
 
 function DetailService(props: PageProps): ReactElement {
-  const { dispatch, Company: { service, bookings, services }, loading } = props
+  const { dispatch, Company: { service, bookings, services, booking }, loading } = props
   const params = useParams<IParam>()
   const { TabPane } = Tabs;
+
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
     getServiceDetail(params.id)
@@ -41,12 +44,12 @@ function DetailService(props: PageProps): ReactElement {
     console.log(id)
   }
 
-  const editService = (id: string) => {
-    dispatch({
-      type: 'aa',
-      id,
-    })
-    console.log(id)
+  const onToggleModal = () => {
+    setIsVisible(!isVisible)
+  };
+
+  const onSubmit = () => {
+
   }
 
   const getBookingByService = (id: string) => {
@@ -94,16 +97,21 @@ function DetailService(props: PageProps): ReactElement {
         <Col className={styles.booking} span={17}>
           <Tabs type="card">
             <TabPane className={styles.tab_booking} tab="Booking" key="1">
-              <Button type="primary" style={{marginBottom: '10px'}}>Add new</Button>
+              <Button type="primary" onClick={() => onToggleModal()} style={{marginBottom: '10px'}}>Add new</Button>
               <ListBooking
                 bookings={bookings}
                 loading={loading}
-                onEdit={editService}
                 onDelete={removeService}
                 services={services}
               />
             </TabPane>
           </Tabs>
+          <BookingModal
+            visible={isVisible}
+            booking={booking}
+            onSubmit={onSubmit}
+            onCancel={onToggleModal}
+          />
         </Col>
       </Row>
     </>

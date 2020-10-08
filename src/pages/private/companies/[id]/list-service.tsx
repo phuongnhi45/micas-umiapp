@@ -4,7 +4,7 @@ import { IService, Dispatch, connect, CompanyState, Loading, Link } from 'umi';
 
 import appIcon from '@/config/icons';
 import styles from '../../index.less';
-import ServiceModal from './places/service-modal';
+import ServiceModal from './service-modal';
 
 interface Props {
   onChangeStatusService: (value: string, e: any) => void;

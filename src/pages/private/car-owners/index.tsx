@@ -91,7 +91,7 @@ class Customer extends React.Component<CustomerProps, any> {
     } = this.props;
     return (
       <>
-        <Row className={styles.header_content}>
+        <Row className={styles.row}>
           <Breadcrumb className={styles.breadcrumb}>
             <appIcon.ShopOutlined style={{ color: '#1890ff' }} /> CAR OWNERS
           </Breadcrumb>
@@ -100,14 +100,14 @@ class Customer extends React.Component<CustomerProps, any> {
           </Button>
         </Row>
         <Row>
-          <Col span={4}>
+          <Col span={5}>
             <SearchInput
               onSearch={(name: string) =>
                 this.onFilterChange({ name, page: 0 })
               }
             />
           </Col>
-          <Col span={20}>
+          <Col span={19}>
             <TableList
               onUpdate={this.onToggleModal}
               onDelete={this.onDelete}

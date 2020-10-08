@@ -1,6 +1,6 @@
 import React from 'react';
 import { ICustomer, Link, history } from 'umi';
-import Ellipsis from 'ant-design-pro';
+import Ellipsis from 'ant-design-pro/lib/Ellipsis';
 import { Table, Button, Checkbox, Popconfirm, Tag } from 'antd';
 
 import appIcon from '@/config/icons';
@@ -74,33 +74,11 @@ class TableList extends React.Component<Props> {
         render: (record: ICustomer, row: ICustomer) => {
           return (
             <Tag color="blue" style={{ width: '100px' }}>
-              {/* <Ellipsis length={10} tooltip>
+              <Ellipsis length={10} tooltip>
                 {record}
-              </Ellipsis> */}
+              </Ellipsis>
             </Tag>
           );
-        },
-      },
-      {
-        title: 'Active',
-        dataIndex: '_id',
-        align: 'center',
-        render: (value: any, row: ICustomer) => {
-          if (row.active) {
-            return (
-              <Checkbox
-                checked={!active}
-                onChange={e => onChangeStatus(value, e)}
-              />
-            );
-          } else {
-            return (
-              <Checkbox
-                checked={active}
-                onChange={e => onChangeStatus(value, e)}
-              />
-            );
-          }
         },
       },
       {
