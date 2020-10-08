@@ -172,6 +172,17 @@ const fetchBookings = async (id: string) => {
   return response;
 };
 
+const removeBooking = async (payload: any) => {
+  const api = APIConst.getBookingByService.removeBooking(payload);
+  const response = await request.call(api.url, {
+    method: api.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
 export default {
   fetchCompanies,
   postCompany,
@@ -186,4 +197,5 @@ export default {
   updateService,
   fetchServiceDetail,
   fetchBookings,
+  removeBooking,
 };

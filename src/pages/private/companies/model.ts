@@ -64,6 +64,7 @@ interface CompanyModelType {
     editService: Effect;
     getServiceDetail: Effect;
     getBookingByService: Effect;
+    getRemoveBooking: Effect;
   };
   reducers: {
     updateState: Reducer<CompanyState>;
@@ -93,10 +94,6 @@ const CompanyModel: CompanyModelType = {
       const response = yield call(service.fetchCompanies, payload);
       if (!response.data) {
         notification.error('Error!');
-        console.log(response);
-        // return yield put({
-        //   type: 'getCompanies',
-        // });
       }
       const { list, page, limit, total } = response.data.data;
       yield put({
@@ -267,7 +264,6 @@ const CompanyModel: CompanyModelType = {
         });
       } else {
         const { list } = response.data.data;
-        console.log(list);
         yield put({
           type: 'updateState',
           payload: {
@@ -275,6 +271,15 @@ const CompanyModel: CompanyModelType = {
           },
         });
       }
+    },
+
+    *getRemoveBooking({ payload }: any, { call, put }: any) {
+      yield call(service.removeBooking, payload);
+      notification.success('Deleted success');
+      yield put({
+        type: 'getBookingByService',
+        id: payload.id,
+      });
     },
   },
 

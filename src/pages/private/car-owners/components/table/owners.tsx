@@ -1,8 +1,7 @@
 import React from 'react';
-import { ICustomer, Link, history } from 'umi';
 import Ellipsis from 'ant-design-pro/lib/Ellipsis';
-import { Table, Button, Checkbox, Popconfirm, Tag } from 'antd';
-
+import { Table, Button, Popconfirm, Tag } from 'antd';
+import { ICustomer, Link, history } from 'umi';
 import appIcon from '@/config/icons';
 import './index.less';
 
@@ -11,7 +10,6 @@ interface Props {
   onDelete: any;
   customers: ICustomer[];
   loading: boolean;
-  onChangeStatus: (value: string, e: any) => void;
   onChange: (pagination: any, filters: any, sorter: any) => void;
   pageSize: number;
   total: number;
@@ -25,11 +23,10 @@ class TableList extends React.Component<Props> {
     active: false,
   };
   goToEdit = (customer: ICustomer) => {
-    history.push(`/car-owners/${customer._id}/edit`);
+    history.push(`/customers/${customer._id}/edit`);
   };
 
   render() {
-    const { active } = this.state;
     const {
       customers,
       onDelete,
@@ -38,7 +35,6 @@ class TableList extends React.Component<Props> {
       pageSize,
       total,
       current,
-      onChangeStatus,
     } = this.props;
 
     const columns: any = [
@@ -54,9 +50,7 @@ class TableList extends React.Component<Props> {
         key: 'name',
         render: (record: ICustomer, row: ICustomer) => {
           return (
-            <div>
-              <Link to={{ pathname: `/car-owners/${row._id}` }}>{record}</Link>
-            </div>
+            <Link to={{ pathname: `/customers/${row._id}` }}>{record}</Link>
           );
         },
       },
@@ -71,7 +65,8 @@ class TableList extends React.Component<Props> {
         dataIndex: 'address',
         key: 'address',
         align: 'center',
-        render: (record: ICustomer, row: ICustomer) => {
+
+        render: (record: ICustomer) => {
           return (
             <Tag color="blue" style={{ width: '100px' }}>
               <Ellipsis length={10} tooltip>
@@ -83,6 +78,7 @@ class TableList extends React.Component<Props> {
       },
       {
         title: 'Action',
+        key: 'action',
         align: 'center',
         render: (row: ICustomer) => {
           return (

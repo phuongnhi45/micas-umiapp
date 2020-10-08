@@ -6,13 +6,13 @@ import {
   ShopOutlined,
   LogoutOutlined,
   UserOutlined,
-  CustomerServiceOutlined,
   MessageOutlined,
   CarOutlined,
   EditOutlined,
   SearchOutlined,
   DeleteFilled,
   DeleteOutlined,
+  BuildOutlined,
 } from '@ant-design/icons';
 
 export default {
@@ -23,7 +23,7 @@ export default {
   ShopOutlined,
   LogoutOutlined,
   UserOutlined,
-  CustomerServiceOutlined,
+  BuildOutlined,
   MessageOutlined,
   CarOutlined,
   EditOutlined,

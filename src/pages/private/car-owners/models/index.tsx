@@ -5,6 +5,7 @@ import notification from '@/utils/notification';
 export interface CustomerState {
   bookings: IBooking[];
   customers: ICustomer[];
+  services: IService[];
   filter: IFilter;
   customer: any;
 }
@@ -36,6 +37,17 @@ export interface IBooking {
   servicename: string;
 }
 
+export interface IService {
+  address: string;
+  name: string;
+  active: boolean;
+  location: string;
+  email: string;
+  phone: string;
+  _id: string;
+  description: string;
+}
+
 export interface CustomerModelType {
   namespace: string;
   state: CustomerState;
@@ -48,6 +60,8 @@ export interface CustomerModelType {
     getCustomerDetail: Effect;
     postAvatar: Effect;
     getBookings: Effect;
+    fetchServices: Effect;
+    createBooking: Effect;
   };
   reducers: {
     save: Reducer<CustomerState>;
@@ -57,6 +71,7 @@ export interface CustomerModelType {
 const initialState: CustomerState = {
   customers: [],
   bookings: [],
+  services: [],
   filter: {
     page: 0,
     total: 0,
@@ -76,7 +91,7 @@ const CustomerModel: CustomerModelType = {
         return notification.error('Create customer failed');
       }
       notification.success('Create customer success');
-      history.push('/car-owners');
+      history.push('/customers');
       yield put({
         type: 'getCustomers',
       });
@@ -84,7 +99,6 @@ const CustomerModel: CustomerModelType = {
 
     *getCustomers({ payload }, { call, put }) {
       const response = yield call(service.getCustomers, payload);
-
       if (response.err === 'empty list') {
         return notification.error('No result!');
       }
@@ -116,7 +130,7 @@ const CustomerModel: CustomerModelType = {
       const data = yield call(service.editCustomer, payload);
       if (data.data) {
         notification.success('Edit customer success');
-        history.push('/car-owners');
+        history.push('/customers');
         yield put({
           type: 'getCustomers',
         });
@@ -160,13 +174,14 @@ const CustomerModel: CustomerModelType = {
       };
       const data = yield call(service.editCustomer, inforUpdate);
       if (!data.data) {
-        notification.error('Edit avatar failed!');
+        notification.error('Changed avatar failed!');
         yield put({
           type: 'getCustomers',
         });
       }
+      notification.success('Changed avatar success!');
       yield put({
-        type: 'getCustomer',
+        type: 'getCustomers',
       });
     },
 
@@ -180,6 +195,33 @@ const CustomerModel: CustomerModelType = {
         type: 'save',
         payload: {
           bookings: list,
+        },
+      });
+    },
+
+    *createBooking({ payload }, { call, put }) {
+      const response = yield call(service.createService, payload);
+      if (!response.data) {
+        return notification.error('Create service failed');
+      }
+      notification.success('Created success');
+      const values = Object.assign(payload, { id: payload.customerid });
+      yield put({
+        type: 'getBookings',
+        payload: values,
+      });
+    },
+
+    *fetchServices({ payload }, { call, put }) {
+      const response = yield call(service.getServices, payload);
+      if (response.err) {
+        return notification.error('Error get services');
+      }
+      const { list } = response.data.data;
+      yield put({
+        type: 'save',
+        payload: {
+          services: list,
         },
       });
     },

@@ -42,13 +42,13 @@ export default defineConfig({
           component: 'private/companies/[id]/places/[id]',
         },
         // car-owners
-        { path: '/car-owners', component: 'private/car-owners/index' },
+        { path: '/customers', component: 'private/car-owners/index' },
         {
-          path: '/car-owners/:id/edit',
+          path: '/customers/:id/edit',
           component: 'private/car-owners/[id]/edit',
         },
         {
-          path: '/car-owners/:id',
+          path: '/customers/:id',
           component: 'private/car-owners/[id]/index',
         },
         {
@@ -56,7 +56,7 @@ export default defineConfig({
           component: 'private/car-owners/components/form/owner',
         },
         // staffs
-        { path: '/staff', component: 'private/staff/index' },
+        { path: '/staffs', component: 'private/staff/index' },
       ],
     },
   ],

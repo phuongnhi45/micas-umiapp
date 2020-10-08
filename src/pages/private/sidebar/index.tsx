@@ -32,37 +32,30 @@ export class Sidebar extends React.Component {
           theme="dark"
           inlineCollapsed={this.state.collapsed}
         >
-          <SubMenu key="sub2" icon={<appIcon.UserOutlined />} title="Member">
-            <Menu.Item key="5">
-              <Link to="/staff">Account</Link>
+          <SubMenu key="sub2" icon={<appIcon.UserOutlined />} title="Account">
+            <Menu.Item key="2">
+              <Link to="/staffs">Staffs</Link>
+            </Menu.Item>
+            <Menu.Item key="3">
+              <Link to="/customers">Customers</Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu
-            key="sub1"
-            icon={<appIcon.CustomerServiceOutlined />}
-            title="Customer"
-          >
-            <Menu.Item key="3">
+          <SubMenu key="sub1" icon={<appIcon.BuildOutlined />} title="Work bay">
+            <Menu.Item key="1">
               <Link to="/companies">Companies</Link>
-            </Menu.Item>
-            <Menu.Item key="4">
-              <Link to="/car-owners">Car owners</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu
             key="sub3"
             icon={<appIcon.CarOutlined />}
-            title="Hãng xe và mã lỗi"
+            title="Car brand and error"
           >
-            <Menu.Item key="6">Quản lý hãng xe</Menu.Item>
-            <Menu.Item key="7">Quản lý nhóm xe</Menu.Item>
-            <Menu.Item key="8">Quản lý bộ phận</Menu.Item>
-            <Menu.Item key="9">Quản lý mã lỗi</Menu.Item>
-            <Menu.Item key="10">Dữ liệu ECU</Menu.Item>
+            <Menu.Item key="6">Car brands</Menu.Item>
+            <Menu.Item key="7">Car group</Menu.Item>
+            <Menu.Item key="8">Car Parts</Menu.Item>
+            <Menu.Item key="9">Service Error</Menu.Item>
+            <Menu.Item key="10">ECU Data</Menu.Item>
           </SubMenu>
-          <Menu.Item key="11" icon={<appIcon.MessageOutlined />}>
-            Gửi tin nhắn
-          </Menu.Item>
         </Menu>
       </div>
     );

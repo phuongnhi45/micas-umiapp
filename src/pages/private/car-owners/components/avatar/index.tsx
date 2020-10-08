@@ -3,6 +3,7 @@ import { Upload, message } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import { connect, CustomerState, Loading, Dispatch } from 'umi';
 import './index.less';
+
 function getBase64(img: any, callback: any) {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
@@ -12,12 +13,14 @@ interface PageProps {
   cus: any;
   dispatch: Dispatch;
   Customer: CustomerState;
+  loading: boolean;
 }
 
 class Avatar extends React.Component<PageProps, any> {
   state = {
-    loading: false,
+    fileList: [],
   };
+
   beforeUpload = (file: any) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
@@ -27,26 +30,26 @@ class Avatar extends React.Component<PageProps, any> {
     if (!isLt2M) {
       return message.error('Image must smaller than 2MB!');
     }
-
     if (isJpgOrPng && isLt2M) {
       this.props.dispatch({
         type: 'Customer/postAvatar',
         payload: { file: file, customer: this.props.cus },
       });
+      return isJpgOrPng && isLt2M;
     }
   };
+
   handleChange = (info: any) => {
     if (info.file.status === 'uploading') {
-      this.setState({ loading: true });
+      this.setState({ loading: this.props.loading });
       return;
     }
     if (info.file.status === 'done') {
-      // Get this url from response in real world.
       getBase64(info.file.originFileObj, (imageUrl: any) => {
         const file = info.file.originFileObj;
         this.setState({
           imageUrl,
-          loading: false,
+          loading: this.props.loading,
         });
       });
     }
@@ -59,16 +62,13 @@ class Avatar extends React.Component<PageProps, any> {
 
     const { imageUrl }: any = this.state;
     const uploadButton = (
-      <div>
-        {' '}
-        <img
-          className="cus-avatar"
-          src={`http://micasvn.ddns.net:9999/resources/img/${customer.largeimage}`}
-          width="100%"
-          style={{ borderRadius: '50%' }}
-        />
-      </div>
+      <img
+        className="cus-avatar"
+        src={`http://micasvn.ddns.net:9999/resources/img/${customer.largeimage}`}
+        style={{ borderRadius: '50%' }}
+      />
     );
+
     return (
       <ImgCrop grid>
         <Upload
@@ -79,19 +79,18 @@ class Avatar extends React.Component<PageProps, any> {
           showUploadList={false}
           onChange={this.handleChange}
         >
-          {imageUrl ? (
-            <div>
-              {' '}
+          <div>
+            {imageUrl ? (
               <img
                 src={imageUrl}
                 alt="avatar"
                 className="cus-avatar"
-                style={{ borderRadius: '50%', width: '100%' }}
+                style={{ borderRadius: '50%' }}
               />
-            </div>
-          ) : (
-            uploadButton
-          )}
+            ) : (
+              uploadButton
+            )}
+          </div>
         </Upload>
       </ImgCrop>
     );

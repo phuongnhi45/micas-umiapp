@@ -1,8 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { useParams, connect, CompanyState, Loading, Dispatch } from 'umi';
-import { Spin, Row, Col, Breadcrumb, Tabs, Descriptions, Button } from 'antd';
+import { Spin, Row, Col, Breadcrumb, Tabs, Descriptions } from 'antd';
 import ListBooking from './list-booking';
-import BookingModal from './booking-modal';
 
 import appIcon from '@/config/icons';
 import styles from '../../../index.less';
@@ -20,7 +19,7 @@ interface IParam {
 function DetailService(props: PageProps): ReactElement {
   const {
     dispatch,
-    Company: { service, bookings, services, booking },
+    Company: { service, bookings, services },
     loading,
   } = props;
   const params = useParams<IParam>();
@@ -40,12 +39,12 @@ function DetailService(props: PageProps): ReactElement {
     });
   };
 
-  const removeService = (id: string) => {
+  const removeService = (_id: string, row: any) => {
+    const id = row.service._id
     dispatch({
-      type: 'aa',
-      id,
+      type: 'Company/getRemoveBooking',
+      payload: { _id, id}
     });
-    console.log(id);
   };
 
   const onToggleModal = () => {
@@ -113,13 +112,6 @@ function DetailService(props: PageProps): ReactElement {
         <Col className={styles.booking} span={17}>
           <Tabs type="card">
             <TabPane className={styles.tab_booking} tab="Booking" key="1">
-              <Button
-                type="primary"
-                onClick={() => onToggleModal()}
-                style={{ marginBottom: '10px' }}
-              >
-                Add new
-              </Button>
               <ListBooking
                 bookings={bookings}
                 loading={loading}
@@ -128,11 +120,6 @@ function DetailService(props: PageProps): ReactElement {
               />
             </TabPane>
           </Tabs>
-          <BookingModal
-            visible={isVisible}
-            onSubmit={onSubmit}
-            onCancel={onToggleModal}
-          />
         </Col>
       </Row>
     </>

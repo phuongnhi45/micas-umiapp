@@ -21,7 +21,6 @@ function CompanyDetail(props: PageProps): ReactElement {
   const {
     dispatch,
     Company: { company, services },
-    loading,
   } = props;
   const params = useParams<IParam>();
 

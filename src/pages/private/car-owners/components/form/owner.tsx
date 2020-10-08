@@ -88,7 +88,7 @@ class FormCustomer extends React.Component<CustomerProps, any> {
             initialValue={customer ? customer.password : ''}
             rules={[
               { required: true },
-              { len: 6, message: 'Password must be 6 characters.' },
+              { min: 6, message: 'Password must be 6 characters.' },
             ]}
           >
             <Input type="password" />
@@ -96,9 +96,8 @@ class FormCustomer extends React.Component<CustomerProps, any> {
           <Form.Item {...tailLayout}>
             <div className="btn-choose">
               <Button type="ghost" style={{ color: '#1890ff' }}>
-                <Link to="/car-owners">Cancel</Link>
+                <Link to="/customers">Cancel</Link>
               </Button>
-
               <Button type="primary" htmlType="submit">
                 {customer ? 'Update' : 'Create'}
               </Button>

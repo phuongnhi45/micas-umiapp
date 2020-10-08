@@ -45,7 +45,6 @@ class Customer extends React.Component<CustomerProps, any> {
 
   onSubmit = (values: any, customer: any) => {
     if (customer) {
-      // const id = customer._id;
       this.props.dispatch({
         type: 'Customer/editCustomer',
         payload: { values: values, customer: customer },
@@ -62,14 +61,6 @@ class Customer extends React.Component<CustomerProps, any> {
   onToggleModal = (customer: any = null) => {
     this.setState({
       customer,
-    });
-  };
-
-  onChangeStatus = (_id: any, e: any) => {
-    const active = e.target.checked;
-    this.props.dispatch({
-      type: 'Customer/updateStatus',
-      payload: { _id, active },
     });
   };
 
@@ -112,7 +103,6 @@ class Customer extends React.Component<CustomerProps, any> {
               onUpdate={this.onToggleModal}
               onDelete={this.onDelete}
               loading={loading}
-              onChangeStatus={this.onChangeStatus}
               customers={customers}
               pageSize={filter.limit}
               total={filter.total}

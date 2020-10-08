@@ -10,7 +10,7 @@ interface Props {
   loading: boolean;
   bookings: any;
   services: IService[];
-  onDelete: (_id: string) => void;
+  onDelete: (_id: string, row: any) => void;
 }
 
 class ListBooking extends React.Component<Props> {
@@ -56,14 +56,14 @@ class ListBooking extends React.Component<Props> {
         title: 'Action',
         align: 'center',
         dataIndex: '_id',
-        render: (value: any) => {
+        render: (value: any, row: IService) => {
           return (
             <div className={styles.action}>
               <Popconfirm
                 title="Are you sure？"
                 okText="Yes"
                 cancelText="No"
-                onConfirm={() => onDelete(value)}
+                onConfirm={() => onDelete(value, row)}
               >
                 <Button icon={<appIcon.DeleteOutlined />} />
               </Popconfirm>

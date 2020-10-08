@@ -1,15 +1,14 @@
 import React from 'react';
 import { Table, Tag } from 'antd';
-import { IBooking, IService } from 'umi';
-import moment from 'moment';
+import { IBooking, IService, Link } from 'umi';
 
 import './index.less';
+import moment from 'moment';
 
 interface Props {
   bookings: IBooking[];
   loading: boolean;
 }
-
 interface PageService {
   services: IService[];
 }
@@ -28,7 +27,9 @@ class ListBooking extends React.Component<Props, PageService> {
         title: 'Name service',
         dataIndex: 'service',
         render: (row: IService) => {
-          return <b>{row.name}</b>;
+          return (
+            <Link to={{ pathname: `/services/${row._id}` }}>{row.name}</Link>
+          );
         },
       },
       {

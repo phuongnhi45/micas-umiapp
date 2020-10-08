@@ -107,8 +107,8 @@ const getBookings = async (payload: any) => {
   return response;
 };
 
-const fetchBookingDetail = async (id: string) => {
-  const api = APIConst.getBookings.fetchBookingDetail(id);
+const getServices = async () => {
+  const api = APIConst.getServices.getServices();
   const response = await request.call(api.url, {
     method: api.method,
     headers: {
@@ -118,14 +118,22 @@ const fetchBookingDetail = async (id: string) => {
   return response;
 };
 
-const getServices = async () => {
-  const api = APIConst.getServices.getServices();
-  const response = await request.call(api.url, {
-    method: api.method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+const createService = async (payload: any) => {
+  const api = APIConst.getBookingByService.postBooking();
+  const response = await request
+    .call(api.url, {
+      method: api.method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: payload,
+    })
+    .then(function(res) {
+      return res.data;
+    })
+    .catch(function(error) {
+      return error;
+    });
   return response;
 };
 
@@ -138,6 +146,6 @@ export default {
   fetchCustomerDetail,
   postAvatar,
   getBookings,
-  fetchBookingDetail,
   getServices,
+  createService,
 };

@@ -180,9 +180,5 @@ export default {
       url: '/admin/bookings',
       method: methods.get,
     }),
-    fetchBookingDetail: (id: string) => ({
-      url: `/admin/bookings/${id}`,
-      method: methods.get,
-    }),
   },
 };
