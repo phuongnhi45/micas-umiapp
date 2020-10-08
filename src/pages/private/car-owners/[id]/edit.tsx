@@ -1,45 +1,45 @@
-import React, { ReactElement, useEffect } from 'react'
-import { useParams, connect, CustomerState, Loading, Dispatch } from 'umi'
-import ModalForm from "../components/form/owner"
-import { Spin } from 'antd'
+import React, { ReactElement, useEffect } from 'react';
+import { useParams, connect, CustomerState, Loading, Dispatch } from 'umi';
+import ModalForm from '../components/form/owner';
+import { Spin } from 'antd';
 
 interface PageProps {
-  dispatch: Dispatch
-  Customer:CustomerState
-  loading: boolean
+  dispatch: Dispatch;
+  Customer: CustomerState;
+  loading: boolean;
 }
 
 interface IParam {
-  id: string
+  id: string;
 }
 
 function ServicePlaceEdit(props: PageProps): ReactElement {
-  const { dispatch, Customer: { customer }, loading } = props
-  const params = useParams<IParam>()
+  const {
+    dispatch,
+    Customer: { customer },
+    loading,
+  } = props;
+  const params = useParams<IParam>();
 
   useEffect(() => {
-    getCustomerDetail(params.id)
-  }, [])
+    getCustomerDetail(params.id);
+  }, []);
 
   const getCustomerDetail = (id: string) => {
     dispatch({
       type: 'Customer/getCustomerDetail',
       id,
-    })
-  }
+    });
+  };
 
-  if (!customer) return <Spin />
+  if (!customer) return <Spin />;
   return (
-    <ModalForm
-      customer={customer}
-      dispatch={dispatch}
-      loading={loading}
-    />
-  )
+    <ModalForm customer={customer} dispatch={dispatch} loading={loading} />
+  );
 }
 
 export default connect(
-  ({ Customer, loading }: { Customer:CustomerState; loading: Loading }) => ({
+  ({ Customer, loading }: { Customer: CustomerState; loading: Loading }) => ({
     Customer,
     loading: loading.models.Customer,
   }),

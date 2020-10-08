@@ -10,7 +10,7 @@ interface Props {
   onChangeStatusService: (value: string, e: any) => void;
   services: IService[];
   loading: boolean;
-  company: any
+  company: any;
   dispatch: Dispatch;
   onDelete: (_id: string) => void;
 }
@@ -34,22 +34,28 @@ class ListService extends React.Component<Props> {
       const values = Object.assign(data, { companyid: company._id });
       this.props.dispatch({
         type: 'Company/createService',
-        payload: values
+        payload: values,
       });
     } else {
-      const id = service._id
-      const _id = company._id
+      const id = service._id;
+      const _id = company._id;
       this.props.dispatch({
         type: 'Company/editService',
-        payload: { data, id, _id }
+        payload: { data, id, _id },
       });
     }
     this.onToggleModal(false, null);
-  }
-  
+  };
+
   render() {
     const { active, isVisible, service } = this.state;
-    const { services, loading, onDelete, onChangeStatusService, company } = this.props;
+    const {
+      services,
+      loading,
+      onDelete,
+      onChangeStatusService,
+      company,
+    } = this.props;
 
     const columns: any = [
       {
@@ -62,7 +68,14 @@ class ListService extends React.Component<Props> {
         dataIndex: 'name',
         key: 'name',
         render: (value: string, row: IService) => {
-          return <Link style={{textTransform: 'capitalize'}} to={{ pathname: `/services/${row._id}` }}>{value}</Link>
+          return (
+            <Link
+              style={{ textTransform: 'capitalize' }}
+              to={{ pathname: `/services/${row._id}` }}
+            >
+              {value}
+            </Link>
+          );
         },
       },
       {
@@ -120,12 +133,13 @@ class ListService extends React.Component<Props> {
           );
         },
       },
-    ]
+    ];
 
     return (
       <div className={styles.list_services}>
-        <Button type="primary" 
-          style={{marginBottom: '10px'}} 
+        <Button
+          type="primary"
+          style={{ marginBottom: '10px' }}
           onClick={() => this.onToggleModal(true)}
         >
           Create
@@ -146,7 +160,7 @@ class ListService extends React.Component<Props> {
           company={company}
         />
       </div>
-    )
+    );
   }
 }
 

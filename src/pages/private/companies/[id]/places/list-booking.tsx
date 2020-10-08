@@ -4,18 +4,18 @@ import { IBooking, IService } from 'umi';
 import moment from 'moment';
 
 import appIcon from '@/config/icons';
-import styles from '../../../index.less'
+import styles from '../../../index.less';
 
 interface Props {
   loading: boolean;
   bookings: any;
-  services: IService[]
+  services: IService[];
   onDelete: (_id: string) => void;
 }
 
 class ListBooking extends React.Component<Props> {
   render() {
-    const { bookings, loading, onDelete } = this.props
+    const { bookings, loading, onDelete } = this.props;
     const columns: any = [
       {
         title: '#',
@@ -33,7 +33,7 @@ class ListBooking extends React.Component<Props> {
         title: 'Created Date',
         align: 'center',
         dataIndex: 'createdAt',
-        render: (value: string) => moment(value).format('DD/MM/YYYY, HH:mm') 
+        render: (value: string) => moment(value).format('DD/MM/YYYY, HH:mm'),
       },
       {
         title: 'Status',
@@ -45,7 +45,7 @@ class ListBooking extends React.Component<Props> {
         title: 'Time',
         align: 'center',
         dataIndex: 'time',
-        render: (value: string) => moment(value).format('DD/MM/YYYY, HH:mm') 
+        render: (value: string) => moment(value).format('DD/MM/YYYY, HH:mm'),
       },
       {
         title: 'Note',

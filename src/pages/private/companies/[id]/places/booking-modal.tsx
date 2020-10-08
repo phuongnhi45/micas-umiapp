@@ -1,14 +1,13 @@
 import React from 'react';
-import { Modal, Form, Input, DatePicker, TimePicker } from 'antd';
+import { Modal, Form, Input, DatePicker, TimePicker, Space } from 'antd';
 
 interface Props {
   visible: boolean;
-  booking: any;
-  onSubmit: (data: any, booking: any) => void;
+  onSubmit: (data: any) => void;
   onCancel: (isVisible: boolean, data: any) => void;
 }
 
-const CollectionForm = ({ visible, onSubmit, onCancel, booking }: Props) => {
+const CollectionForm = ({ visible, onSubmit, onCancel }: Props) => {
   const [form] = Form.useForm();
   const format = 'HH:mm';
   const cancelAndResetField = () => {
@@ -16,12 +15,12 @@ const CollectionForm = ({ visible, onSubmit, onCancel, booking }: Props) => {
     onCancel(false, null);
   };
 
-  form.setFieldsValue(booking ? booking : {});
+  form.setFieldsValue(onSubmit);
   return (
     <Modal
       visible={visible}
-      title={booking ? 'Edit booking' : 'Create booking'}
-      okText={booking ? 'Update' : 'Create'}
+      title="Create booking"
+      okText="Create"
       cancelText="Cancel"
       onCancel={cancelAndResetField}
       onOk={() => {
@@ -29,9 +28,7 @@ const CollectionForm = ({ visible, onSubmit, onCancel, booking }: Props) => {
           .validateFields()
           .then(data => {
             form.resetFields();
-            {
-              booking ? onSubmit(data, booking) : onSubmit(data, booking)
-            }
+            onSubmit(data);
           })
           .catch(info => {
             console.log('Validate Failed:', info);
@@ -46,23 +43,14 @@ const CollectionForm = ({ visible, onSubmit, onCancel, booking }: Props) => {
           modifier: 'public',
         }}
       >
-        <Form.Item
-          name="time"
-          label="Time"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <DatePicker/>
-          <TimePicker format={format}/>
+        <Form.Item name="time" label="Time">
+          <Space direction="vertical">
+            <DatePicker />
+            <TimePicker format={format} />
+          </Space>
         </Form.Item>
-        <Form.Item
-          name="note"
-          label="Note"
-        >
-          <Input/>
+        <Form.Item name="note" label="Note">
+          <Input />
         </Form.Item>
       </Form>
     </Modal>
@@ -71,14 +59,13 @@ const CollectionForm = ({ visible, onSubmit, onCancel, booking }: Props) => {
 
 class BookingModal extends React.Component<Props> {
   render() {
-    const { visible, onSubmit, onCancel, booking } = this.props;
+    const { visible, onSubmit, onCancel } = this.props;
     return (
-      <div >
+      <div>
         <CollectionForm
           visible={visible}
           onSubmit={onSubmit}
           onCancel={onCancel}
-          booking={booking}
         />
       </div>
     );

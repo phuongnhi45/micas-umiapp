@@ -9,7 +9,13 @@ interface Props {
   onCancel: (isVisible: boolean, data: any) => void;
 }
 
-const CollectionForm = ({ visible, onSubmit, onCancel, service, company }: Props) => {
+const CollectionForm = ({
+  visible,
+  onSubmit,
+  onCancel,
+  service,
+  company,
+}: Props) => {
   const [form] = Form.useForm();
   const cancelAndResetField = () => {
     form.resetFields();
@@ -30,7 +36,9 @@ const CollectionForm = ({ visible, onSubmit, onCancel, service, company }: Props
           .then(data => {
             form.resetFields();
             {
-              service ? onSubmit(data, service, company) : onSubmit(data, service, company)
+              service
+                ? onSubmit(data, service, company)
+                : onSubmit(data, service, company);
             }
           })
           .catch(info => {
@@ -80,19 +88,13 @@ const CollectionForm = ({ visible, onSubmit, onCancel, service, company }: Props
             },
           ]}
         >
-          <Input/>
+          <Input />
         </Form.Item>
-        <Form.Item
-          name="email"
-          label="Email"
-        >
-          <Input/>
+        <Form.Item name="email" label="Email">
+          <Input />
         </Form.Item>
-        <Form.Item
-          name="description"
-          label="Description"
-        >
-          <Input/>
+        <Form.Item name="description" label="Description">
+          <Input />
         </Form.Item>
       </Form>
     </Modal>
@@ -103,7 +105,7 @@ class ServiceModal extends React.Component<Props> {
   render() {
     const { visible, onSubmit, onCancel, service, company } = this.props;
     return (
-      <div >
+      <div>
         <CollectionForm
           visible={visible}
           onSubmit={onSubmit}
