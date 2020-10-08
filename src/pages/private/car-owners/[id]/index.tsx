@@ -131,5 +131,3 @@ export default connect(
     loading: loading.models.Customer,
   }),
 )(ServicePlaceEdit);
-
-// /https://codesandbox.io/s/muddy-voice-6wjpo

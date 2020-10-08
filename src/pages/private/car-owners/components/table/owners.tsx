@@ -86,30 +86,6 @@ class TableList extends React.Component<Props> {
         },
       },
       {
-        title: 'Active',
-        dataIndex: '_id',
-        key: 'phone',
-        align: 'center',
-        width: 50,
-        render: (value: any, row: ICustomer) => {
-          if (row.active) {
-            return (
-              <Checkbox
-                checked={!active}
-                onChange={e => onChangeStatus(value, e)}
-              />
-            );
-          } else {
-            return (
-              <Checkbox
-                checked={active}
-                onChange={e => onChangeStatus(value, e)}
-              />
-            );
-          }
-        },
-      },
-      {
         title: 'Action',
         key: 'action',
         align: 'center',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Tag } from 'antd';
-import { IBooking, Link } from 'umi';
+import { IBooking, Link, IService } from 'umi';
 import './index.less';
 import Moment from 'react-moment';
 
@@ -8,12 +8,11 @@ interface Props {
   bookings: IBooking[];
   loading: boolean;
 }
+interface PageService {
+  services: IService[];
+}
 
-class ListBooking extends React.Component<Props> {
-  state = {
-    active: false,
-  };
-
+class ListBooking extends React.Component<Props, PageService> {
   render() {
     const { bookings, loading } = this.props;
     console.log(loading, 'ol');
@@ -29,7 +28,7 @@ class ListBooking extends React.Component<Props> {
         title: 'Name service',
         dataIndex: 'service',
         width: 200,
-        render: (row: IBooking) => {
+        render: (row: IService) => {
           return <Link to="/service-places">{row.name}</Link>;
         },
       },

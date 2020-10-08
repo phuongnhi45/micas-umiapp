@@ -12,11 +12,12 @@ interface PageProps {
   cus: any;
   dispatch: Dispatch;
   Customer: CustomerState;
+  loading: boolean;
 }
 
 class Avatar extends React.Component<PageProps, any> {
   state = {
-    loading: false,
+    fileList: [],
   };
   beforeUpload = (file: any) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -33,20 +34,21 @@ class Avatar extends React.Component<PageProps, any> {
         type: 'Customer/postAvatar',
         payload: { file: file, customer: this.props.cus },
       });
+      return isJpgOrPng && isLt2M;
     }
   };
   handleChange = (info: any) => {
     if (info.file.status === 'uploading') {
-      this.setState({ loading: true });
+      this.setState({ loading: this.props.loading });
       return;
     }
     if (info.file.status === 'done') {
-      // Get this url from response in real world.
       getBase64(info.file.originFileObj, (imageUrl: any) => {
+        console.log(imageUrl, 'anhr nef huhu');
         const file = info.file.originFileObj;
         this.setState({
           imageUrl,
-          loading: false,
+          loading: this.props.loading,
         });
       });
     }
@@ -58,8 +60,8 @@ class Avatar extends React.Component<PageProps, any> {
       dispatch,
       Customer: { customer },
     } = this.props;
-
-    const { imageUrl }: any = this.state;
+    console.log(this.props, 'this.props');
+    const { imageUrl, fileList }: any = this.state;
     const uploadButton = (
       <div>
         {' '}

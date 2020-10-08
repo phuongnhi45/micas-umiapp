@@ -36,6 +36,16 @@ export interface IBooking {
   servicename: string;
 }
 
+export interface IService {
+  address: string;
+  name: string;
+  active: boolean;
+  location: string;
+  email: string;
+  phone: string;
+  _id: string;
+  description: string;
+}
 export interface CustomerModelType {
   namespace: string;
   state: CustomerState;
@@ -113,9 +123,7 @@ const CustomerModel: CustomerModelType = {
     },
 
     *editCustomer({ payload }: any, { call, put }: any) {
-      console.log({ payload }, 'payload KO CÓ CHI HÉT HUHU');
       const data = yield call(service.editCustomer, payload);
-
       if (data.data) {
         notification.success('Edit customer success');
         history.push('/car-owners');
@@ -166,8 +174,10 @@ const CustomerModel: CustomerModelType = {
           type: 'getCustomers',
         });
       }
+      notification.success('Edit avatar success!');
       yield put({
-        type: 'getCustomer',
+        type: 'save',
+        payload: data,
       });
     },
     *getBookings({ payload }, { call, put }) {
