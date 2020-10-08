@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Form, Input, DatePicker, TimePicker, Space } from 'antd';
+import { Modal, Form, Input, DatePicker } from 'antd';
 
 interface Props {
   visible: boolean;
@@ -9,7 +9,7 @@ interface Props {
 
 const CollectionForm = ({ visible, onSubmit, onCancel }: Props) => {
   const [form] = Form.useForm();
-  const format = 'HH:mm';
+  
   const cancelAndResetField = () => {
     form.resetFields();
     onCancel(false, null);
@@ -43,11 +43,8 @@ const CollectionForm = ({ visible, onSubmit, onCancel }: Props) => {
           modifier: 'public',
         }}
       >
-        <Form.Item name="time" label="Time">
-          <Space direction="vertical">
-            <DatePicker />
-            <TimePicker format={format} />
-          </Space>
+        <Form.Item name="date-time-picker" label="Date and Time Picker" >
+          <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
         </Form.Item>
         <Form.Item name="note" label="Note">
           <Input />

@@ -52,8 +52,12 @@ function DetailService(props: PageProps): ReactElement {
     setIsVisible(!isVisible);
   };
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = (fieldsValue: any) => {
+    const values = {
+      ...fieldsValue,
+      'date-time-picker': fieldsValue['date-time-picker'].format('YYYY-MM-DD HH:mm'),
+    };
+    console.log('values', values);
   };
 
   const getBookingByService = (id: string) => {
