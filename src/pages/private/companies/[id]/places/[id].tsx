@@ -1,7 +1,8 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import { useParams, connect, CompanyState, Loading, Dispatch } from 'umi';
 import { Spin, Row, Col, Breadcrumb, Tabs, Descriptions } from 'antd';
 import ListBooking from './list-booking';
+import Avatar from '../../avatar/index'
 
 import appIcon from '@/config/icons';
 import styles from '../../../index.less';
@@ -25,8 +26,6 @@ function DetailService(props: PageProps): ReactElement {
   const params = useParams<IParam>();
   const { TabPane } = Tabs;
 
-  const [isVisible, setIsVisible] = useState(false);
-
   useEffect(() => {
     getServiceDetail(params.id);
     getBookingByService(params.id);
@@ -47,18 +46,6 @@ function DetailService(props: PageProps): ReactElement {
     });
   };
 
-  const onToggleModal = () => {
-    setIsVisible(!isVisible);
-  };
-
-  const onSubmit = (fieldsValue: any) => {
-    const values = {
-      ...fieldsValue,
-      'date-time-picker': fieldsValue['date-time-picker'].format('YYYY-MM-DD HH:mm'),
-    };
-    console.log('values', values);
-  };
-
   const getBookingByService = (id: string) => {
     dispatch({
       type: 'Company/getBookingByService',
@@ -77,6 +64,9 @@ function DetailService(props: PageProps): ReactElement {
       </Row>
       <Row>
         <Col className={styles.service_detail} span={7}>
+          <div>
+            <Avatar cus={service}/>
+          </div>
           <h2 className={styles.title_service}>{service && service.name}</h2>
           <Descriptions>
             <Descriptions.Item label="Address">

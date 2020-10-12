@@ -172,6 +172,18 @@ const fetchBookings = async (id: string) => {
   return response;
 };
 
+const postAvatar = async (payload: any) => {
+  const api = APIConst.postAvatar.postAvatar();
+  const formData = new FormData();
+  formData.append('file', payload);
+  const response = await request.call(api.url, {
+    method: api.method,
+    body: formData,
+    requestType: 'form',
+  });
+  return response;
+};
+
 const removeBooking = async (payload: any) => {
   const api = APIConst.getBookingByService.removeBooking(payload);
   const response = await request.call(api.url, {
@@ -198,4 +210,5 @@ export default {
   fetchServiceDetail,
   fetchBookings,
   removeBooking,
+  postAvatar,
 };

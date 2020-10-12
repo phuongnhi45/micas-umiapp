@@ -96,13 +96,18 @@ class ListCompanies extends React.Component<Props> {
               <Tag
                 onClick={() => onChangeStatus(active, row._id)}
                 color="geekblue"
+                style={{ cursor: 'pointer' }}
               >
                 Active
               </Tag>
             );
           }
           return (
-            <Tag onClick={() => onChangeStatus(active, row._id)} color="green">
+            <Tag
+              style={{ cursor: 'pointer' }}
+              onClick={() => onChangeStatus(active, row._id)}
+              color="green"
+            >
               Inactive
             </Tag>
           );

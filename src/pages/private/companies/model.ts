@@ -65,6 +65,7 @@ interface CompanyModelType {
     getServiceDetail: Effect;
     getBookingByService: Effect;
     getRemoveBooking: Effect;
+    postAvatar: Effect;
   };
   reducers: {
     updateState: Reducer<CompanyState>;
@@ -279,6 +280,30 @@ const CompanyModel: CompanyModelType = {
       yield put({
         type: 'getBookingByService',
         id: payload.id,
+      });
+    },
+
+    *postAvatar({ payload }, { call, put }) {
+      const response = yield call(service.postAvatar, payload.file);
+      const idImg = response.data.data;
+      const inforUpdate = {
+        _id: payload.service._id,
+        name: payload.service.name,
+        address: payload.service.address,
+        password: payload.service.password,
+        resourceid: idImg,
+      };
+      console.log(payload);
+      const data = yield call(service.updateService, inforUpdate);
+      if (!data.data) {
+        notification.error('Changed avatar failed!');
+        yield put({
+          type: 'getServiceDetail',
+        });
+      }
+      notification.success('Changed avatar success!');
+      yield put({
+        type: 'getServiceDetail',
       });
     },
   },
