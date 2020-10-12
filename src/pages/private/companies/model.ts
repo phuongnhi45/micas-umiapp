@@ -286,16 +286,18 @@ const CompanyModel: CompanyModelType = {
     *postAvatar({ payload }, { call, put }) {
       const response = yield call(service.postAvatar, payload.file);
       const idImg = response.data.data;
-      const inforUpdate = {
-        _id: payload.service._id,
-        name: payload.service.name,
-        address: payload.service.address,
-        password: payload.service.password,
+      const data = {
+        name: payload.company.name,
+        address: payload.company.address,
+        email: payload.company.email,
         resourceid: idImg,
       };
-      console.log(payload);
-      const data = yield call(service.updateService, inforUpdate);
-      if (!data.data) {
+      const res = yield call(service.updateService, {
+        data: data,
+        _id: payload.company._id,
+      });
+
+      if (!res.data) {
         notification.error('Changed avatar failed!');
         yield put({
           type: 'getServiceDetail',

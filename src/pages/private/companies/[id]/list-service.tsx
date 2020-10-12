@@ -37,8 +37,8 @@ class ListService extends React.Component<Props> {
         payload: values,
       });
     } else {
-      const id = service._id;
-      const _id = company._id;
+      const _id = service._id;
+      const id = company._id;
       this.props.dispatch({
         type: 'Company/editService',
         payload: { data, id, _id },

@@ -136,9 +136,10 @@ const statusService = async (payload: any) => {
 };
 
 const updateService = async (payload: any) => {
+  console.log(payload, 'payload gì thế');
   const active = { active: true };
   const returnedTarget = Object.assign(payload.data, active);
-  const api = APIConst.getServiceByCompany.updateService(payload.id);
+  const api = APIConst.getServiceByCompany.updateService(payload._id);
   const response = await request.call(api.url, {
     method: api.method,
     data: returnedTarget,
@@ -146,6 +147,7 @@ const updateService = async (payload: any) => {
       Authorization: `Bearer ${token}`,
     },
   });
+  console.log(response, 'res gì thế');
   return response;
 };
 

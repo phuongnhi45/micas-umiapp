@@ -108,8 +108,8 @@ export default {
     }),
   },
   editCustomer: {
-    editCustomer: (_id: any) => ({
-      url: `/admin/customers/${_id}`,
+    editCustomer: (id: any) => ({
+      url: `/admin/customers/${id}`,
       method: methods.patch,
     }),
   },
